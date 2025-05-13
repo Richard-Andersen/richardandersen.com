@@ -84,21 +84,6 @@
 
 <script>
   const hanko = document.querySelector('.hanko');
-  let touchTimer;
-
-  if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-    document.body.addEventListener('touchstart', () => {
-      hanko.classList.add('touch-visible');
-
-      clearTimeout(touchTimer);
-      touchTimer = setTimeout(() => {
-        hanko.classList.remove('touch-visible');
-      }, 800); // adjust as needed
-    });
-  }
-</script>
-<script>
-  const hanko = document.querySelector('.hanko');
   let visibilityTimer;
 
   function showHankoTemporarily() {
@@ -107,13 +92,20 @@
     clearTimeout(visibilityTimer);
     visibilityTimer = setTimeout(() => {
       hanko.classList.remove('touch-visible');
-    }, 800); // 800 ms
+    }, 800); // 800 milliseconds
   }
 
-  // Trigger on any mouse movement
-  document.body.addEventListener('mousemove', showHankoTemporarily);
+  // Trigger on any mouse movement — only once every few seconds to prevent spam.
+  let lastShown = 0;
+  document.body.addEventListener('mousemove', (e) => {
+    const now = Date.now();
+    if (now - lastShown > 1000) {
+      showHankoTemporarily();
+      lastShown = now;
+    }
+  });
 
-  // Trigger on any touchscreen tap
+  // Trigger on any touchscreen tap.
   if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
     document.body.addEventListener('touchstart', showHankoTemporarily);
   }
