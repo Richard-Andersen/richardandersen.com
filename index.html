@@ -36,9 +36,9 @@
       left: 0;
       margin-top: 30px;
       opacity: 0;
-      transition: opacity 0.8s ease;
+      transition: opacity 0.4s ease;
       width: 60px;
-      pointer-events: none;
+      pointer-events: auto;
     }
 
     /* Show hanko on mouse hover or temporary touch class */
@@ -95,10 +95,10 @@
       if (!hanko.matches(':hover')) {
         hanko.classList.remove('touch-visible');
       }
-    }, 1600); // now shows for 1.6 seconds
+    }, 1600); // doubled linger time
   }
 
-  // Show on mouse movement (but only once every 1s to avoid flickering)
+  // On any mouse movement, show briefly
   document.body.addEventListener('mousemove', () => {
     const now = Date.now();
     if (now - lastShown > 1000) {
@@ -109,17 +109,17 @@
 
   // Keep visible while hovering over the image
   hanko.addEventListener('mouseenter', () => {
-    hanko.classList.add('touch-visible');
     clearTimeout(visibilityTimer);
+    hanko.classList.add('touch-visible');
   });
 
   hanko.addEventListener('mouseleave', () => {
     visibilityTimer = setTimeout(() => {
       hanko.classList.remove('touch-visible');
-    }, 400); // small delay to avoid flicker
+    }, 400); // fade out shortly after leaving
   });
 
-  // Also trigger on touchscreen tap
+  // On touchscreen tap
   if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
     document.body.addEventListener('touchstart', showHankoTemporarily);
   }
