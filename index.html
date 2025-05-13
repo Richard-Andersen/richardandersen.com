@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kintsugi</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: white;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      font-family: 'HG明朝E', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+    }
+
+    .poem-wrapper {
+      margin-left: 40px;
+      display: inline-block;
+      position: relative;
+    }
+
+    .poem.kintsugi {
+      font-size: 18px;
+      color: #111;
+      line-height: 0.85;
+      white-space: pre-line;
+    }
+
+    .hanko {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      margin-top: 30px;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+      width: 60px;
+      pointer-events: none;
+    }
+
+    /* Show hanko on mouse hover or temporary touch class */
+    .poem.kintsugi:hover + .hanko,
+    .hanko.touch-visible {
+      opacity: 1;
+    }
+
+    .contact {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-family: sans-serif;
+      font-size: 12px;
+    }
+
+    .contact a {
+      color: #888;
+      text-decoration: none;
+    }
+
+    .contact a:hover {
+      color: #444;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="poem-wrapper">
+    <div class="poem kintsugi">
+      飛ぶ石は<br>
+      どこに沈むかを<br>
+      選べんけど<br>
+      静けさならば<br>
+      心で選べる
+    </div>
+    <img src="hanko.png" alt="Hanko stamp" class="hanko">
+  </div>
+
+  <div class="contact">
+    <a href="mailto:contact@richardandersen.com">Contact</a>
+  </div>
+
+<script>
+  const hanko = document.querySelector('.hanko');
+  let touchTimer;
+
+  if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+    document.body.addEventListener('touchstart', () => {
+      hanko.classList.add('touch-visible');
+
+      clearTimeout(touchTimer);
+      touchTimer = setTimeout(() => {
+        hanko.classList.remove('touch-visible');
+      }, 1500); // adjust as needed
+    });
+  }
+</script>
+</body>
+</html>
