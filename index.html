@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- Author: Richard Andersen -->
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
@@ -31,29 +32,13 @@
       white-space: pre-line;
     }
 
-    .hanko {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      margin-top: 30px;
-      opacity: 0;
-      transition: opacity 0.4s ease;
-      width: 60px;
-      pointer-events: auto;
-    }
-
-    /* Show hanko on mouse hover or temporary touch class */
-    .poem.kintsugi:hover + .hanko,
-    .hanko.touch-visible {
-      opacity: 1;
-    }
-
     .contact {
       position: absolute;
       top: 20px;
       right: 20px;
       font-family: sans-serif;
       font-size: 12px;
+      text-align: right;
     }
 
     .contact a {
@@ -65,71 +50,80 @@
       color: #444;
       text-decoration: underline;
     }
+
+    .hanko {
+      display: block;
+      margin-top: 8px;
+      width: 60px;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: auto;
+    }
+
+    .hanko.touch-visible {
+      opacity: 1;
+    }
   </style>
 </head>
 <body>
   <div class="poem-wrapper">
     <div class="poem kintsugi">
-      飛ぶ石は<br>
+      水切りの石は<br>
       どこに沈むかを<br>
       選べんけど<br>
       静けさならば<br>
-      心で選べる
+      心も選べるか
     </div>
-    <img src="hanko.png" alt="Hanko stamp" class="hanko">
   </div>
 
   <div class="contact">
-    <a href="mailto:contact@richardandersen.com">Contact</a>
+    <a href="mailto:contact@richardandersen.com">Contact</a><br>
+    <img src="hanko.png" alt="Hanko stamp" class="hanko" id="hanko">
   </div>
 
-<script>
-  const hanko = document.querySelector('.hanko');
-  let visibilityTimer;
-  let lastShown = 0;
+  <script>
+    const hanko = document.getElementById('hanko');
+    let visibilityTimer;
+    let lastShown = 0;
 
-  function hideHankoIfNotHovered() {
-    if (!hanko.matches(':hover')) {
-      hanko.classList.remove('touch-visible');
+    function hideHankoIfNotHovered() {
+      if (!hanko.matches(':hover')) {
+        hanko.classList.remove('touch-visible');
+      }
     }
-  }
 
-  function showHankoTemporarily(duration = 1600) {
-    hanko.classList.add('touch-visible');
-
-    clearTimeout(visibilityTimer);
-    visibilityTimer = setTimeout(() => {
-      hideHankoIfNotHovered();
-    }, duration);
-  }
-
-  // Desktop: show on mousemove, hide after 1.6s unless hovered
-  document.body.addEventListener('mousemove', () => {
-    const now = Date.now();
-    if (now - lastShown > 1000) {
-      showHankoTemporarily(1600);
-      lastShown = now;
+    function showHankoTemporarily(duration = 1600) {
+      hanko.classList.add('touch-visible');
+      clearTimeout(visibilityTimer);
+      visibilityTimer = setTimeout(() => {
+        hideHankoIfNotHovered();
+      }, duration);
     }
-  });
 
-  // Desktop: stay visible while hovering
-  hanko.addEventListener('mouseenter', () => {
-    clearTimeout(visibilityTimer);
-    hanko.classList.add('touch-visible');
-  });
-
-  hanko.addEventListener('mouseleave', () => {
-    visibilityTimer = setTimeout(() => {
-      hanko.classList.remove('touch-visible');
-    }, 400);
-  });
-
-  // Mobile: show on touch, fade after 5 seconds
-  if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-    document.body.addEventListener('touchstart', () => {
-      showHankoTemporarily(5000);
+    document.body.addEventListener('mousemove', () => {
+      const now = Date.now();
+      if (now - lastShown > 1000) {
+        showHankoTemporarily(1600);
+        lastShown = now;
+      }
     });
-  }
-</script>
+
+    hanko.addEventListener('mouseenter', () => {
+      clearTimeout(visibilityTimer);
+      hanko.classList.add('touch-visible');
+    });
+
+    hanko.addEventListener('mouseleave', () => {
+      visibilityTimer = setTimeout(() => {
+        hanko.classList.remove('touch-visible');
+      }, 400);
+    });
+
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+      document.body.addEventListener('touchstart', () => {
+        showHankoTemporarily(5000);
+      });
+    }
+  </script>
 </body>
 </html>
