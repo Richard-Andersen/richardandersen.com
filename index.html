@@ -97,5 +97,26 @@
     });
   }
 </script>
+<script>
+  const hanko = document.querySelector('.hanko');
+  let visibilityTimer;
+
+  function showHankoTemporarily() {
+    hanko.classList.add('touch-visible');
+
+    clearTimeout(visibilityTimer);
+    visibilityTimer = setTimeout(() => {
+      hanko.classList.remove('touch-visible');
+    }, 800); // 800 ms
+  }
+
+  // Trigger on any mouse movement
+  document.body.addEventListener('mousemove', showHankoTemporarily);
+
+  // Trigger on any touchscreen tap
+  if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+    document.body.addEventListener('touchstart', showHankoTemporarily);
+  }
+</script>
 </body>
 </html>
