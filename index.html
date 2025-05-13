@@ -87,27 +87,31 @@
   let visibilityTimer;
   let lastShown = 0;
 
-  function showHankoTemporarily() {
+  function hideHankoIfNotHovered() {
+    if (!hanko.matches(':hover')) {
+      hanko.classList.remove('touch-visible');
+    }
+  }
+
+  function showHankoTemporarily(duration = 1600) {
     hanko.classList.add('touch-visible');
 
     clearTimeout(visibilityTimer);
     visibilityTimer = setTimeout(() => {
-      if (!hanko.matches(':hover')) {
-        hanko.classList.remove('touch-visible');
-      }
-    }, 1600); // doubled linger time
+      hideHankoIfNotHovered();
+    }, duration);
   }
 
-  // On any mouse movement, show briefly
+  // Desktop: show on mousemove, hide after 1.6s unless hovered
   document.body.addEventListener('mousemove', () => {
     const now = Date.now();
     if (now - lastShown > 1000) {
-      showHankoTemporarily();
+      showHankoTemporarily(1600);
       lastShown = now;
     }
   });
 
-  // Keep visible while hovering over the image
+  // Desktop: stay visible while hovering
   hanko.addEventListener('mouseenter', () => {
     clearTimeout(visibilityTimer);
     hanko.classList.add('touch-visible');
@@ -116,12 +120,14 @@
   hanko.addEventListener('mouseleave', () => {
     visibilityTimer = setTimeout(() => {
       hanko.classList.remove('touch-visible');
-    }, 400); // fade out shortly after leaving
+    }, 400);
   });
 
-  // On touchscreen tap
+  // Mobile: show on touch, fade after 5 seconds
   if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-    document.body.addEventListener('touchstart', showHankoTemporarily);
+    document.body.addEventListener('touchstart', () => {
+      showHankoTemporarily(5000);
+    });
   }
 </script>
 </body>
