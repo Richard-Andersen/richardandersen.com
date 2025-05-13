@@ -85,19 +85,21 @@
 <script>
   const hanko = document.querySelector('.hanko');
   let visibilityTimer;
+  let lastShown = 0;
 
   function showHankoTemporarily() {
     hanko.classList.add('touch-visible');
 
     clearTimeout(visibilityTimer);
     visibilityTimer = setTimeout(() => {
-      hanko.classList.remove('touch-visible');
-    }, 800); // 800 milliseconds
+      if (!hanko.matches(':hover')) {
+        hanko.classList.remove('touch-visible');
+      }
+    }, 1600); // now shows for 1.6 seconds
   }
 
-  // Trigger on any mouse movement — only once every few seconds to prevent spam.
-  let lastShown = 0;
-  document.body.addEventListener('mousemove', (e) => {
+  // Show on mouse movement (but only once every 1s to avoid flickering)
+  document.body.addEventListener('mousemove', () => {
     const now = Date.now();
     if (now - lastShown > 1000) {
       showHankoTemporarily();
@@ -105,7 +107,19 @@
     }
   });
 
-  // Trigger on any touchscreen tap.
+  // Keep visible while hovering over the image
+  hanko.addEventListener('mouseenter', () => {
+    hanko.classList.add('touch-visible');
+    clearTimeout(visibilityTimer);
+  });
+
+  hanko.addEventListener('mouseleave', () => {
+    visibilityTimer = setTimeout(() => {
+      hanko.classList.remove('touch-visible');
+    }, 400); // small delay to avoid flicker
+  });
+
+  // Also trigger on touchscreen tap
   if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
     document.body.addEventListener('touchstart', showHankoTemporarily);
   }
