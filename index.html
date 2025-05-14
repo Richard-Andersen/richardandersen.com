@@ -9,9 +9,9 @@
   <style>
     body {
       margin: 0;
-      padding: 0 0 40px 0; /* Bottom padding added */
+      padding: 0 0 40px 0;
       background-color: white;
-      min-height: 100vh; /* Prevents iOS cutoff */
+      min-height: 100vh;
       width: 100vw;
       display: flex;
       align-items: center;
@@ -21,20 +21,20 @@
     }
 
     .poem-wrapper {
-      margin-left: 16px; /* Default: phones */
+      margin-left: 16px;
       display: inline-block;
       position: relative;
     }
 
     @media (min-width: 768px) {
       .poem-wrapper {
-        margin-left: 60px; /* Tablets and small desktops */
+        margin-left: 60px;
       }
     }
 
     @media (min-width: 1200px) {
       .poem-wrapper {
-        margin-left: 100px; /* Large desktops */
+        margin-left: 100px;
       }
     }
 
@@ -55,7 +55,6 @@
       white-space: pre-line;
     }
 
-    /* Adjust font sizes on small screens (iPhone) */
     @media (max-width: 500px) {
       .poem.kintsugi {
         font-size: 17px;
@@ -138,7 +137,9 @@
     <div class="contact-inner">
       <a href="mailto:contact@richardandersen.com">Contact</a><br>
       <div class="hanko-wrapper">
-        <img src="hanko.png" alt="Hanko stamp" class="hanko" id="hanko">
+        <a href="mailto:contact@richardandersen.com">
+          <img src="hanko.png" alt="Hanko stamp" class="hanko" id="hanko">
+        </a>
       </div>
     </div>
   </div>
