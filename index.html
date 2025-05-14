@@ -16,28 +16,41 @@
       display: flex;
       align-items: center;
       justify-content: flex-start;
-      font-family: 'HG明朝E', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+      font-family: 'Yu Mincho', 'Hiragino Mincho ProN', 'HG明朝E', serif;
     }
 
     .poem-wrapper {
-      margin-left: 40px;
+      margin-left: 16px; /* Default: phones */
       display: inline-block;
       position: relative;
     }
 
+    @media (min-width: 768px) {
+      .poem-wrapper {
+        margin-left: 60px; /* Tablets and small desktops */
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .poem-wrapper {
+        margin-left: 100px; /* Large desktops */
+      }
+    }
+
     .poem.kintsugi {
-      font-size: 18px;
+      font-size: 20px;
       color: #111;
-      line-height: 0.85;
+      line-height: 1.6;
       white-space: pre-line;
+      letter-spacing: 0.02em;
     }
 
     .translation {
-      font-family: serif;
-      font-size: 14px;
+      font-family: 'Palatino', 'Garamond', 'Georgia', serif;
+      font-size: 16px;
       color: #444;
-      margin-top: 16px;
-      line-height: 1.0;
+      margin-top: 24px;
+      line-height: 1.6;
       white-space: pre-line;
     }
 
