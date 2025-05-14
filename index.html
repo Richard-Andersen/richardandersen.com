@@ -55,15 +55,16 @@
       white-space: pre-line;
     }
 
+    /* Adjust font and line spacing on small screens (iPhone) */
     @media (max-width: 500px) {
       .poem.kintsugi {
         font-size: 17px;
-        line-height: 1.5;
+        line-height: 1.2; /* tighter */
       }
 
       .translation {
         font-size: 14px;
-        line-height: 1.5;
+        line-height: 1.2; /* tighter */
       }
     }
 
@@ -96,6 +97,10 @@
       width: 120px;
       height: 120px;
       margin-top: 8px;
+    }
+
+    .hanko-wrapper a {
+      cursor: pointer;
     }
 
     .hanko {
