@@ -9,14 +9,15 @@
   <style>
     body {
       margin: 0;
-      padding: 0;
+      padding: 0 0 40px 0; /* Bottom padding added */
       background-color: white;
-      height: 100vh;
+      min-height: 100vh; /* Prevents iOS cutoff */
       width: 100vw;
       display: flex;
       align-items: center;
       justify-content: flex-start;
       font-family: 'Yu Mincho', 'Hiragino Mincho ProN', 'HG明朝E', serif;
+      box-sizing: border-box;
     }
 
     .poem-wrapper {
@@ -52,6 +53,19 @@
       margin-top: 24px;
       line-height: 1.6;
       white-space: pre-line;
+    }
+
+    /* Adjust font sizes on small screens (iPhone) */
+    @media (max-width: 500px) {
+      .poem.kintsugi {
+        font-size: 17px;
+        line-height: 1.5;
+      }
+
+      .translation {
+        font-size: 14px;
+        line-height: 1.5;
+      }
     }
 
     .contact {
