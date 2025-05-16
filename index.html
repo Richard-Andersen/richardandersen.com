@@ -41,7 +41,7 @@
     .poem-text {
       font-size: 20px;
       color: #111;
-      line-height: 1.8;
+      line-height: 2.0;
       white-space: pre-wrap;
       letter-spacing: 0.02em;
       transition: opacity 0.5s ease;
@@ -51,11 +51,11 @@
     @media (max-width: 500px) {
       .poem-text {
         font-size: 17px;
-        line-height: 1.8;
+        line-height: 2.0;
       }
     }
 
-    .contact {
+    .hanko-container {
       position: absolute;
       top: 20px;
       right: 20px;
@@ -98,11 +98,15 @@
 <body>
   <div class="poem-wrapper" id="poem-area">
     <div class="poem-text" id="poem-text">
-      水切りの石は\nどこに止まるかを\n選べんけど\n静けさのなかで\n心は選べるかね
+      水切りの石は
+      どこに止まるかを
+      選べんけど
+      静けさのなかで
+      心は選べるかね
     </div>
   </div>
 
-  <div class="contact">
+  <div class="hanko-container">
     <div class="hanko-wrapper">
       <img src="hanko.png" alt="Hanko stamp" class="hanko" id="hanko">
     </div>
@@ -152,12 +156,20 @@
       });
     }
 
-    // Poem language toggle behavior
     const poemArea = document.getElementById('poem-area');
     const poemText = document.getElementById('poem-text');
 
-    const jpPoem = `水切りの石は\nどこに止まるかを\n選べんけど\n静けさのなかで\n心は選べるかね`;
-    const enPoem = `A stone skipping across still water—\nit can’t choose where it comes to rest,\nbut in the dewy quiet,\ncould one’s heart\nchoose to become still.`;
+    const jpPoem = `水切りの石は
+どこに止まるかを
+選べんけど
+静けさのなかで
+心は選べるかね`;
+
+    const enPoem = `A stone skipping across still water—
+it can’t choose where it comes to rest,
+but in the dewy quiet,
+could one’s heart
+choose to become still.`;
 
     let shakeMoveTimeout;
     let shakeX = null;
@@ -166,7 +178,7 @@
     function fadeToPoem(text) {
       poemText.style.opacity = 0;
       setTimeout(() => {
-        poemText.textContent = text;
+        poemText.innerText = text;
         poemText.style.opacity = 1;
       }, 200);
     }
@@ -201,7 +213,6 @@
       fadeToPoem(jpPoem);
     });
 
-    // Touch behavior for iOS
     let touchTimeout;
     poemArea.addEventListener('touchstart', (e) => {
       if (e.touches.length === 1) {
