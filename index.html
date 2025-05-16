@@ -44,7 +44,8 @@
       line-height: 1.6;
       white-space: pre-line;
       letter-spacing: 0.02em;
-      transition: opacity 0.4s ease;
+      transition: opacity 0.5s ease;
+      opacity: 1;
     }
 
     @media (max-width: 500px) {
@@ -165,58 +166,57 @@
     const enPoem = `
 A stone skipping across still water—\nit can’t choose where it comes to rest,\nbut in the dewy quiet,\ncould one’s heart\nchoose to become still.`;
 
-    let mouseMoveTimeout;
-    let isHovering = false;
-    let mouseShakeTimer;
-    let mouseMoveCount = 0;
+    let shakeMoveTimeout;
+    let shakeTimer;
+    let shakeX = null;
+    let shakeCount = 0;
 
-    function showEnglishPoem(duration = 3000) {
-      poemText.textContent = enPoem;
-      clearTimeout(mouseMoveTimeout);
-      mouseMoveTimeout = setTimeout(() => {
-        if (!isHovering) {
-          poemText.textContent = jpPoem;
-        }
-      }, duration);
+    function fadeToPoem(text) {
+      poemText.style.opacity = 0;
+      setTimeout(() => {
+        poemText.textContent = text;
+        poemText.style.opacity = 1;
+      }, 200);
     }
 
-    function enableShakeHoldDisplay() {
-      let lastX = null;
-      let shakeThreshold = 8;
-      mouseMoveCount = 0;
-      poemArea.addEventListener('mousemove', (e) => {
-        if (!isHovering) return;
-        if (lastX !== null && Math.abs(e.screenX - lastX) > shakeThreshold) {
-          mouseMoveCount++;
-        }
-        lastX = e.screenX;
-        if (mouseMoveCount > 5) {
-          clearTimeout(mouseMoveTimeout);
-          poemText.textContent = enPoem;
-        }
-      });
+    function resetToJapanese(delay = 3000) {
+      clearTimeout(shakeMoveTimeout);
+      shakeMoveTimeout = setTimeout(() => {
+        fadeToPoem(jpPoem);
+        shakeCount = 0;
+      }, delay);
     }
 
     poemArea.addEventListener('mouseenter', () => {
-      isHovering = true;
-      showEnglishPoem();
+      resetToJapanese();
+    });
+
+    poemArea.addEventListener('mousemove', (e) => {
+      if (shakeX !== null && Math.abs(e.screenX - shakeX) > 6) {
+        shakeCount++;
+        if (shakeCount > 4) {
+          fadeToPoem(enPoem);
+          clearTimeout(shakeMoveTimeout);
+        } else {
+          fadeToPoem(enPoem);
+          resetToJapanese();
+        }
+      }
+      shakeX = e.screenX;
     });
 
     poemArea.addEventListener('mouseleave', () => {
-      isHovering = false;
-      poemText.textContent = jpPoem;
+      fadeToPoem(jpPoem);
     });
-
-    enableShakeHoldDisplay();
 
     // Touch behavior for iOS
     let touchTimeout;
     poemArea.addEventListener('touchstart', (e) => {
       if (e.touches.length === 1) {
         clearTimeout(touchTimeout);
-        poemText.textContent = enPoem;
+        fadeToPoem(enPoem);
         touchTimeout = setTimeout(() => {
-          poemText.textContent = jpPoem;
+          fadeToPoem(jpPoem);
         }, 3000);
       }
     });
@@ -224,7 +224,7 @@ A stone skipping across still water—\nit can’t choose where it comes to rest
     poemArea.addEventListener('touchend', () => {
       clearTimeout(touchTimeout);
       touchTimeout = setTimeout(() => {
-        poemText.textContent = jpPoem;
+        fadeToPoem(jpPoem);
       }, 3000);
     });
   </script>
