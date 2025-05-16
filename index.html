@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Richard Andersen">
-  <title>Naka de</title>
+  <title>Kintsugi</title>
   <style>
     body {
       margin: 0;
@@ -55,16 +55,15 @@
       white-space: pre-line;
     }
 
-    /* Adjust font and line spacing on small screens (iPhone) */
     @media (max-width: 500px) {
       .poem.kintsugi {
         font-size: 17px;
-        line-height: 1.2; /* tighter */
+        line-height: 1.2;
       }
 
       .translation {
         font-size: 14px;
-        line-height: 1.2; /* tighter */
+        line-height: 1.2;
       }
     }
 
@@ -77,30 +76,12 @@
       text-align: center;
     }
 
-    .contact-inner {
-      display: inline-block;
-    }
-
-    .contact a {
-      color: #888;
-      text-decoration: none;
-    }
-
-    .contact a:hover {
-      color: #444;
-      text-decoration: underline;
-    }
-
     .hanko-wrapper {
       position: relative;
       display: inline-block;
       width: 120px;
       height: 120px;
       margin-top: 8px;
-    }
-
-    .hanko-wrapper a {
-      cursor: pointer;
     }
 
     .hanko {
@@ -110,13 +91,19 @@
       transform: translateX(-50%);
       width: 60px;
       opacity: 0;
-      transition: opacity 0.4s ease;
+      transition: opacity 0.4s ease, transform 0.3s ease;
       pointer-events: auto;
     }
 
     .hanko-wrapper:hover .hanko,
     .hanko.touch-visible {
       opacity: 1;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .hanko-wrapper:hover .hanko {
+        transform: translateX(-50%) scale(2);
+      }
     }
   </style>
 </head>
@@ -139,13 +126,8 @@
   </div>
 
   <div class="contact">
-    <div class="contact-inner">
-      <a href="mailto:contact@richardandersen.com">Contact</a><br>
-      <div class="hanko-wrapper">
-        <a href="mailto:contact@richardandersen.com">
-          <img src="hanko.png" alt="Hanko stamp" class="hanko" id="hanko">
-        </a>
-      </div>
+    <div class="hanko-wrapper">
+      <img src="hanko.png" alt="Hanko stamp" class="hanko" id="hanko">
     </div>
   </div>
 
