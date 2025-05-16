@@ -38,31 +38,18 @@
       }
     }
 
-    .poem.kintsugi {
+    .poem-text {
       font-size: 20px;
       color: #111;
       line-height: 1.6;
       white-space: pre-line;
       letter-spacing: 0.02em;
-    }
-
-    .translation {
-      font-family: 'Palatino', 'Garamond', 'Georgia', serif;
-      font-size: 16px;
-      color: #444;
-      margin-top: 24px;
-      line-height: 1.6;
-      white-space: pre-line;
+      transition: opacity 0.4s ease;
     }
 
     @media (max-width: 500px) {
-      .poem.kintsugi {
+      .poem-text {
         font-size: 17px;
-        line-height: 1.2;
-      }
-
-      .translation {
-        font-size: 14px;
         line-height: 1.2;
       }
     }
@@ -108,20 +95,13 @@
   </style>
 </head>
 <body>
-  <div class="poem-wrapper">
-    <div class="poem kintsugi">
+  <div class="poem-wrapper" id="poem-area">
+    <div class="poem-text" id="poem-text">
       水切りの石は<br>
       どこに止まるかを<br>
       選べんけど<br>
       静けさのなかで<br>
       心は選べるかね
-    </div>
-    <div class="translation">
-      A stone skipping across still water—<br>
-      it can’t choose where it comes to rest,<br>
-      but in the dewy quiet,<br>
-      could one’s heart<br>
-      choose to become still.
     </div>
   </div>
 
@@ -150,7 +130,7 @@
       }, duration);
     }
 
-    document.body.addEventListener('mousemove', () => {
+    document.body.addEventListener('mousemove', (e) => {
       const now = Date.now();
       if (now - lastShown > 1000) {
         showHankoTemporarily(1600);
@@ -174,6 +154,79 @@
         showHankoTemporarily(5000);
       });
     }
+
+    // Poem language toggle behavior
+    const poemArea = document.getElementById('poem-area');
+    const poemText = document.getElementById('poem-text');
+
+    const jpPoem = `
+水切りの石は\nどこに止まるかを\n選べんけど\n静けさのなかで\n心は選べるかね`;
+
+    const enPoem = `
+A stone skipping across still water—\nit can’t choose where it comes to rest,\nbut in the dewy quiet,\ncould one’s heart\nchoose to become still.`;
+
+    let mouseMoveTimeout;
+    let isHovering = false;
+    let mouseShakeTimer;
+    let mouseMoveCount = 0;
+
+    function showEnglishPoem(duration = 3000) {
+      poemText.textContent = enPoem;
+      clearTimeout(mouseMoveTimeout);
+      mouseMoveTimeout = setTimeout(() => {
+        if (!isHovering) {
+          poemText.textContent = jpPoem;
+        }
+      }, duration);
+    }
+
+    function enableShakeHoldDisplay() {
+      let lastX = null;
+      let shakeThreshold = 8;
+      mouseMoveCount = 0;
+      poemArea.addEventListener('mousemove', (e) => {
+        if (!isHovering) return;
+        if (lastX !== null && Math.abs(e.screenX - lastX) > shakeThreshold) {
+          mouseMoveCount++;
+        }
+        lastX = e.screenX;
+        if (mouseMoveCount > 5) {
+          clearTimeout(mouseMoveTimeout);
+          poemText.textContent = enPoem;
+        }
+      });
+    }
+
+    poemArea.addEventListener('mouseenter', () => {
+      isHovering = true;
+      showEnglishPoem();
+    });
+
+    poemArea.addEventListener('mouseleave', () => {
+      isHovering = false;
+      poemText.textContent = jpPoem;
+    });
+
+    enableShakeHoldDisplay();
+
+    // Touch behavior for iOS
+    let touchTimeout;
+    poemArea.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1) {
+        clearTimeout(touchTimeout);
+        poemText.textContent = enPoem;
+        touchTimeout = setTimeout(() => {
+          poemText.textContent = jpPoem;
+        }, 3000);
+      }
+    });
+
+    poemArea.addEventListener('touchend', () => {
+      clearTimeout(touchTimeout);
+      touchTimeout = setTimeout(() => {
+        poemText.textContent = jpPoem;
+      }, 3000);
+    });
   </script>
 </body>
 </html>
