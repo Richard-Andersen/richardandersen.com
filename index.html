@@ -1,3 +1,59 @@
+<!DOCTYPE html>
+<!-- Author: Richard Andersen -->
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Richard Andersen">
+  <title>Naka de</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0 0 40px 0;
+      background-color: white;
+      min-height: 100vh;
+      width: 100vw;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      font-family: 'Yu Mincho', 'Hiragino Mincho ProN', 'HG明朝E', serif;
+      box-sizing: border-box;
+    }
+
+    .poem-wrapper {
+      margin-left: 16px;
+      display: inline-block;
+      position: relative;
+    }
+
+    @media (min-width: 768px) {
+      .poem-wrapper {
+        margin-left: 60px;
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .poem-wrapper {
+        margin-left: 100px;
+      }
+    }
+
+    .poem-text {
+      font-size: 20px;
+      color: #111;
+      line-height: 2.0;
+      white-space: pre-wrap;
+      letter-spacing: 0.02em;
+      font-feature-settings: "liga" on, "calt" on;
+    }
+
+    @media (max-width: 500px) {
+      .poem-text {
+        font-size: 17px;
+        line-height: 2.0;
+      }
+    }
+
     .english-poem {
       font-family: 'Palatino', 'Garamond', 'Georgia', serif;
       color: white;
@@ -9,36 +65,63 @@
       color: #111;
       opacity: 1;
     }
+
+    .hanko-container {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 12px;
+      font-family: sans-serif;
+      text-align: center;
+    }
+
+    .hanko-wrapper {
+      position: relative;
+      display: inline-block;
+      width: 120px;
+      height: 120px;
+      margin-top: 8px;
+    }
+
+    .hanko {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      opacity: 0;
+      transition: opacity 0.4s ease, transform 0.3s ease;
+      pointer-events: auto;
+    }
+
+    .hanko-wrapper:hover .hanko,
+    .hanko.touch-visible {
+      opacity: 1;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .hanko-wrapper:hover .hanko {
+        transform: translateX(-50%) scale(2);
+      }
+    }
   </style>
 </head>
 <body>
   <div class="poem-wrapper">
-    
-      <div class="japanese-poem">
-水切りの石は
-どこに止まるかを
-選べんけど
-静けさのなかで
-心は選べるかね
+    <div class="poem-text">
+      水切りの石は<br>
+      どこに止まるかを<br>
+      選べんけど<br>
+      静けさのなかで<br>
+      心は選べるかね
+      <div class="english-poem" id="english-poem">
+        <br><br>
+        A stone skipping across still water—<br>
+        it can’t choose where it comes to rest,<br>
+        but in the dewy quiet,<br>
+        could one’s heart<br>
+        choose to become still.
       </div>
-      <div class="english-poem">
-A stone skipping across still water—
-it can’t choose where it comes to rest,
-but in the dewy quiet,
-could one’s heart
-choose to become still.
-      </div>
-水切りの石は
-どこに止まるかを
-選べんけど
-静けさのなかで
-心は選べるかね
-
-A stone skipping across still water—
-it can’t choose where it comes to rest,
-but in the dewy quiet,
-could one’s heart
-choose to become still.
     </div>
   </div>
 
@@ -50,25 +133,24 @@ choose to become still.
 
   <script>
     const hanko = document.getElementById('hanko');
+    const englishPoem = document.getElementById('english-poem');
     let visibilityTimer;
     let lastShown = 0;
 
     function hideHankoIfNotHovered() {
       if (!hanko.matches(':hover')) {
         hanko.classList.remove('touch-visible');
-        document.querySelector('.english-poem').classList.remove('visible');
+        englishPoem.classList.remove('visible');
       }
-    }
     }
 
     function showHankoTemporarily(duration = 1600) {
       hanko.classList.add('touch-visible');
-      document.querySelector('.english-poem').classList.add('visible');
+      englishPoem.classList.add('visible');
       clearTimeout(visibilityTimer);
       visibilityTimer = setTimeout(() => {
         hideHankoIfNotHovered();
       }, duration);
-    }, duration);
     }
 
     document.body.addEventListener('mousemove', (e) => {
@@ -82,11 +164,13 @@ choose to become still.
     hanko.addEventListener('mouseenter', () => {
       clearTimeout(visibilityTimer);
       hanko.classList.add('touch-visible');
+      englishPoem.classList.add('visible');
     });
 
     hanko.addEventListener('mouseleave', () => {
       visibilityTimer = setTimeout(() => {
         hanko.classList.remove('touch-visible');
+        englishPoem.classList.remove('visible');
       }, 400);
     });
 
