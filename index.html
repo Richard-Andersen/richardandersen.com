@@ -41,8 +41,8 @@
     .poem-text {
       font-size: 20px;
       color: #111;
-      line-height: 2.0;
-      white-space: pre-line;
+      line-height: 1.8;
+      white-space: pre-wrap;
       letter-spacing: 0.02em;
       transition: opacity 0.5s ease;
       opacity: 1;
@@ -51,7 +51,7 @@
     @media (max-width: 500px) {
       .poem-text {
         font-size: 17px;
-        line-height: 2.0;
+        line-height: 1.8;
       }
     }
 
@@ -98,11 +98,7 @@
 <body>
   <div class="poem-wrapper" id="poem-area">
     <div class="poem-text" id="poem-text">
-      水切りの石は<br>
-      どこに止まるかを<br>
-      選べんけど<br>
-      静けさのなかで<br>
-      心は選べるかね
+      水切りの石は\nどこに止まるかを\n選べんけど\n静けさのなかで\n心は選べるかね
     </div>
   </div>
 
@@ -160,14 +156,10 @@
     const poemArea = document.getElementById('poem-area');
     const poemText = document.getElementById('poem-text');
 
-    const jpPoem = `
-水切りの石は\nどこに止まるかを\n選べんけど\n静けさのなかで\n心は選べるかね`;
-
-    const enPoem = `
-A stone skipping across still water—\nit can’t choose where it comes to rest,\nbut in the dewy quiet,\ncould one’s heart\nchoose to become still.`;
+    const jpPoem = `水切りの石は\nどこに止まるかを\n選べんけど\n静けさのなかで\n心は選べるかね`;
+    const enPoem = `A stone skipping across still water—\nit can’t choose where it comes to rest,\nbut in the dewy quiet,\ncould one’s heart\nchoose to become still.`;
 
     let shakeMoveTimeout;
-    let shakeTimer;
     let shakeX = null;
     let shakeCount = 0;
 
