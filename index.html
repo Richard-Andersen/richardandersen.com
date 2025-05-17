@@ -140,12 +140,16 @@ choose to become still.
     let lastShown = 0;
 
     function hideHankoIfNotHovered() {
+      // revert to normal fade-out
+      englishPoem.style.transition = 'opacity 3s ease';
       if (!hanko.matches(':hover')) {
         hanko.classList.remove('touch-visible');
         englishPoem.classList.remove('visible');
       }
     }
     function showHankoTemporarily(duration = 6000) {
+      // use longer fade-in
+      englishPoem.style.transition = 'opacity 5s ease';
       hanko.classList.add('touch-visible');
       englishPoem.classList.add('visible');
       clearTimeout(visibilityTimer);
