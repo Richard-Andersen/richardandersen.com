@@ -107,20 +107,6 @@
         transform: translateX(-50%) scale(2);
       }
     }
-
-        .photo {
-      position: absolute;
-      top: 20px;
-      right: 100px;
-      width: 300px;
-      opacity: 0;
-      transition: opacity 0.4s ease;
-      pointer-events: none;
-    }
-
-    .portrait.visible {
-      opacity: 1;
-    }
   </style>
 </head>
 <body>
@@ -146,18 +132,13 @@ choose to become still.
 
   <div class="hanko-container">
     <div class="hanko-wrapper">
-      <img src="hanko.png" alt="Hanko stamp" class="hanko" id="hanko">
+      <img src="hanko.png" alt="Hanko" class="hanko" id="hanko">
     </div>
   </div>
-
-    <!-- Portrait image (place photo.png in same folder) -->
-  <img src="photo.png" alt="Photo" class="photo" id="photo">
 
   <script>
     const hanko = document.getElementById('hanko');
     const englishPoem = document.getElementById('english-poem');
-    const photo = document.getElementById('photo');
-    const portrait = document.getElementById('portrait');
     let visibilityTimer;
     let lastShown = 0;
 
@@ -203,14 +184,7 @@ choose to become still.
         showHankoTemporarily(5000);
       });
     }
-
-    // Portrait click behavior (desktop only)
-    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-      hanko.addEventListener('click', () => {
-        photo.classList.add('visible');
-        setTimeout(() => photo.classList.remove('visible'), 3000);
-      });
-    }
   </script>
 </body>
 </html>
+ 
