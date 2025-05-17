@@ -19,19 +19,13 @@
       font-family: 'Yu Mincho', 'Hiragino Mincho ProN', 'HG明朝E', serif;
       box-sizing: border-box;
     }
-
     .poem-wrapper {
       margin-left: 16px;
       display: inline-block;
       position: relative;
     }
-
-    @media (min-width: 768px) {
-      .poem-wrapper { margin-left: 60px; }
-    }
-    @media (min-width: 1200px) {
-      .poem-wrapper { margin-left: 100px; }
-    }
+    @media (min-width: 768px) { .poem-wrapper { margin-left: 60px; } }
+    @media (min-width: 1200px) { .poem-wrapper { margin-left: 100px; } }
 
     .poem-text {
       font-size: 20px;
@@ -43,14 +37,21 @@
     .japanese-poem { line-height: 2.0; }
     .english-poem {
       font-family: 'Palatino', 'Garamond', 'Georgia', serif;
-      color: #111;
+      color: #777777;
       opacity: 0;
       line-height: 1.0;
-      transition: opacity 3s ease;
+      transition: opacity 5s ease;
     }
-    .english-poem.visible {
-      opacity: 1;
+    .english-poem.visible { opacity: 1; }
+
+    .yomotsu {
+      display: block;
+      margin: 20px auto;
+      width: 453px;
+      opacity: 0;
+      transition: opacity 5s ease;
     }
+    .yomotsu.visible { opacity: 1; transition: opacity 3s ease; }
 
     .hanko-container {
       position: absolute;
@@ -83,19 +84,6 @@
       .hanko-wrapper:hover .hanko { transform: translateX(-50%) scale(2); }
     }
 
-    /* Photo fades in below the hanko on desktop */
-    .yomotsu {
-      display: block;
-      margin: 20px auto;
-      width: 453px;
-      opacity: 0;
-      transition: opacity 5s ease;
-    }
-    .yomotsu.visible {
-      opacity: 1;
-      transition: opacity 3s ease;
-    }
-
     .photo {
       position: absolute;
       top: 148px;
@@ -103,26 +91,29 @@
       width: 266px;
       border: 1px solid #111;
       opacity: 0;
-      transition: opacity 0.4s ease;
+      transition: opacity 5s ease;
       pointer-events: none;
     }
-    .photo.visible {
-      opacity: 1;
-    }
-
+    .photo.visible { opacity: 1; }
     @media (max-width: 500px) {
       .poem-text { font-size: 17px; }
       .photo { display: none !important; }
+      .yomotsu { display: none !important; }
     }
   </style>
 </head>
 <body>
   <div class="poem-wrapper">
     <div class="poem-text">
-      $&
+      <div class="japanese-poem">
+水切りの石は
+どこに止まるかを
+選べんけど
+静けさのなかで
+心は選べるかね
+      </div>
       <img src="yomotsu_hirasaka.png" alt="Yomotsu Hirasaka" class="yomotsu" id="yomotsu">
       <div class="english-poem" id="english-poem">
-
 A stone skipping across still water—
 it can’t choose where it comes to rest,
 but in the dewy quiet,
@@ -136,7 +127,6 @@ choose to become still.
     <div class="hanko-wrapper">
       <img src="hanko.png" alt="Hanko" class="hanko" id="hanko">
     </div>
-    <!-- Photo appears below hanko on desktop only -->
     <img src="photo.png" alt="Photo" class="photo" id="photo">
   </div>
 
@@ -144,30 +134,22 @@ choose to become still.
     const hanko = document.getElementById('hanko');
     const englishPoem = document.getElementById('english-poem');
     const yomotsu = document.getElementById('yomotsu');
-    const englishPoem = document.getElementById('english-poem');
     let visibilityTimer;
     let lastShown = 0;
 
     function hideHankoIfNotHovered() {
-      // fade out English and Yomotsu together
-      englishPoem.style.transition = 'opacity 3s ease';
-      yomotsu.style.transition = 'opacity 3s ease';
-      // revert to normal fade-out
-      englishPoem.style.transition = 'opacity 3s ease';
       if (!hanko.matches(':hover')) {
         hanko.classList.remove('touch-visible');
-        yomotsu.classList.remove('visible');
         englishPoem.classList.remove('visible');
+        yomotsu.classList.remove('visible');
       }
     }
+
     function showHankoTemporarily(duration = 6000) {
-      // fade in English and Yomotsu together
-      englishPoem.style.transition = 'opacity 5s ease';
-      yomotsu.style.transition = 'opacity 5s ease';
-      yomotsu.style.transition = 'opacity 5s ease';
-      // use longer fade-in
-      englishPoem.style.transition = 'opacity 5s ease';
       hanko.classList.add('touch-visible');
+      // fade in English and Yomotsu
+      englishPoem.style.transition = 'opacity 5s ease';
+      yomotsu.style.transition = 'opacity 5s ease';
       englishPoem.classList.add('visible');
       yomotsu.classList.add('visible');
       clearTimeout(visibilityTimer);
@@ -175,6 +157,7 @@ choose to become still.
         hideHankoIfNotHovered();
       }, duration);
     }
+
     document.body.addEventListener('mousemove', () => {
       const now = Date.now();
       if (now - lastShown > 1000) {
@@ -182,18 +165,22 @@ choose to become still.
         lastShown = now;
       }
     });
+
     hanko.addEventListener('mouseenter', () => {
       clearTimeout(visibilityTimer);
       hanko.classList.add('touch-visible');
       englishPoem.classList.add('visible');
+      yomotsu.classList.add('visible');
     });
+
     hanko.addEventListener('mouseleave', () => {
       visibilityTimer = setTimeout(() => {
         hanko.classList.remove('touch-visible');
         englishPoem.classList.remove('visible');
+        yomotsu.classList.remove('visible');
       }, 5000);
     });
-    });
+
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
       document.body.addEventListener('touchstart', () => {
         showHankoTemporarily(6000);
@@ -205,9 +192,9 @@ choose to become still.
       const photo = document.getElementById('photo');
       hanko.addEventListener('click', () => {
         photo.classList.add('visible');
-        setTimeout(() => photo.classList.remove('visible'), 3000);
+        setTimeout(() => photo.classList.remove('visible'), 5000);
       });
     }
-  </script></script>
+  </script>
 </body>
 </html>
