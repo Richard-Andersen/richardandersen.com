@@ -27,15 +27,10 @@
     }
 
     @media (min-width: 768px) {
-      .poem-wrapper {
-        margin-left: 60px;
-      }
+      .poem-wrapper { margin-left: 60px; }
     }
-
     @media (min-width: 1200px) {
-      .poem-wrapper {
-        margin-left: 100px;
-      }
+      .poem-wrapper { margin-left: 100px; }
     }
 
     .poem-text {
@@ -45,11 +40,7 @@
       letter-spacing: 0.02em;
       font-feature-settings: "liga" on, "calt" on;
     }
-
-    .japanese-poem {
-      line-height: 2.0;
-    }
-
+    .japanese-poem { line-height: 2.0; }
     .english-poem {
       font-family: 'Palatino', 'Garamond', 'Georgia', serif;
       color: white;
@@ -57,16 +48,9 @@
       line-height: 1.0;
       transition: opacity 0.4s ease;
     }
-
     .english-poem.visible {
       color: #111;
       opacity: 1;
-    }
-
-    @media (max-width: 500px) {
-      .poem-text {
-        font-size: 17px;
-      }
     }
 
     .hanko-container {
@@ -77,7 +61,6 @@
       font-family: sans-serif;
       text-align: center;
     }
-
     .hanko-wrapper {
       position: relative;
       display: inline-block;
@@ -85,7 +68,6 @@
       height: 120px;
       margin-top: 8px;
     }
-
     .hanko {
       position: absolute;
       top: 0;
@@ -96,16 +78,32 @@
       transition: opacity 0.4s ease, transform 0.3s ease;
       pointer-events: auto;
     }
-
     .hanko-wrapper:hover .hanko,
-    .hanko.touch-visible {
+    .hanko.touch-visible { opacity: 1; }
+    @media (hover: hover) and (pointer: fine) {
+      .hanko-wrapper:hover .hanko { transform: translateX(-50%) scale(2); }
+    }
+
+    /* Photo fades in below the hanko on desktop */
+    .photo {
+      position: absolute;
+      top: 148px;
+      right: 50px;
+      width: 200px;
+      border: 1px solid #111;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+      display: none;
+    }
+    .photo.visible {
+      display: block;
       opacity: 1;
     }
 
-    @media (hover: hover) and (pointer: fine) {
-      .hanko-wrapper:hover .hanko {
-        transform: translateX(-50%) scale(2);
-      }
+    @media (max-width: 500px) {
+      .poem-text { font-size: 17px; }
+      .photo { display: none !important; }
     }
   </style>
 </head>
@@ -134,6 +132,8 @@ choose to become still.
     <div class="hanko-wrapper">
       <img src="hanko.png" alt="Hanko" class="hanko" id="hanko">
     </div>
+    <!-- Photo appears below hanko on desktop only -->
+    <img src="photo.png" alt="Photo" class="photo" id="photo">
   </div>
 
   <script>
@@ -148,7 +148,6 @@ choose to become still.
         englishPoem.classList.remove('visible');
       }
     }
-
     function showHankoTemporarily(duration = 1600) {
       hanko.classList.add('touch-visible');
       englishPoem.classList.add('visible');
@@ -157,7 +156,6 @@ choose to become still.
         hideHankoIfNotHovered();
       }, duration);
     }
-
     document.body.addEventListener('mousemove', () => {
       const now = Date.now();
       if (now - lastShown > 1000) {
@@ -165,26 +163,31 @@ choose to become still.
         lastShown = now;
       }
     });
-
     hanko.addEventListener('mouseenter', () => {
       clearTimeout(visibilityTimer);
       hanko.classList.add('touch-visible');
       englishPoem.classList.add('visible');
     });
-
     hanko.addEventListener('mouseleave', () => {
       visibilityTimer = setTimeout(() => {
         hanko.classList.remove('touch-visible');
         englishPoem.classList.remove('visible');
       }, 400);
     });
-
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
       document.body.addEventListener('touchstart', () => {
         showHankoTemporarily(5000);
       });
     }
+
+    // Photo click on hanko (desktop only)
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      const photo = document.getElementById('photo');
+      hanko.addEventListener('click', () => {
+        photo.classList.add('visible');
+        setTimeout(() => photo.classList.remove('visible'), 3000);
+      });
+    }
   </script>
 </body>
 </html>
- 
