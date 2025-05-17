@@ -146,7 +146,7 @@ choose to become still.
         englishPoem.classList.remove('visible');
       }
     }
-    function showHankoTemporarily(duration = 1600) {
+    function showHankoTemporarily(duration = 6000) {
       hanko.classList.add('touch-visible');
       englishPoem.classList.add('visible');
       clearTimeout(visibilityTimer);
@@ -157,7 +157,7 @@ choose to become still.
     document.body.addEventListener('mousemove', () => {
       const now = Date.now();
       if (now - lastShown > 1000) {
-        showHankoTemporarily(1600);
+        showHankoTemporarily(6000);
         lastShown = now;
       }
     });
@@ -174,7 +174,7 @@ choose to become still.
     });
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
       document.body.addEventListener('touchstart', () => {
-        showHankoTemporarily(5000);
+        showHankoTemporarily(6000);
       });
     }
 
@@ -186,6 +186,18 @@ choose to become still.
         setTimeout(() => photo.classList.remove('visible'), 3000);
       });
     }
-  </script>
+
+    // Keep English poem visible when hovered
+    englishPoem.addEventListener('mouseenter', () => {
+      clearTimeout(visibilityTimer);
+      hanko.classList.add('touch-visible');
+      englishPoem.classList.add('visible');
+    });
+    englishPoem.addEventListener('mouseleave', () => {
+      visibilityTimer = setTimeout(() => {
+        hideHankoIfNotHovered();
+      }, 6000);
+    });
+  </script></script>
 </body>
 </html>
