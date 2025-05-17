@@ -83,7 +83,7 @@
       .hanko-wrapper:hover .hanko { transform: translateX(-50%) scale(2); }
     }
 
-    /* Photo fades in below the hanko on desktop */
+    /* Photo fades in below the hanko on desktop. */
     .photo {
       position: absolute;
       top: 148px;
@@ -129,7 +129,7 @@ choose to become still.
     <div class="hanko-wrapper">
       <img src="hanko.png" alt="Hanko" class="hanko" id="hanko">
     </div>
-    <!-- Photo appears below hanko on desktop only -->
+    <!-- Photo appears below hanko on desktop only. -->
     <img src="photo.png" alt="Photo" class="photo" id="photo">
   </div>
 
@@ -140,7 +140,7 @@ choose to become still.
     let lastShown = 0;
 
     function hideHankoIfNotHovered() {
-      // revert to normal fade-out
+      // Revert to normal fade-out.
       englishPoem.style.transition = 'opacity 3s ease';
       if (!hanko.matches(':hover')) {
         hanko.classList.remove('touch-visible');
@@ -148,7 +148,7 @@ choose to become still.
       }
     }
     function showHankoTemporarily(duration = 6000) {
-      // use longer fade-in
+      // Use longer fade-in.
       englishPoem.style.transition = 'opacity 5s ease';
       hanko.classList.add('touch-visible');
       englishPoem.classList.add('visible');
@@ -181,12 +181,12 @@ choose to become still.
       });
     }
 
-    // Photo click on hanko (desktop only)
+    // Photo click on hanko (desktop only).
     if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
       const photo = document.getElementById('photo');
       hanko.addEventListener('click', () => {
         photo.classList.add('visible');
-        setTimeout(() => photo.classList.remove('visible'), 3000);
+        setTimeout(() => photo.classList.remove('visible'), 5000);
       });
     }
   </script></script>
