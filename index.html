@@ -107,6 +107,21 @@
         transform: translateX(-50%) scale(2);
       }
     }
+
+    /* Portrait that fades in on hanko click (desktop only) */
+    .portrait {
+      position: absolute;
+      top: 20px;
+      right: 100px;
+      width: 150px;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+
+    .portrait.visible {
+      opacity: 1;
+    }
   </style>
 </head>
 <body>
@@ -136,9 +151,13 @@ choose to become still.
     </div>
   </div>
 
+    <!-- Portrait image (place photo.png in same folder) -->
+  <img src="photo.png" alt="Portrait" class="portrait" id="portrait">
+
   <script>
     const hanko = document.getElementById('hanko');
     const englishPoem = document.getElementById('english-poem');
+    const portrait = document.getElementById('portrait');
     let visibilityTimer;
     let lastShown = 0;
 
@@ -182,6 +201,14 @@ choose to become still.
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
       document.body.addEventListener('touchstart', () => {
         showHankoTemporarily(5000);
+      });
+    }
+
+    // Portrait click behavior (desktop only)
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      hanko.addEventListener('click', () => {
+        portrait.classList.add('visible');
+        setTimeout(() => portrait.classList.remove('visible'), 3000);
       });
     }
   </script>
