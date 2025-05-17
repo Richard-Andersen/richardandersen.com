@@ -35,7 +35,7 @@
 
     .poem-text {
       font-size: 20px;
-      color: #777;
+      color: #111;
       white-space: pre-wrap;
       letter-spacing: 0.02em;
       font-feature-settings: "liga" on, "calt" on;
@@ -43,7 +43,7 @@
     .japanese-poem { line-height: 2.0; }
     .english-poem {
       font-family: 'Palatino', 'Garamond', 'Georgia', serif;
-      color: #777;
+      color: #111;
       opacity: 0;
       line-height: 1.0;
       transition: opacity 3s ease;
@@ -83,7 +83,19 @@
       .hanko-wrapper:hover .hanko { transform: translateX(-50%) scale(2); }
     }
 
-    /* Photo fades in below the hanko on desktop. */
+    /* Photo fades in below the hanko on desktop */
+    .yomotsu {
+      display: block;
+      margin: 20px auto;
+      width: 453px;
+      opacity: 0;
+      transition: opacity 5s ease;
+    }
+    .yomotsu.visible {
+      opacity: 1;
+      transition: opacity 3s ease;
+    }
+
     .photo {
       position: absolute;
       top: 148px;
@@ -91,7 +103,7 @@
       width: 266px;
       border: 1px solid #111;
       opacity: 0;
-      transition: opacity 5s ease;
+      transition: opacity 0.4s ease;
       pointer-events: none;
     }
     .photo.visible {
@@ -107,13 +119,8 @@
 <body>
   <div class="poem-wrapper">
     <div class="poem-text">
-      <div class="japanese-poem">
-水切りの石は
-どこに止まるかを
-選べんけど
-静けさのなかで
-心は選べるかね
-      </div>
+      $&
+      <img src="yomotsu_hirasaka.png" alt="Yomotsu Hirasaka" class="yomotsu" id="yomotsu">
       <div class="english-poem" id="english-poem">
 
 A stone skipping across still water—
@@ -129,29 +136,40 @@ choose to become still.
     <div class="hanko-wrapper">
       <img src="hanko.png" alt="Hanko" class="hanko" id="hanko">
     </div>
-    <!-- Photo appears below hanko on desktop only. -->
+    <!-- Photo appears below hanko on desktop only -->
     <img src="photo.png" alt="Photo" class="photo" id="photo">
   </div>
 
   <script>
     const hanko = document.getElementById('hanko');
     const englishPoem = document.getElementById('english-poem');
+    const yomotsu = document.getElementById('yomotsu');
+    const englishPoem = document.getElementById('english-poem');
     let visibilityTimer;
     let lastShown = 0;
 
     function hideHankoIfNotHovered() {
-      // Revert to normal fade-out.
+      // fade out English and Yomotsu together
+      englishPoem.style.transition = 'opacity 3s ease';
+      yomotsu.style.transition = 'opacity 3s ease';
+      // revert to normal fade-out
       englishPoem.style.transition = 'opacity 3s ease';
       if (!hanko.matches(':hover')) {
         hanko.classList.remove('touch-visible');
+        yomotsu.classList.remove('visible');
         englishPoem.classList.remove('visible');
       }
     }
     function showHankoTemporarily(duration = 6000) {
-      // Use longer fade-in.
+      // fade in English and Yomotsu together
+      englishPoem.style.transition = 'opacity 5s ease';
+      yomotsu.style.transition = 'opacity 5s ease';
+      yomotsu.style.transition = 'opacity 5s ease';
+      // use longer fade-in
       englishPoem.style.transition = 'opacity 5s ease';
       hanko.classList.add('touch-visible');
       englishPoem.classList.add('visible');
+      yomotsu.classList.add('visible');
       clearTimeout(visibilityTimer);
       visibilityTimer = setTimeout(() => {
         hideHankoIfNotHovered();
@@ -173,7 +191,8 @@ choose to become still.
       visibilityTimer = setTimeout(() => {
         hanko.classList.remove('touch-visible');
         englishPoem.classList.remove('visible');
-      }, 400);
+      }, 5000);
+    });
     });
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
       document.body.addEventListener('touchstart', () => {
@@ -181,12 +200,12 @@ choose to become still.
       });
     }
 
-    // Photo click on hanko (desktop only).
+    // Photo click on hanko (desktop only)
     if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
       const photo = document.getElementById('photo');
       hanko.addEventListener('click', () => {
         photo.classList.add('visible');
-        setTimeout(() => photo.classList.remove('visible'), 5000);
+        setTimeout(() => photo.classList.remove('visible'), 3000);
       });
     }
   </script></script>
