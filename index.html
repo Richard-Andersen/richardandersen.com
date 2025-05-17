@@ -186,18 +186,6 @@ choose to become still.
         setTimeout(() => photo.classList.remove('visible'), 3000);
       });
     }
-
-    // Keep English poem visible when hovered
-    englishPoem.addEventListener('mouseenter', () => {
-      clearTimeout(visibilityTimer);
-      hanko.classList.add('touch-visible');
-      englishPoem.classList.add('visible');
-    });
-    englishPoem.addEventListener('mouseleave', () => {
-      visibilityTimer = setTimeout(() => {
-        hideHankoIfNotHovered();
-      }, 6000);
-    });
   </script></script>
 </body>
 </html>
