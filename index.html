@@ -109,11 +109,11 @@
     }
 
     /* Portrait that fades in on hanko click (desktop only) */
-    .portrait {
+    .photo {
       position: absolute;
       top: 20px;
       right: 100px;
-      width: 150px;
+      width: 300px;
       opacity: 0;
       transition: opacity 0.4s ease;
       pointer-events: none;
@@ -152,7 +152,7 @@ choose to become still.
   </div>
 
     <!-- Portrait image (place photo.png in same folder) -->
-  <img src="photo.png" alt="Portrait" class="portrait" id="portrait">
+  <img src="photo.png" alt="Photo" class="photo" id="photo">
 
   <script>
     const hanko = document.getElementById('hanko');
