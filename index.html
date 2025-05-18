@@ -141,9 +141,16 @@ choose to become still.
     let lastShown = 0;
     let canReveal = false;
 
-    setTimeout(() => {
-      canReveal = true;
-    }, 4000);
+    // Detect if the device supports hover (desktop) or not (mobile)
+    const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+    if (isDesktop) {
+      setTimeout(() => {
+        canReveal = true;
+      }, 4000); // 4 second delay on desktop
+    } else {
+      canReveal = true; // no delay on touch devices
+    }
 
     function hideHankoIfNotHovered() {
       englishPoem.style.transition = 'opacity 3s ease';
