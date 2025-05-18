@@ -120,6 +120,10 @@
         transform: translateX(-50%) scale(1.5);
         transition: transform 0.4s ease, opacity 0.3s ease;
       }
+
+      .hanko.reset-touch-scale {
+        transform: translateX(-50%) scale(1);
+      }
     }
 
     @media (max-width: 500px) {
@@ -201,13 +205,22 @@
       });
     }
 
-    function hideOverlay() {
+    function hideOverlayThenYH() {
       overlay.classList.remove('visible');
+      hanko.classList.remove('touch-visible');
+      hanko.classList.add('reset-touch-scale');
+
+      setTimeout(() => {
+        hanko.classList.remove('reset-touch-scale');
+        YH.classList.remove('visible');
+        hanko.classList.remove('visible');
+      }, 3000); // delay after photo fades out
     }
 
     function showOverlay() {
       overlay.classList.add('visible');
-      setTimeout(hideOverlay, 5000);
+      hanko.classList.add('touch-visible');
+      setTimeout(hideOverlayThenYH, 5000); // photo stays visible for 5s
     }
 
     hanko.addEventListener('click', showOverlay);
