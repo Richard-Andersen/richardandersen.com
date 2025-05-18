@@ -41,17 +41,6 @@
       font-feature-settings: "liga" on, "calt" on;
     }
     .japanese-poem { line-height: 2.0; }
-    .english-poem {
-      font-size: 18px;
-      font-family: 'Palatino', 'Garamond', 'Georgia', serif;
-      color: #555;
-      opacity: 0;
-      line-height: 1.0;
-      transition: opacity 3s ease;
-    }
-    .english-poem.visible {
-      opacity: 1;
-    }
 
     .hanko-container {
       position: absolute;
@@ -114,14 +103,6 @@
 静けさのなかで
 心は選べるかね
       </div>
-      <div class="english-poem" id="english-poem">
-
-A stone skipping across still water—
-it can’t choose where it comes to rest,
-but in the quiet,
-could one’s heart
-choose to become still.
-      </div>
     </div>
   </div>
 
@@ -135,28 +116,24 @@ choose to become still.
 
   <script>
     const hanko = document.getElementById('hanko');
-    const englishPoem = document.getElementById('english-poem');
     const yomotsuImage = document.getElementById('yomotsu-image');
     let visibilityTimer;
     let lastShown = 0;
     let canReveal = false;
 
-    // Detect if the device supports hover (desktop) or not (mobile)
     const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
     if (isDesktop) {
       setTimeout(() => {
         canReveal = true;
-      }, 4000); // 4 second delay on desktop
+      }, 4000);
     } else {
-      canReveal = true; // no delay on touch devices
+      canReveal = true;
     }
 
     function hideHankoIfNotHovered() {
-      englishPoem.style.transition = 'opacity 3s ease';
       if (!hanko.matches(':hover')) {
         hanko.classList.remove('touch-visible');
-        englishPoem.classList.remove('visible');
         yomotsuImage.classList.remove('visible');
       }
     }
@@ -164,9 +141,7 @@ choose to become still.
     function showHankoTemporarily(duration = 5000) {
       if (!canReveal) return;
 
-      englishPoem.style.transition = 'opacity 5s ease';
       hanko.classList.add('touch-visible');
-      englishPoem.classList.add('visible');
       yomotsuImage.classList.add('visible');
       clearTimeout(visibilityTimer);
       visibilityTimer = setTimeout(() => {
@@ -188,7 +163,6 @@ choose to become still.
       if (!canReveal) return;
       clearTimeout(visibilityTimer);
       hanko.classList.add('touch-visible');
-      englishPoem.classList.add('visible');
       yomotsuImage.classList.add('visible');
     });
 
@@ -196,7 +170,6 @@ choose to become still.
       if (!canReveal) return;
       visibilityTimer = setTimeout(() => {
         hanko.classList.remove('touch-visible');
-        englishPoem.classList.remove('visible');
         yomotsuImage.classList.remove('visible');
       }, 400);
     });
