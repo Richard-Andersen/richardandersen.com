@@ -84,21 +84,6 @@
       .hanko-wrapper:hover .hanko { transform: translateX(-50%) scale(2); }
     }
 
-    .photo {
-      position: absolute;
-      top: 148px;
-      right: 50px;
-      width: 266px;
-      border: 1px solid #111;
-      opacity: 0;
-      z-index: 2;
-      transition: opacity 5s ease;
-      pointer-events: none;
-    }
-    .photo.visible {
-      opacity: 1;
-    }
-
     .yomotsu-image {
       position: absolute;
       top: 148px;
@@ -115,7 +100,6 @@
 
     @media (max-width: 500px) {
       .poem-text { font-size: 17px; }
-      .photo { display: none !important; }
       .yomotsu-image { display: none !important; }
     }
   </style>
@@ -145,7 +129,6 @@ choose to become still.
     <div class="hanko-wrapper">
       <img src="hanko.png" alt="Hanko" class="hanko" id="hanko">
     </div>
-    <img src="photo.png" alt="Photo" class="photo" id="photo">
   </div>
 
   <img src="yomotsu_hirasaka.png" alt="Yomotsu Hirasaka" class="yomotsu-image" id="yomotsu-image">
@@ -156,10 +139,8 @@ choose to become still.
     const yomotsuImage = document.getElementById('yomotsu-image');
     let visibilityTimer;
     let lastShown = 0;
-
     let canReveal = false;
 
-    // Delay any reveals for 4 seconds after page load
     setTimeout(() => {
       canReveal = true;
     }, 4000);
@@ -174,7 +155,7 @@ choose to become still.
     }
 
     function showHankoTemporarily(duration = 5000) {
-      if (!canReveal) return; // Do nothing if still in delay window
+      if (!canReveal) return;
 
       englishPoem.style.transition = 'opacity 5s ease';
       hanko.classList.add('touch-visible');
@@ -217,15 +198,6 @@ choose to become still.
       document.body.addEventListener('touchstart', () => {
         if (!canReveal) return;
         showHankoTemporarily(5000);
-      });
-    }
-
-    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-      const photo = document.getElementById('photo');
-      hanko.addEventListener('click', () => {
-        if (!canReveal) return;
-        photo.classList.add('visible');
-        setTimeout(() => photo.classList.remove('visible'), 5000);
       });
     }
   </script>
