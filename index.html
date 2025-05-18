@@ -18,14 +18,14 @@
 
     body {
       display: flex;
-      align-items: center;       /* vertical center */
-      justify-content: center;   /* horizontal center for container */
+      align-items: center;       /* vertical centering */
+      justify-content: center;   /* horizontal centering of container */
     }
 
     .content-wrapper {
       display: flex;
-      align-items: center;       /* vertical alignment */
-      justify-content: space-between; /* poem left, image right */
+      align-items: center;            /* vertical alignment */
+      justify-content: space-between; /* poem left, image-stack right */
       width: 100%;
       max-width: 1200px;
       padding: 0 40px;
@@ -40,14 +40,39 @@
       line-height: 2.0;
     }
 
+    .image-stack {
+      position: relative;
+      width: 346px; /* shared display width */
+    }
+
+    .image-stack img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* shrine image */
     .yomotsu-hirasaka-image {
-      width: 346px; /* 266 × 1.3 */
       opacity: 0;
       transition: opacity 5s ease;
       pointer-events: none;
+      z-index: 1;
+    }
+    .yomotsu-hirasaka-image.visible {
+      opacity: 1;
     }
 
-    .yomotsu-hirasaka-image.visible {
+    /* your photo overlay */
+    .overlay-photo {
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transition: opacity 5s ease;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .overlay-photo.visible {
       opacity: 1;
     }
 
@@ -78,7 +103,7 @@
       transition: opacity 0.4s ease, transform 0.3s ease;
       pointer-events: auto;
     }
-
+    .hanko.visible,
     .hanko-wrapper:hover .hanko,
     .hanko.touch-visible {
       opacity: 1;
@@ -92,7 +117,7 @@
 
     @media (max-width: 500px) {
       .tanka-text { font-size: 17px; }
-      .yomotsu-hirasaka-image { display: none !important; }
+      .image-stack { display: none !important; }
     }
   </style>
 </head>
@@ -105,7 +130,18 @@
 静けさのなかで
 心は選べるかね
     </div>
-    <img src="yomotsu_hirasaka.png" alt="Yomotsu Hirasaka" class="yomotsu-hirasaka-image" id="yomotsu-hirasaka-image">
+    <div class="image-stack">
+      <img
+        src="yomotsu_hirasaka.png"
+        alt="Yomotsu Hirasaka"
+        class="yomotsu-hirasaka-image"
+        id="yomotsu-hirasaka-image">
+      <img
+        src="photo.png"
+        alt="Photo"
+        class="overlay-photo"
+        id="overlay-photo">
+    </div>
   </div>
 
   <div class="hanko-container">
@@ -116,70 +152,63 @@
 
   <script>
     const hanko = document.getElementById('hanko');
-    const yomotsuhirasakaImage = document.getElementById('yomotsu-hirasaka-image');
+    const shrine = document.getElementById('yomotsu-hirasaka-image');
+    const overlay = document.getElementById('overlay-photo');
     let visibilityTimer;
     let lastShown = 0;
     let canReveal = false;
 
     const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-
     if (isDesktop) {
-      setTimeout(() => {
-        canReveal = true;
-      }, 3000);
+      setTimeout(() => { canReveal = true; }, 3000);
     } else {
       canReveal = true;
     }
 
-    function hideHankoIfNotHovered() {
-      if (!hanko.matches(':hover')) {
-        hanko.classList.remove('touch-visible');
-        yomotsuhirasakaImage.classList.remove('visible');
-      }
+    function hideShrineAndHanko() {
+      shrine.classList.remove('visible');
+      hanko.classList.remove('visible');
     }
 
-    function showHankoTemporarily(duration = 5000) {
+    function showShrine(duration = 5000) {
       if (!canReveal) return;
-
-      hanko.classList.add('touch-visible');
-      yomotsuhirasakaImage.classList.add('visible');
+      shrine.classList.add('visible');
+      hanko.classList.add('visible');
       clearTimeout(visibilityTimer);
-      visibilityTimer = setTimeout(() => {
-        hideHankoIfNotHovered();
-      }, duration);
+      visibilityTimer = setTimeout(hideShrineAndHanko, duration);
     }
 
+    // hover/mousemove shrine logic
     document.body.addEventListener('mousemove', () => {
-      if (!canReveal) return;
-
       const now = Date.now();
       if (now - lastShown > 1000) {
-        showHankoTemporarily(5000);
+        showShrine(5000);
         lastShown = now;
       }
     });
-
     hanko.addEventListener('mouseenter', () => {
-      if (!canReveal) return;
       clearTimeout(visibilityTimer);
-      hanko.classList.add('touch-visible');
-      yomotsuhirasakaImage.classList.add('visible');
+      shrine.classList.add('visible');
+      hanko.classList.add('visible');
     });
-
     hanko.addEventListener('mouseleave', () => {
-      if (!canReveal) return;
-      visibilityTimer = setTimeout(() => {
-        hanko.classList.remove('touch-visible');
-        yomotsuhirasakaImage.classList.remove('visible');
-      }, 400);
+      visibilityTimer = setTimeout(hideShrineAndHanko, 400);
     });
-
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
       document.body.addEventListener('touchstart', () => {
-        if (!canReveal) return;
-        showHankoTemporarily(5000);
+        showShrine(5000);
       });
     }
+
+    // overlay fade in/out on click
+    function hideOverlay() {
+      overlay.classList.remove('visible');
+    }
+    function showOverlay() {
+      overlay.classList.add('visible');
+      setTimeout(hideOverlay, 5000);
+    }
+    hanko.addEventListener('click', showOverlay);
   </script>
 </body>
 </html>
