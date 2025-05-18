@@ -147,7 +147,7 @@ choose to become still.
         englishPoem.classList.remove('visible');
       }
     }
-    function showHankoTemporarily(duration = 6000) {
+    function showHankoTemporarily(duration = 5000) {
       // Use longer fade-in.
       englishPoem.style.transition = 'opacity 5s ease';
       hanko.classList.add('touch-visible');
@@ -160,7 +160,7 @@ choose to become still.
     document.body.addEventListener('mousemove', () => {
       const now = Date.now();
       if (now - lastShown > 1000) {
-        showHankoTemporarily(6000);
+        showHankoTemporarily(5000);
         lastShown = now;
       }
     });
@@ -177,7 +177,7 @@ choose to become still.
     });
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
       document.body.addEventListener('touchstart', () => {
-        showHankoTemporarily(6000);
+        showHankoTemporarily(5000);
       });
     }
 
