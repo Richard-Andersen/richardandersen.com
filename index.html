@@ -31,8 +31,8 @@
       padding: 0 40px;
     }
 
-    .poem-text {
-      font-size: 18px;
+    .tanka-text {
+      font-size: 18µpx;
       color: #555;
       white-space: pre-wrap;
       letter-spacing: 0.02em;
@@ -40,14 +40,14 @@
       line-height: 2.0;
     }
 
-    .yomotsu-image {
+    .yomotsu-hirasaka-image {
       width: 346px; /* 266 × 1.3 */
       opacity: 0;
       transition: opacity 5s ease;
       pointer-events: none;
     }
 
-    .yomotsu-image.visible {
+    .yomotsu-hirasaka-image.visible {
       opacity: 1;
     }
 
@@ -91,21 +91,21 @@
     }
 
     @media (max-width: 500px) {
-      .poem-text { font-size: 17px; }
-      .yomotsu-image { display: none !important; }
+      .tanka-text { font-size: 17px; }
+      .yomotsu-hirasaka-image { display: none !important; }
     }
   </style>
 </head>
 <body>
   <div class="content-wrapper">
-    <div class="poem-text">
+    <div class="tanka-text">
 水切りの石は
 どこに止まるかを
 選べんけど
 静けさのなかで
 心は選べるかね
     </div>
-    <img src="yomotsu_hirasaka.png" alt="Yomotsu Hirasaka" class="yomotsu-image" id="yomotsu-image">
+    <img src="yomotsu_hirasaka.png" alt="Yomotsu Hirasaka" class="yomotsu-hirasaka-image" id="yomotsu-hirasaka-image">
   </div>
 
   <div class="hanko-container">
@@ -116,7 +116,7 @@
 
   <script>
     const hanko = document.getElementById('hanko');
-    const yomotsuImage = document.getElementById('yomotsu-image');
+    const yomotsuhirasakaImage = document.getElementById('yomotsu-hirasaka-image');
     let visibilityTimer;
     let lastShown = 0;
     let canReveal = false;
@@ -134,7 +134,7 @@
     function hideHankoIfNotHovered() {
       if (!hanko.matches(':hover')) {
         hanko.classList.remove('touch-visible');
-        yomotsuImage.classList.remove('visible');
+        yomotsuhirasakaImage.classList.remove('visible');
       }
     }
 
@@ -142,7 +142,7 @@
       if (!canReveal) return;
 
       hanko.classList.add('touch-visible');
-      yomotsuImage.classList.add('visible');
+      yomotsuhirasakaImage.classList.add('visible');
       clearTimeout(visibilityTimer);
       visibilityTimer = setTimeout(() => {
         hideHankoIfNotHovered();
@@ -163,14 +163,14 @@
       if (!canReveal) return;
       clearTimeout(visibilityTimer);
       hanko.classList.add('touch-visible');
-      yomotsuImage.classList.add('visible');
+      yomotsuhirasakaImage.classList.add('visible');
     });
 
     hanko.addEventListener('mouseleave', () => {
       if (!canReveal) return;
       visibilityTimer = setTimeout(() => {
         hanko.classList.remove('touch-visible');
-        yomotsuImage.classList.remove('visible');
+        yomotsuhirasakaImage.classList.remove('visible');
       }, 400);
     });
 
