@@ -9,28 +9,34 @@
   <style>
     body {
       margin: 0;
-      padding: 0 0 40px 0;
+      padding: 0;
       background-color: white;
       min-height: 100vh;
       width: 100vw;
       display: flex;
       align-items: center;
-      justify-content: flex-start;
+      justify-content: center;
       font-family: 'Yu Mincho', 'Hiragino Mincho ProN', 'HG明朝E', serif;
       box-sizing: border-box;
     }
 
-    .poem-wrapper {
-      margin-left: 16px;
-      display: inline-block;
-      position: relative;
+    .content-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 40px;
+      margin: 0 16px;
     }
 
     @media (min-width: 768px) {
-      .poem-wrapper { margin-left: 60px; }
+      .content-wrapper { margin-left: 60px; }
     }
     @media (min-width: 1200px) {
-      .poem-wrapper { margin-left: 100px; }
+      .content-wrapper { margin-left: 100px; }
+    }
+
+    .poem-wrapper {
+      display: inline-block;
     }
 
     .poem-text {
@@ -40,7 +46,10 @@
       letter-spacing: 0.02em;
       font-feature-settings: "liga" on, "calt" on;
     }
-    .japanese-poem { line-height: 2.0; }
+
+    .japanese-poem {
+      line-height: 2.0;
+    }
 
     .hanko-container {
       position: absolute;
@@ -50,6 +59,7 @@
       font-family: sans-serif;
       text-align: center;
     }
+
     .hanko-wrapper {
       position: relative;
       display: inline-block;
@@ -57,6 +67,7 @@
       height: 120px;
       margin-top: 8px;
     }
+
     .hanko {
       position: absolute;
       top: 0;
@@ -67,22 +78,26 @@
       transition: opacity 0.4s ease, transform 0.3s ease;
       pointer-events: auto;
     }
+
     .hanko-wrapper:hover .hanko,
-    .hanko.touch-visible { opacity: 1; }
+    .hanko.touch-visible {
+      opacity: 1;
+    }
+
     @media (hover: hover) and (pointer: fine) {
-      .hanko-wrapper:hover .hanko { transform: translateX(-50%) scale(2); }
+      .hanko-wrapper:hover .hanko {
+        transform: translateX(-50%) scale(2);
+      }
     }
 
     .yomotsu-image {
-      position: absolute;
-      top: 148px;
-      right: 50px;
       width: 266px;
       opacity: 0;
       z-index: 1;
       transition: opacity 5s ease;
       pointer-events: none;
     }
+
     .yomotsu-image.visible {
       opacity: 1;
     }
@@ -94,16 +109,19 @@
   </style>
 </head>
 <body>
-  <div class="poem-wrapper">
-    <div class="poem-text">
-      <div class="japanese-poem">
+  <div class="content-wrapper">
+    <div class="poem-wrapper">
+      <div class="poem-text">
+        <div class="japanese-poem">
 水切りの石は
 どこに止まるかを
 選べんけど
 静けさのなかで
 心は選べるかね
+        </div>
       </div>
     </div>
+    <img src="yomotsu_hirasaka.png" alt="Yomotsu Hirasaka" class="yomotsu-image" id="yomotsu-image">
   </div>
 
   <div class="hanko-container">
@@ -111,8 +129,6 @@
       <img src="hanko.png" alt="Hanko" class="hanko" id="hanko">
     </div>
   </div>
-
-  <img src="yomotsu_hirasaka.png" alt="Yomotsu Hirasaka" class="yomotsu-image" id="yomotsu-image">
 
   <script>
     const hanko = document.getElementById('hanko');
