@@ -51,7 +51,7 @@
       display: block;
     }
 
-    /* shrine image */
+    /* YH image */
     .yomotsu-hirasaka-image {
       opacity: 0;
       transition: opacity 5s ease;
@@ -152,7 +152,7 @@
 
   <script>
     const hanko = document.getElementById('hanko');
-    const shrine = document.getElementById('yomotsu-hirasaka-image');
+    const YH = document.getElementById('yomotsu-hirasaka-image');
     const overlay = document.getElementById('overlay-photo');
     let visibilityTimer;
     let lastShown = 0;
@@ -165,38 +165,38 @@
       canReveal = true;
     }
 
-    function hideShrineAndHanko() {
-      shrine.classList.remove('visible');
+    function hideYHAndHanko() {
+      YH.classList.remove('visible');
       hanko.classList.remove('visible');
     }
 
-    function showShrine(duration = 5000) {
+    function showYH(duration = 5000) {
       if (!canReveal) return;
-      shrine.classList.add('visible');
+      YH.classList.add('visible');
       hanko.classList.add('visible');
       clearTimeout(visibilityTimer);
-      visibilityTimer = setTimeout(hideShrineAndHanko, duration);
+      visibilityTimer = setTimeout(hideYHAndHanko, duration);
     }
 
-    // hover/mousemove shrine logic
+    // hover/mousemove YH logic
     document.body.addEventListener('mousemove', () => {
       const now = Date.now();
       if (now - lastShown > 1000) {
-        showShrine(5000);
+        showYH(5000);
         lastShown = now;
       }
     });
     hanko.addEventListener('mouseenter', () => {
       clearTimeout(visibilityTimer);
-      shrine.classList.add('visible');
+      YH.classList.add('visible');
       hanko.classList.add('visible');
     });
     hanko.addEventListener('mouseleave', () => {
-      visibilityTimer = setTimeout(hideShrineAndHanko, 400);
+      visibilityTimer = setTimeout(hideYHAndHanko, 400);
     });
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
       document.body.addEventListener('touchstart', () => {
-        showShrine(5000);
+        showYH(5000);
       });
     }
 
