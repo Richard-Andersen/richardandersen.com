@@ -53,7 +53,7 @@
 
     .yomotsu-hirasaka-image {
       opacity: 0;
-      transition: opacity 2s ease;
+      transition: opacity 5s ease;
       pointer-events: none;
       z-index: 1;
     }
@@ -119,11 +119,6 @@
       .hanko.touch-visible {
         transform: translateX(-50%) scale(1.5);
       }
-
-      .hanko.reset-touch-scale {
-        transform: translateX(-50%) scale(1);
-        transition: transform 0.3s ease;
-      }
     }
 
     @media (max-width: 500px) {
@@ -162,6 +157,8 @@
     let canReveal = false;
 
     const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const isMobile = window.matchMedia('(max-width: 500px)').matches;
+
     if (isDesktop) {
       setTimeout(() => { canReveal = true; }, 3000);
     } else {
@@ -199,36 +196,35 @@
       visibilityTimer = setTimeout(hideYHAndHanko, 400);
     });
 
-    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-      document.body.addEventListener('touchstart', () => {
-        showYH(5000);
-      });
-    }
-
-    function hideOverlayThenYH() {
-      overlay.classList.remove('visible');
-
-      // trigger hanko shrink right away
-      hanko.classList.remove('touch-visible');
-      hanko.classList.add('reset-touch-scale');
-
-      setTimeout(() => {
-        YH.classList.remove('visible');
-        hanko.classList.remove('visible');
-        hanko.classList.remove('reset-touch-scale');
-      }, 3000); // delay before hiding YH and hanko
-    }
-
     function showOverlay() {
-      YH.classList.add('visible');
-      hanko.classList.add('visible');
       overlay.classList.add('visible');
       hanko.classList.add('touch-visible');
 
-      setTimeout(hideOverlayThenYH, 5000);
+      setTimeout(() => {
+        overlay.classList.remove('visible');
+        hanko.classList.remove('touch-visible');
+        YH.classList.remove('visible');
+        hanko.classList.remove('visible');
+      }, 5000);
     }
 
-    hanko.addEventListener('click', showOverlay);
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+      if (isMobile) {
+        document.body.addEventListener('touchstart', () => {
+          hanko.classList.add('visible');
+          setTimeout(() => {
+            hanko.classList.remove('visible');
+          }, 3000);
+        });
+      } else {
+        document.body.addEventListener('touchstart', () => {
+          YH.classList.add('visible');
+          hanko.classList.add('visible');
+        });
+
+        hanko.addEventListener('click', showOverlay);
+      }
+    }
   </script>
 </body>
 </html>
