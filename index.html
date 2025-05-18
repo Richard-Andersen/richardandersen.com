@@ -157,6 +157,13 @@ choose to become still.
     let visibilityTimer;
     let lastShown = 0;
 
+    let canReveal = false;
+
+    // Delay any reveals for 4 seconds after page load
+    setTimeout(() => {
+      canReveal = true;
+    }, 4000);
+
     function hideHankoIfNotHovered() {
       englishPoem.style.transition = 'opacity 3s ease';
       if (!hanko.matches(':hover')) {
@@ -167,6 +174,8 @@ choose to become still.
     }
 
     function showHankoTemporarily(duration = 5000) {
+      if (!canReveal) return; // Do nothing if still in delay window
+
       englishPoem.style.transition = 'opacity 5s ease';
       hanko.classList.add('touch-visible');
       englishPoem.classList.add('visible');
@@ -178,6 +187,8 @@ choose to become still.
     }
 
     document.body.addEventListener('mousemove', () => {
+      if (!canReveal) return;
+
       const now = Date.now();
       if (now - lastShown > 1000) {
         showHankoTemporarily(5000);
@@ -186,6 +197,7 @@ choose to become still.
     });
 
     hanko.addEventListener('mouseenter', () => {
+      if (!canReveal) return;
       clearTimeout(visibilityTimer);
       hanko.classList.add('touch-visible');
       englishPoem.classList.add('visible');
@@ -193,6 +205,7 @@ choose to become still.
     });
 
     hanko.addEventListener('mouseleave', () => {
+      if (!canReveal) return;
       visibilityTimer = setTimeout(() => {
         hanko.classList.remove('touch-visible');
         englishPoem.classList.remove('visible');
@@ -202,6 +215,7 @@ choose to become still.
 
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
       document.body.addEventListener('touchstart', () => {
+        if (!canReveal) return;
         showHankoTemporarily(5000);
       });
     }
@@ -209,6 +223,7 @@ choose to become still.
     if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
       const photo = document.getElementById('photo');
       hanko.addEventListener('click', () => {
+        if (!canReveal) return;
         photo.classList.add('visible');
         setTimeout(() => photo.classList.remove('visible'), 5000);
       });
