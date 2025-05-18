@@ -18,21 +18,21 @@
 
     body {
       display: flex;
-      align-items: center;       /* vertical centering */
-      justify-content: center;   /* horizontal centering of container */
+      align-items: center;
+      justify-content: center;
     }
 
     .content-wrapper {
       display: flex;
-      align-items: center;            /* vertical alignment */
-      justify-content: space-between; /* poem left, image-stack right */
+      align-items: center;
+      justify-content: space-between;
       width: 100%;
       max-width: 1200px;
       padding: 0 40px;
     }
 
     .tanka-text {
-      font-size: 18µpx;
+      font-size: 18px;
       color: #555;
       white-space: pre-wrap;
       letter-spacing: 0.02em;
@@ -42,7 +42,7 @@
 
     .image-stack {
       position: relative;
-      width: 346px; /* shared display width */
+      width: 346px;
     }
 
     .image-stack img {
@@ -51,18 +51,17 @@
       display: block;
     }
 
-    /* YH image */
     .yomotsu-hirasaka-image {
       opacity: 0;
       transition: opacity 5s ease;
       pointer-events: none;
       z-index: 1;
     }
+
     .yomotsu-hirasaka-image.visible {
       opacity: 1;
     }
 
-    /* your photo overlay */
     .overlay-photo {
       position: absolute;
       top: 0;
@@ -72,6 +71,7 @@
       pointer-events: none;
       z-index: 2;
     }
+
     .overlay-photo.visible {
       opacity: 1;
     }
@@ -102,16 +102,53 @@
       opacity: 0;
       transition: opacity 0.4s ease, transform 0.3s ease;
       pointer-events: auto;
+      z-index: 1;
     }
+
     .hanko.visible,
     .hanko-wrapper:hover .hanko,
     .hanko.touch-visible {
       opacity: 1;
     }
 
-    @media (hover: hover) and (pointer: fine) {
-      .hanko-wrapper:hover .hanko {
-        transform: translateX(-50%) scale(2);
+    @media (hover: none) and (pointer: coarse) {
+      .hanko.touch-visible {
+        transform: translateX(-50%) scale(1.5);
+        transition: transform 0.4s ease, opacity 0.3s ease;
+      }
+
+      .hanko-wrapper .hanko-pulse-ring {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 80px;
+        height: 80px;
+        background-color: rgba(0, 0, 0, 0.1);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        pointer-events: none;
+        animation: pulse-ring 2s infinite;
+        z-index: 0;
+      }
+
+      .hanko.visible + .hanko-pulse-ring {
+        opacity: 1;
+      }
+    }
+
+    @keyframes pulse-ring {
+      0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.3;
+      }
+      50% {
+        transform: translate(-50%, -50%) scale(1.4);
+        opacity: 0.05;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.3;
       }
     }
 
@@ -131,22 +168,15 @@
 心は選べるかね
     </div>
     <div class="image-stack">
-      <img
-        src="yomotsu_hirasaka.png"
-        alt="Yomotsu Hirasaka"
-        class="yomotsu-hirasaka-image"
-        id="yomotsu-hirasaka-image">
-      <img
-        src="photo.png"
-        alt="Photo"
-        class="overlay-photo"
-        id="overlay-photo">
+      <img src="yomotsu_hirasaka.png" alt="Yomotsu Hirasaka" class="yomotsu-hirasaka-image" id="yomotsu-hirasaka-image">
+      <img src="photo.png" alt="Photo" class="overlay-photo" id="overlay-photo">
     </div>
   </div>
 
   <div class="hanko-container">
     <div class="hanko-wrapper">
       <img src="hanko.png" alt="Hanko" class="hanko" id="hanko">
+      <div class="hanko-pulse-ring" id="hanko-pulse-ring"></div>
     </div>
   </div>
 
@@ -178,7 +208,6 @@
       visibilityTimer = setTimeout(hideYHAndHanko, duration);
     }
 
-    // hover/mousemove YH logic
     document.body.addEventListener('mousemove', () => {
       const now = Date.now();
       if (now - lastShown > 1000) {
@@ -186,28 +215,32 @@
         lastShown = now;
       }
     });
+
     hanko.addEventListener('mouseenter', () => {
       clearTimeout(visibilityTimer);
       YH.classList.add('visible');
       hanko.classList.add('visible');
     });
+
     hanko.addEventListener('mouseleave', () => {
       visibilityTimer = setTimeout(hideYHAndHanko, 400);
     });
+
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
       document.body.addEventListener('touchstart', () => {
         showYH(5000);
       });
     }
 
-    // overlay fade in/out on click
     function hideOverlay() {
       overlay.classList.remove('visible');
     }
+
     function showOverlay() {
       overlay.classList.add('visible');
       setTimeout(hideOverlay, 5000);
     }
+
     hanko.addEventListener('click', showOverlay);
   </script>
 </body>
