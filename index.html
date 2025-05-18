@@ -53,7 +53,7 @@
 
     .yomotsu-hirasaka-image {
       opacity: 0;
-      transition: opacity 5s ease;
+      transition: opacity 2s ease;
       pointer-events: none;
       z-index: 1;
     }
@@ -97,7 +97,7 @@
       position: absolute;
       top: 0;
       left: 50%;
-      transform: translateX(-50%);
+      transform: translateX(-50%) scale(1);
       width: 60px;
       opacity: 0;
       transition: opacity 0.4s ease, transform 0.3s ease;
@@ -118,7 +118,6 @@
     @media (hover: none) and (pointer: coarse) {
       .hanko.touch-visible {
         transform: translateX(-50%) scale(1.5);
-        transition: transform 0.4s ease, opacity 0.3s ease;
       }
 
       .hanko.reset-touch-scale {
@@ -208,19 +207,25 @@
     function hideOverlayThenYH() {
       overlay.classList.remove('visible');
       hanko.classList.remove('touch-visible');
+
+      // reset hanko scale after photo fades out
       hanko.classList.add('reset-touch-scale');
 
       setTimeout(() => {
         hanko.classList.remove('reset-touch-scale');
         YH.classList.remove('visible');
         hanko.classList.remove('visible');
-      }, 3000); // delay after photo fades out
+      }, 3000); // delay before hiding YH & hanko
     }
 
     function showOverlay() {
+      // re-show YH and hanko if they were hidden
+      YH.classList.add('visible');
+      hanko.classList.add('visible');
       overlay.classList.add('visible');
       hanko.classList.add('touch-visible');
-      setTimeout(hideOverlayThenYH, 5000); // photo stays visible for 5s
+
+      setTimeout(hideOverlayThenYH, 5000); // photo fades after 5s
     }
 
     hanko.addEventListener('click', showOverlay);
