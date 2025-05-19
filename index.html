@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Author: Richard Andersen -->
+<!-- Author: Richard Andersen 2025 -->
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
@@ -212,11 +212,15 @@
 
       overlay.classList.add('visible');
       clearTimeout(visibilityTimer);
+      // After 5s of showing photo, fade it out
       setTimeout(() => {
         overlay.classList.remove('visible');
-        // After photo fades out, re-enable YH reveal on next interaction
-        canReveal = true;
+        // Then wait 2s of blank before re-enabling mousemove reveal
+        setTimeout(() => {
+          canReveal = true;
+        }, 2000);
       }, 5000);
+    }, 5000);
     }
 
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
