@@ -127,7 +127,12 @@
       .image-stack { display: none !important; }
       .overlay-photo { display: none !important; }
     }
-  </style>
+  @media (min-width: 768px) and (max-width: 1024px) {
+  .tanka-text {
+    font-size: 20px;
+  }
+}
+</style>
 </head>
 <body>
   <div class="content-wrapper">
@@ -220,7 +225,7 @@
           hanko.classList.add('visible');
           setTimeout(() => {
             hanko.classList.remove('visible');
-          }, 3000);
+          }, 5000);
         });
       } else {
         document.body.addEventListener('touchstart', () => {
