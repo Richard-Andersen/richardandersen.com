@@ -200,17 +200,17 @@
     });
 
     function showOverlay() {
+      // Hide the YH background so only the photo appears
+      YH.classList.remove('visible');
+
       overlay.classList.add('visible');
       setTimeout(() => {
         overlay.classList.remove('visible');
-        if (!isDesktop) {
-          YH.classList.remove('visible');
-          hanko.classList.remove('visible');
-        }
+        // After photo fades, leave page in poem-only state
       }, 5000);
     }
 
-    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
       if (isMobile) {
         document.body.addEventListener('touchstart', () => {
           hanko.classList.add('visible');
