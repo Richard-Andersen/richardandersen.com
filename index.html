@@ -100,13 +100,19 @@
       transform: translateX(-50%) scale(1);
       width: 60px;
       opacity: 0;
-      transition: opacity 0.4s ease;
+      transition: opacity 0.4s ease, transform 0.3s ease;
       pointer-events: auto;
       z-index: 1;
     }
 
     .hanko.visible {
       opacity: 1;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .hanko-wrapper:hover .hanko {
+        transform: translateX(-50%) scale(2);
+      }
     }
 
     @media (hover: none) and (pointer: coarse) {
@@ -161,8 +167,10 @@
     }
 
     function hideYHAndHanko() {
-      YH.classList.remove('visible');
-      hanko.classList.remove('visible');
+      if (!hanko.matches(':hover')) {
+        YH.classList.remove('visible');
+        hanko.classList.remove('visible');
+      }
     }
 
     function showYH(duration = 5000) {
@@ -195,8 +203,10 @@
       overlay.classList.add('visible');
       setTimeout(() => {
         overlay.classList.remove('visible');
-        YH.classList.remove('visible');
-        hanko.classList.remove('visible');
+        if (!isDesktop) {
+          YH.classList.remove('visible');
+          hanko.classList.remove('visible');
+        }
       }, 5000);
     }
 
