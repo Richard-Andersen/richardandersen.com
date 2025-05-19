@@ -115,6 +115,10 @@
       transform: translateX(-50%) scale(2);
     }
 
+    .hanko.reset-touch-scale {
+      transform: translateX(-50%) scale(1) !important;
+    }
+
     @media (hover: none) and (pointer: coarse) {
       .hanko.touch-visible {
         transform: translateX(-50%) scale(1.5);
@@ -203,8 +207,14 @@
       setTimeout(() => {
         overlay.classList.remove('visible');
         hanko.classList.remove('touch-visible');
-        YH.classList.remove('visible');
-        hanko.classList.remove('visible');
+        hanko.classList.add('reset-touch-scale');
+
+        setTimeout(() => {
+          hanko.classList.remove('reset-touch-scale');
+          YH.classList.remove('visible');
+          hanko.classList.remove('visible');
+        }, 500); // allow scale-down before hide
+
       }, 5000);
     }
 
@@ -224,6 +234,8 @@
 
         hanko.addEventListener('click', showOverlay);
       }
+    } else {
+      hanko.addEventListener('click', showOverlay);
     }
   </script>
 </body>
