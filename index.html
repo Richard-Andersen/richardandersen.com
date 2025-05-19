@@ -100,34 +100,25 @@
       transform: translateX(-50%) scale(1);
       width: 60px;
       opacity: 0;
-      transition: opacity 0.4s ease, transform 0.3s ease;
+      transition: opacity 0.4s ease;
       pointer-events: auto;
       z-index: 1;
     }
 
-    .hanko.visible,
-    .hanko-wrapper:hover .hanko,
-    .hanko.touch-visible {
+    .hanko.visible {
       opacity: 1;
-    }
-
-    .hanko-wrapper:hover .hanko {
-      transform: translateX(-50%) scale(2);
-    }
-
-    .hanko.reset-touch-scale {
-      transform: translateX(-50%) scale(1) !important;
     }
 
     @media (hover: none) and (pointer: coarse) {
       .hanko.touch-visible {
-        transform: translateX(-50%) scale(1.5);
+        opacity: 1;
       }
     }
 
     @media (max-width: 500px) {
       .tanka-text { font-size: 17px; }
       .image-stack { display: none !important; }
+      .overlay-photo { display: none !important; }
     }
   </style>
 </head>
@@ -202,19 +193,10 @@
 
     function showOverlay() {
       overlay.classList.add('visible');
-      hanko.classList.add('touch-visible');
-
       setTimeout(() => {
         overlay.classList.remove('visible');
-        hanko.classList.remove('touch-visible');
-        hanko.classList.add('reset-touch-scale');
-
-        setTimeout(() => {
-          hanko.classList.remove('reset-touch-scale');
-          hanko.classList.remove('visible');
-          YH.classList.remove('visible');
-        }, 500); // allow scale-down before hiding
-
+        YH.classList.remove('visible');
+        hanko.classList.remove('visible');
       }, 5000);
     }
 
@@ -231,7 +213,6 @@
           YH.classList.add('visible');
           hanko.classList.add('visible');
         });
-
         hanko.addEventListener('click', showOverlay);
       }
     } else {
