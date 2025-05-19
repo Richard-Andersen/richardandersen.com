@@ -212,15 +212,11 @@
 
       overlay.classList.add('visible');
       clearTimeout(visibilityTimer);
-      // After 5s of showing photo, fade it out
       setTimeout(() => {
         overlay.classList.remove('visible');
-        // Then wait 2s of blank before re-enabling mousemove reveal
-        setTimeout(() => {
-          canReveal = true;
-        }, 2000);
+        // After photo fades out, re-enable YH reveal on next interaction
+        canReveal = true;
       }, 5000);
-    }, 5000);
     }
 
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
