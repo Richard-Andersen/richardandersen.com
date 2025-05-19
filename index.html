@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Richard Andersen">
-  <title>Iya</title>
+  <title>Iya | 伊野町</title>
   <style>
     html, body {
       margin: 0;
@@ -62,20 +62,6 @@
       opacity: 1;
     }
 
-    .overlay-photo {
-      position: absolute;
-      top: 0;
-      left: 0;
-      opacity: 0;
-      transition: opacity 5s ease;
-      pointer-events: auto;
-      z-index: 2;
-    }
-
-    .overlay-photo.visible {
-      opacity: 1;
-    }
-
     .hanko-container {
       position: absolute;
       top: 20px;
@@ -124,20 +110,18 @@
     @media (max-width: 500px) {
       .tanka-text { font-size: 17px; }
       .image-stack { display: none !important; }
-      .overlay-photo { display: none !important; }
     }
   </style>
 </head>
 <body>
   <div class="content-wrapper">
     <div class="tanka-text">
-秋ん宵
-遠うに残っちょる
-花火ん匂い
+      秋ん宵
+      遠うに残っちょる
+      花火ん匂い
     </div>
     <div class="image-stack">
       <img src="yomotsu_hirasaka.png" alt="Yomotsu Hirasaka" class="yomotsu-hirasaka-image" id="yomotsu-hirasaka-image">
-      <img src="photo.png" alt="Photo" class="overlay-photo" id="overlay-photo">
     </div>
   </div>
 
@@ -150,7 +134,6 @@
   <script>
     const hanko = document.getElementById('hanko');
     const YH = document.getElementById('yomotsu-hirasaka-image');
-    const overlay = document.getElementById('overlay-photo');
     let visibilityTimer;
     let lastShown = 0;
     let canReveal = false;
@@ -197,17 +180,6 @@
       visibilityTimer = setTimeout(hideYHAndHanko, 400);
     });
 
-    function showOverlay() {
-      overlay.classList.add('visible');
-      setTimeout(() => {
-        overlay.classList.remove('visible');
-        if (!isDesktop) {
-          YH.classList.remove('visible');
-          hanko.classList.remove('visible');
-        }
-      }, 5000);
-    }
-
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
       if (isMobile) {
         document.body.addEventListener('touchstart', () => {
@@ -221,10 +193,7 @@
           YH.classList.add('visible');
           hanko.classList.add('visible');
         });
-        hanko.addEventListener('click', showOverlay);
       }
-    } else {
-      hanko.addEventListener('click', showOverlay);
     }
   </script>
 </body>
