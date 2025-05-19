@@ -200,13 +200,17 @@
     });
 
     function showOverlay() {
-      // Hide the YH background so only the photo appears
+      // Hide the YH background and hanko so only the photo appears
       YH.classList.remove('visible');
+      hanko.classList.remove('visible');
+      canReveal = false;
 
       overlay.classList.add('visible');
+      clearTimeout(visibilityTimer);
       setTimeout(() => {
         overlay.classList.remove('visible');
-        // After photo fades, leave page in poem-only state
+        // After photo fades out, re-enable YH reveal on next interaction
+        canReveal = true;
       }, 5000);
     }
 
