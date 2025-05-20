@@ -122,8 +122,11 @@
       }
     }
 
-    @media (max-width: 600px) {
+    @media screen and (max-device-width: 428px) and (hover: none) and (pointer: coarse) {
       .tanka-text { font-size: 17px; }
+      .image-stack { display: none !important; }
+      .overlay-photo { display: none !important; }
+    }
       .image-stack { display: none !important; }
       .overlay-photo { display: none !important; }
     }
@@ -163,7 +166,7 @@
     let canReveal = false;
 
     const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-    const isMobile = window.matchMedia('(max-width: 600px)').matches;
+    const isMobile = window.matchMedia('(max-device-width: 428px) and (hover: none) and (pointer: coarse)').matches;
 
     if (isDesktop) {
       setTimeout(() => { canReveal = true; }, 2000);
