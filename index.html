@@ -124,14 +124,6 @@
 
     @media (max-width: 500px) {
       .tanka-text { font-size: 17px; }
-      .image-stack {
-        width: calc(346px * 0.75);
-      }
-      .image-stack img {
-        width: 100%;
-        height: auto;
-      }
-    }
       .image-stack { display: none !important; }
       .overlay-photo { display: none !important; }
     }
@@ -173,7 +165,6 @@
     const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     const isMobile = window.matchMedia('(max-width: 500px)').matches;
 
-    // Initial reveal delay on desktop
     if (isDesktop) {
       setTimeout(() => { canReveal = true; }, 2000);
     } else {
@@ -195,7 +186,6 @@
       visibilityTimer = setTimeout(hideYHAndHanko, duration);
     }
 
-    // Mousemove on desktop triggers reveal
     document.body.addEventListener('mousemove', () => {
       const now = Date.now();
       if (now - lastShown > 1000) {
@@ -204,61 +194,47 @@
       }
     });
 
-    // Hover on desktop keeps reveal
     hanko.addEventListener('mouseenter', () => {
       clearTimeout(visibilityTimer);
       YH.classList.add('visible');
       hanko.classList.add('visible');
     });
+
     hanko.addEventListener('mouseleave', () => {
       visibilityTimer = setTimeout(hideYHAndHanko, 400);
     });
 
-    // Click/tap for overlay photo
     function showOverlay() {
-      // Hide YH and hanko for photo-only
+      // Hide the YH background and hanko so only the photo appears
       YH.classList.remove('visible');
       hanko.classList.remove('visible');
       canReveal = false;
 
-      clearTimeout(visibilityTimer);
       overlay.classList.add('visible');
-      // Photo visible for 5s, then fade out
+      clearTimeout(visibilityTimer);
       setTimeout(() => {
         overlay.classList.remove('visible');
-        // 2s blank before re-enabling reveal
-        setTimeout(() => {
-          canReveal = true;
-          lastShown = 0;
-        }, 2000);
+        // After photo fades out, re-enable YH reveal on next interaction
+        canReveal = true;
       }, 5000);
     }
 
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
       if (isMobile) {
-        // iPhone: show only hanko for 5s on tap
         document.body.addEventListener('touchstart', () => {
-          clearTimeout(visibilityTimer);
           hanko.classList.add('visible');
-          visibilityTimer = setTimeout(() => {
+          setTimeout(() => {
             hanko.classList.remove('visible');
           }, 5000);
         });
       } else {
-        // iPad/tablet: show YH+hanko for 5s on tap
         document.body.addEventListener('touchstart', () => {
-          clearTimeout(visibilityTimer);
           YH.classList.add('visible');
           hanko.classList.add('visible');
-          visibilityTimer = setTimeout(() => {
-            YH.classList.remove('visible');
-            hanko.classList.remove('visible');
-          }, 5000);
         });
         hanko.addEventListener('click', showOverlay);
       }
     } else {
-      // Desktop click
       hanko.addEventListener('click', showOverlay);
     }
   </script>
