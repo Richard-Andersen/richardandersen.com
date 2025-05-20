@@ -40,7 +40,7 @@
       line-height: 2.0;
     }
 
-    .haiku-translation {
+    .haiku-english {
       font-size: 16px;
       color: #666;
       white-space: pre-wrap;
@@ -49,7 +49,7 @@
       transition: opacity 5s ease;
       margin-top: 16px;
     }
-    .haiku-translation.visible {
+    .haiku-english.visible {
       opacity: 1;
     }
 
@@ -140,7 +140,7 @@
       .haiku-text { font-size: 17px; }
       .image-stack { display: none !important; }
       .overlay-photo { display: none !important; }
-      .haiku-translation { display: none !important; }
+      .haiku-english { display: none !important; }
     }
 
     @media (min-width: 768px) and (max-width: 1024px) {
@@ -156,7 +156,7 @@
         お盆の花火<br>
         残り香じゃ
       </div>
-      <div class="haiku-translation" id="haiku-translation">
+      <div class="haiku-english" id="haiku-english">
         On cool autumn nights,<br>
         Obon hanabi lingers<br>
         in my memory.
@@ -179,7 +179,7 @@
     const hanko = document.getElementById('hanko');
     const YH = document.getElementById('yomotsu-hirasaka-image');
     const overlay = document.getElementById('overlay-photo');
-    const translation = document.getElementById('haiku-translation');
+    const english = document.getElementById('haiku-english');
     let visibilityTimer;
     let lastShown = 0;
     let canReveal = false;
@@ -196,7 +196,7 @@
     function hideYHAndHanko() {
       if (!hanko.matches(':hover')) {
         YH.classList.remove('visible');
-        translation.classList.remove('visible');
+        english.classList.remove('visible');
         hanko.classList.remove('visible');
       }
     }
@@ -204,7 +204,7 @@
     function showYH(duration = 5000) {
       if (!canReveal) return;
       YH.classList.add('visible');
-      translation.classList.add('visible');
+      english.classList.add('visible');
       hanko.classList.add('visible');
       clearTimeout(visibilityTimer);
       visibilityTimer = setTimeout(hideYHAndHanko, duration);
@@ -218,7 +218,7 @@
 
     hanko.addEventListener('mouseenter', () => {
       clearTimeout(visibilityTimer);
-      YH.classList.add('visible'); translation.classList.add('visible'); hanko.classList.add('visible');
+      YH.classList.add('visible'); english.classList.add('visible'); hanko.classList.add('visible');
     });
 
     hanko.addEventListener('mouseleave', () => {
@@ -227,7 +227,7 @@
 
     function showOverlay() {
       // Hide background and seal
-      YH.classList.remove('visible'); translation.classList.remove('visible'); hanko.classList.remove('visible'); canReveal = false;
+      YH.classList.remove('visible'); english.classList.remove('visible'); hanko.classList.remove('visible'); canReveal = false;
       overlay.classList.add('visible'); clearTimeout(visibilityTimer);
       setTimeout(() => {
         overlay.classList.remove('visible');
@@ -245,7 +245,7 @@
       } else {
         // iPad/tablet: as before
         document.body.addEventListener('touchstart', () => {
-          YH.classList.add('visible'); translation.classList.add('visible'); hanko.classList.add('visible');
+          YH.classList.add('visible'); english.classList.add('visible'); hanko.classList.add('visible');
         });
         hanko.addEventListener('click', showOverlay);
       }
