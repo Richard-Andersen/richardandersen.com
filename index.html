@@ -122,17 +122,17 @@
       }
     }
 
-    @media (max-width: 600px) {
+    /* iPhone-only: hide images for any device-width up to 428px */
+    @media screen and (max-device-width: 428px) and (pointer: coarse) {
       .tanka-text { font-size: 17px; }
       .image-stack { display: none !important; }
       .overlay-photo { display: none !important; }
     }
-  @media (min-width: 768px) and (max-width: 1024px) {
-  .tanka-text {
-    font-size: 20px;
-  }
-}
-</style>
+
+    @media (min-width: 768px) and (max-width: 1024px) {
+      .tanka-text { font-size: 20px; }
+    }
+  </style>
 </head>
 <body>
   <div class="content-wrapper">
@@ -143,7 +143,7 @@
     </div>
     <div class="image-stack">
       <img src="yomotsu_hirasaka.png" alt="Yomotsu Hirasaka" class="yomotsu-hirasaka-image" id="yomotsu-hirasaka-image">
-      <!-- Photo “Yomotsu Hirasaka” by ChiefHira, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0/) -->
+      <!-- Photo “Yomotsu Hirasaka” by ChiefHira, CC BY-SA 3.0 -->
       <img src="photo.png" alt="Photo" class="overlay-photo" id="overlay-photo">
     </div>
   </div>
@@ -163,7 +163,7 @@
     let canReveal = false;
 
     const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-    const isMobile = window.matchMedia('(max-width: 600px)').matches;
+    const isMobile = window.matchMedia('(max-device-width: 428px) and (pointer: coarse)').matches;
 
     if (isDesktop) {
       setTimeout(() => { canReveal = true; }, 2000);
@@ -187,17 +187,14 @@
     }
 
     document.body.addEventListener('mousemove', () => {
-      const now = Date.now();
-      if (now - lastShown > 1000) {
-        showYH(5000);
-        lastShown = now;
+      const now = Date.now(); if (now - lastShown > 1000) {
+        showYH(5000); lastShown = now;
       }
     });
 
     hanko.addEventListener('mouseenter', () => {
       clearTimeout(visibilityTimer);
-      YH.classList.add('visible');
-      hanko.classList.add('visible');
+      YH.classList.add('visible'); hanko.classList.add('visible');
     });
 
     hanko.addEventListener('mouseleave', () => {
@@ -205,36 +202,31 @@
     });
 
     function showOverlay() {
-      // Hide the YH background and hanko so only the photo appears
-      YH.classList.remove('visible');
-      hanko.classList.remove('visible');
-      canReveal = false;
-
-      overlay.classList.add('visible');
-      clearTimeout(visibilityTimer);
+      // Hide background and seal
+      YH.classList.remove('visible'); hanko.classList.remove('visible'); canReveal = false;
+      overlay.classList.add('visible'); clearTimeout(visibilityTimer);
       setTimeout(() => {
         overlay.classList.remove('visible');
-        // After photo fades out, re-enable YH reveal on next interaction
         canReveal = true;
       }, 5000);
     }
 
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
       if (isMobile) {
+        // iPhone: tap anywhere shows seal for 5s, seal itself not interactive
         document.body.addEventListener('touchstart', () => {
           hanko.classList.add('visible');
-          setTimeout(() => {
-            hanko.classList.remove('visible');
-          }, 5000);
+          setTimeout(() => { hanko.classList.remove('visible'); }, 5000);
         });
       } else {
+        // iPad/tablet: as before
         document.body.addEventListener('touchstart', () => {
-          YH.classList.add('visible');
-          hanko.classList.add('visible');
+          YH.classList.add('visible'); hanko.classList.add('visible');
         });
         hanko.addEventListener('click', showOverlay);
       }
     } else {
+      // desktop photo overlay
       hanko.addEventListener('click', showOverlay);
     }
   </script>
