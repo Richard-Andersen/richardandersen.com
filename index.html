@@ -122,7 +122,7 @@
       }
     }
 
-    @media (max-width: 500px) {
+    @media (max-width: 600px) {
       .tanka-text { font-size: 17px; }
       .image-stack { display: none !important; }
       .overlay-photo { display: none !important; }
@@ -163,7 +163,7 @@
     let canReveal = false;
 
     const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-    const isMobile = window.matchMedia('(max-width: 500px)').matches;
+    const isMobile = window.matchMedia('(max-width: 600px)').matches;
 
     if (isDesktop) {
       setTimeout(() => { canReveal = true; }, 2000);
