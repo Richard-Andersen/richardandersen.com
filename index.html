@@ -40,6 +40,19 @@
       line-height: 2.0;
     }
 
+    .tanka-translation {
+      font-size: 16px;
+      color: #666;
+      white-space: pre-wrap;
+      line-height: 1.2;
+      opacity: 0;
+      transition: opacity 5s ease;
+      margin-top: 16px;
+    }
+    .tanka-translation.visible {
+      opacity: 1;
+    }
+
     .image-stack {
       position: relative;
       width: 346px;
@@ -122,11 +135,12 @@
       }
     }
 
-    /* Reduced version for very small screens such as iPhone: hide images for any device-width up to 428px */
+    /* iPhone-only: hide images for any device-width up to 428px */
     @media screen and (max-device-width: 428px) and (pointer: coarse) {
       .tanka-text { font-size: 17px; }
       .image-stack { display: none !important; }
       .overlay-photo { display: none !important; }
+      .tanka-translation { display: none !important; }
     }
 
     @media (min-width: 768px) and (max-width: 1024px) {
@@ -136,14 +150,21 @@
 </head>
 <body>
   <div class="content-wrapper">
-    <div class="tanka-text">
-      秋ん宵
-      残る花火ん
-      残り香じゃ
+    <div>
+      <div class="tanka-text">
+        秋ん宵<br>
+        残る花火ん<br>
+        残り香じゃ
+      </div>
+      <div class="tanka-translation" id="tanka-translation">
+        Sometimes on autumn evenings<br>
+        just at the tip of my mind<br>
+        I think I smell hanabi.
+      </div>
     </div>
     <div class="image-stack">
       <img src="yomotsu_hirasaka.png" alt="Yomotsu Hirasaka" class="yomotsu-hirasaka-image" id="yomotsu-hirasaka-image">
-      <!-- Derivative work. Original photo: “Yomotsu Hirasaka” by ChiefHira, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0/) -->
+      <!-- Derived work. Photo: “Yomotsu Hirasaka” by ChiefHira, CC BY-SA 3.0 -->
       <img src="photo.png" alt="Photo" class="overlay-photo" id="overlay-photo">
     </div>
   </div>
@@ -158,6 +179,7 @@
     const hanko = document.getElementById('hanko');
     const YH = document.getElementById('yomotsu-hirasaka-image');
     const overlay = document.getElementById('overlay-photo');
+    const translation = document.getElementById('tanka-translation');
     let visibilityTimer;
     let lastShown = 0;
     let canReveal = false;
@@ -174,6 +196,7 @@
     function hideYHAndHanko() {
       if (!hanko.matches(':hover')) {
         YH.classList.remove('visible');
+        translation.classList.remove('visible');
         hanko.classList.remove('visible');
       }
     }
@@ -181,6 +204,7 @@
     function showYH(duration = 5000) {
       if (!canReveal) return;
       YH.classList.add('visible');
+      translation.classList.add('visible');
       hanko.classList.add('visible');
       clearTimeout(visibilityTimer);
       visibilityTimer = setTimeout(hideYHAndHanko, duration);
@@ -194,7 +218,7 @@
 
     hanko.addEventListener('mouseenter', () => {
       clearTimeout(visibilityTimer);
-      YH.classList.add('visible'); hanko.classList.add('visible');
+      YH.classList.add('visible'); translation.classList.add('visible'); hanko.classList.add('visible');
     });
 
     hanko.addEventListener('mouseleave', () => {
@@ -203,7 +227,7 @@
 
     function showOverlay() {
       // Hide background and seal
-      YH.classList.remove('visible'); hanko.classList.remove('visible'); canReveal = false;
+      YH.classList.remove('visible'); translation.classList.remove('visible'); hanko.classList.remove('visible'); canReveal = false;
       overlay.classList.add('visible'); clearTimeout(visibilityTimer);
       setTimeout(() => {
         overlay.classList.remove('visible');
@@ -221,7 +245,7 @@
       } else {
         // iPad/tablet: as before
         document.body.addEventListener('touchstart', () => {
-          YH.classList.add('visible'); hanko.classList.add('visible');
+          YH.classList.add('visible'); translation.classList.add('visible'); hanko.classList.add('visible');
         });
         hanko.addEventListener('click', showOverlay);
       }
