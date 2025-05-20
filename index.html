@@ -32,7 +32,7 @@
     }
 
     .tanka-text {
-      font-size: 20px;
+      font-size: 18px;
       color: #555;
       white-space: pre-wrap;
       letter-spacing: 0.02em;
@@ -124,6 +124,14 @@
 
     @media (max-width: 500px) {
       .tanka-text { font-size: 17px; }
+      .image-stack {
+        width: calc(346px * 0.75);
+      }
+      .image-stack img {
+        width: 100%;
+        height: auto;
+      }
+    }
       .image-stack { display: none !important; }
       .overlay-photo { display: none !important; }
     }
