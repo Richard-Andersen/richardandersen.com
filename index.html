@@ -122,7 +122,7 @@
       }
     }
 
-    @media screen and (max-device-width: 428px) and (hover: none) and (pointer: coarse) {
+    @media (max-width: 812px) and (pointer: coarse) and (hover: none) {
       .tanka-text { font-size: 17px; }
       .image-stack { display: none !important; }
       .overlay-photo { display: none !important; }
@@ -130,12 +130,13 @@
       .image-stack { display: none !important; }
       .overlay-photo { display: none !important; }
     }
-  @media (min-width: 768px) and (max-width: 1024px) {
-  .tanka-text {
-    font-size: 20px;
-  }
-}
-</style>
+
+    @media (min-width: 768px) and (max-width: 1024px) {
+      .tanka-text {
+        font-size: 20px;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="content-wrapper">
@@ -222,24 +223,4 @@
       }, 5000);
     }
 
-    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-      if (isMobile) {
-        document.body.addEventListener('touchstart', () => {
-          hanko.classList.add('visible');
-          setTimeout(() => {
-            hanko.classList.remove('visible');
-          }, 5000);
-        });
-      } else {
-        document.body.addEventListener('touchstart', () => {
-          YH.classList.add('visible');
-          hanko.classList.add('visible');
-        });
-        hanko.addEventListener('click', showOverlay);
-      }
-    } else {
-      hanko.addEventListener('click', showOverlay);
-    }
-  </script>
-</body>
-</html>
+    if ('ontouchstart' in window || const isMobile = window.matchMedia('(max-width: 812px) and (pointer: coarse) and (hover: none)').matches;
