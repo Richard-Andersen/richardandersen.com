@@ -15,13 +15,11 @@
       font-family: 'Yu Mincho', 'Hiragino Mincho ProN', 'HG明朝E', serif;
       box-sizing: border-box;
     }
-
     body {
       display: flex;
       align-items: center;
       justify-content: center;
     }
-
     .content-wrapper {
       display: flex;
       align-items: center;
@@ -30,7 +28,6 @@
       max-width: 1200px;
       padding: 0 40px;
     }
-
     .tanka-text {
       font-size: 18px;
       color: #555;
@@ -39,29 +36,24 @@
       font-feature-settings: "liga" on, "calt" on;
       line-height: 2.0;
     }
-
     .image-stack {
       position: relative;
       width: 346px;
     }
-
     .image-stack img {
       width: 100%;
       height: auto;
       display: block;
     }
-
     .yomotsu-hirasaka-image {
       opacity: 0;
       transition: opacity 5s ease;
       pointer-events: none;
       z-index: 1;
     }
-
     .yomotsu-hirasaka-image.visible {
       opacity: 1;
     }
-
     .overlay-photo {
       position: absolute;
       top: 0;
@@ -72,11 +64,9 @@
       z-index: 2;
       border-radius: 12px;
     }
-
     .overlay-photo.visible {
       opacity: 1;
     }
-
     .hanko-container {
       position: absolute;
       top: 20px;
@@ -85,7 +75,6 @@
       font-family: sans-serif;
       text-align: center;
     }
-
     .hanko-wrapper {
       position: relative;
       display: inline-block;
@@ -93,7 +82,6 @@
       height: 120px;
       margin-top: 8px;
     }
-
     .hanko {
       position: absolute;
       top: 0;
@@ -105,34 +93,46 @@
       pointer-events: auto;
       z-index: 1;
     }
-
     .hanko.visible {
       opacity: 1;
     }
-
     @media (hover: hover) and (pointer: fine) {
       .hanko-wrapper:hover .hanko {
         transform: translateX(-50%) scale(2);
       }
     }
-
     @media (hover: none) and (pointer: coarse) {
       .hanko.touch-visible {
         opacity: 1;
       }
     }
-
-    @media (max-width: 500px) {
-      .tanka-text { font-size: 17px; }
-      .image-stack { display: none !important; }
-      .overlay-photo { display: none !important; }
+    /* iPhone portrait: poem + hanko only */
+    @media (orientation: portrait) and (max-width: 500px) {
+      .yomotsu-hirasaka-image,
+      .overlay-photo {
+        display: none !important;
+      }
+      .hanko {
+        display: block !important;
+      }
     }
-  @media (min-width: 768px) and (max-width: 1024px) {
-  .tanka-text {
-    font-size: 20px;
-  }
-}
-</style>
+    /* iPhone landscape: poem + YH image only */
+    @media (orientation: landscape) and (max-width: 500px) {
+      .yomotsu-hirasaka-image {
+        display: block !important;
+      }
+      .hanko,
+      .overlay-photo {
+        display: none !important;
+      }
+    }
+    /* iPad text size bump */
+    @media (min-width: 768px) and (max-width: 1024px) {
+      .tanka-text {
+        font-size: 20px;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="content-wrapper">
@@ -143,17 +143,15 @@
     </div>
     <div class="image-stack">
       <img src="yomotsu_hirasaka.png" alt="Yomotsu Hirasaka" class="yomotsu-hirasaka-image" id="yomotsu-hirasaka-image">
-      <!-- Photo “Yomotsu Hirasaka” by ChiefHira, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0/) -->
+      <!-- Photo “Yomotsu Hirasaka” by ChiefHira, CC BY-SA 3.0 -->
       <img src="photo.png" alt="Photo" class="overlay-photo" id="overlay-photo">
     </div>
   </div>
-
   <div class="hanko-container">
     <div class="hanko-wrapper">
       <img src="hanko.png" alt="Hanko" class="hanko" id="hanko">
     </div>
   </div>
-
   <script>
     const hanko = document.getElementById('hanko');
     const YH = document.getElementById('yomotsu-hirasaka-image');
@@ -161,23 +159,21 @@
     let visibilityTimer;
     let lastShown = 0;
     let canReveal = false;
-
     const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-    const isMobile = window.matchMedia('(max-width: 500px)').matches;
-
+    const portraitMq = window.matchMedia('(orientation: portrait) and (max-width: 500px)');
+    const landscapeMq = window.matchMedia('(orientation: landscape) and (max-width: 500px)');
+    /* Desktop initial reveal */
     if (isDesktop) {
       setTimeout(() => { canReveal = true; }, 2000);
     } else {
       canReveal = true;
     }
-
+    /* Common: hide YH and hanko */
     function hideYHAndHanko() {
-      if (!hanko.matches(':hover')) {
-        YH.classList.remove('visible');
-        hanko.classList.remove('visible');
-      }
+      YH.classList.remove('visible');
+      hanko.classList.remove('visible');
     }
-
+    /* Desktop show on mouse */
     function showYH(duration = 5000) {
       if (!canReveal) return;
       YH.classList.add('visible');
@@ -185,56 +181,62 @@
       clearTimeout(visibilityTimer);
       visibilityTimer = setTimeout(hideYHAndHanko, duration);
     }
-
     document.body.addEventListener('mousemove', () => {
       const now = Date.now();
       if (now - lastShown > 1000) {
-        showYH(5000);
-        lastShown = now;
+        showYH(5000); lastShown = now;
       }
     });
-
     hanko.addEventListener('mouseenter', () => {
       clearTimeout(visibilityTimer);
-      YH.classList.add('visible');
-      hanko.classList.add('visible');
+      YH.classList.add('visible'); hanko.classList.add('visible');
     });
-
     hanko.addEventListener('mouseleave', () => {
       visibilityTimer = setTimeout(hideYHAndHanko, 400);
     });
-
+    /* Photo overlay for desktop & landscape */
     function showOverlay() {
-      // Hide the YH background and hanko so only the photo appears
-      YH.classList.remove('visible');
-      hanko.classList.remove('visible');
-      canReveal = false;
-
+      hideYHAndHanko(); canReveal = false;
       overlay.classList.add('visible');
       clearTimeout(visibilityTimer);
       setTimeout(() => {
         overlay.classList.remove('visible');
-        // After photo fades out, re-enable YH reveal on next interaction
-        canReveal = true;
+        setTimeout(() => { canReveal = true; lastShown = 0; }, 2000);
       }, 5000);
     }
-
-    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-      if (isMobile) {
-        document.body.addEventListener('touchstart', () => {
-          hanko.classList.add('visible');
-          setTimeout(() => {
-            hanko.classList.remove('visible');
-          }, 5000);
-        });
-      } else {
-        document.body.addEventListener('touchstart', () => {
-          YH.classList.add('visible');
-          hanko.classList.add('visible');
-        });
-        hanko.addEventListener('click', showOverlay);
-      }
-    } else {
+    /* Portrait handler: show hanko only */
+    function portraitHankoHandler() {
+      hanko.classList.add('visible');
+      clearTimeout(visibilityTimer);
+      visibilityTimer = setTimeout(() => { hanko.classList.remove('visible'); }, 5000);
+    }
+    /* Landscape handler: show photo overlay */
+    function landscapeYHTap() {
+      hideYHAndHanko();
+      overlay.classList.add('visible');
+      clearTimeout(visibilityTimer);
+      setTimeout(() => {
+        overlay.classList.remove('visible');
+        YH.classList.add('visible');
+      }, 3000);
+    }
+    /* Orientation-based setup */
+    function setupPortrait() {
+      document.body.removeEventListener('click', landscapeYHTap);
+      document.body.removeEventListener('touchstart', landscapeYHTap);
+      document.body.addEventListener('touchstart', portraitHankoHandler);
+    }
+    function setupLandscape() {
+      document.body.removeEventListener('touchstart', portraitHankoHandler);
+      YH.classList.add('visible');
+      document.body.addEventListener('click', landscapeYHTap);
+      document.body.addEventListener('touchstart', landscapeYHTap);
+    }
+    portraitMq.addListener(e => e.matches ? setupPortrait() : null);
+    landscapeMq.addListener(e => e.matches ? setupLandscape() : null);
+    if (portraitMq.matches) setupPortrait(); else if (landscapeMq.matches) setupLandscape();
+    /* Always bind overlay show for desktop hanko */
+    if (!('ontouchstart' in window)) {
       hanko.addEventListener('click', showOverlay);
     }
   </script>
