@@ -32,7 +32,7 @@
     }
 
     .tanka-text {
-      font-size: 18px;
+      font-size: 20px;
       color: #555;
       white-space: pre-wrap;
       letter-spacing: 0.02em;
@@ -122,21 +122,26 @@
       }
     }
 
-    @media (max-width: 812px) and (pointer: coarse) and (hover: none) {
+    @media (max-width: 600px) {
       .tanka-text { font-size: 17px; }
       .image-stack { display: none !important; }
       .overlay-photo { display: none !important; }
     }
+    /* Short viewport: shrink content when height ≤ 600px */
+    @media (max-height: 428px) {
+      .tanka-text { font-size: 16px; line-height: 1.6; }
+      .content-wrapper { padding: 0 20px; }
+      .image-stack { width: 260px; }
+    }
       .image-stack { display: none !important; }
       .overlay-photo { display: none !important; }
     }
-
-    @media (min-width: 768px) and (max-width: 1024px) {
-      .tanka-text {
-        font-size: 20px;
-      }
-    }
-  </style>
+  @media (min-width: 768px) and (max-width: 1024px) {
+  .tanka-text {
+    font-size: 20px;
+  }
+}
+</style>
 </head>
 <body>
   <div class="content-wrapper">
@@ -167,7 +172,7 @@
     let canReveal = false;
 
     const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-    const isMobile = window.matchMedia('(max-device-width: 428px) and (hover: none) and (pointer: coarse)').matches;
+    const isMobile = window.matchMedia('(max-width: 600px)').matches;
 
     if (isDesktop) {
       setTimeout(() => { canReveal = true; }, 2000);
@@ -223,4 +228,24 @@
       }, 5000);
     }
 
-    if ('ontouchstart' in window || const isMobile = window.matchMedia('(max-width: 812px) and (pointer: coarse) and (hover: none)').matches;
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+      if (isMobile) {
+        document.body.addEventListener('touchstart', () => {
+          hanko.classList.add('visible');
+          setTimeout(() => {
+            hanko.classList.remove('visible');
+          }, 5000);
+        });
+      } else {
+        document.body.addEventListener('touchstart', () => {
+          YH.classList.add('visible');
+          hanko.classList.add('visible');
+        });
+        hanko.addEventListener('click', showOverlay);
+      }
+    } else {
+      hanko.addEventListener('click', showOverlay);
+    }
+  </script>
+</body>
+</html>
