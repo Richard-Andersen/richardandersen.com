@@ -31,7 +31,7 @@
       padding: 0 40px;
     }
 
-    .tanka-text {
+    .haiku-text {
       font-size: 20px;
       color: #555;
       white-space: pre-wrap;
@@ -40,7 +40,7 @@
       line-height: 2.0;
     }
 
-    .tanka-translation {
+    .haiku-translation {
       font-size: 16px;
       color: #666;
       white-space: pre-wrap;
@@ -49,7 +49,7 @@
       transition: opacity 5s ease;
       margin-top: 16px;
     }
-    .tanka-translation.visible {
+    .haiku-translation.visible {
       opacity: 1;
     }
 
@@ -137,29 +137,29 @@
 
     /* iPhone-only: hide images for any device-width up to 428px */
     @media screen and (max-device-width: 428px) and (pointer: coarse) {
-      .tanka-text { font-size: 17px; }
+      .haiku-text { font-size: 17px; }
       .image-stack { display: none !important; }
       .overlay-photo { display: none !important; }
-      .tanka-translation { display: none !important; }
+      .haiku-translation { display: none !important; }
     }
 
     @media (min-width: 768px) and (max-width: 1024px) {
-      .tanka-text { font-size: 20px; }
+      .haiku-text { font-size: 20px; }
     }
   </style>
 </head>
 <body>
   <div class="content-wrapper">
     <div>
-      <div class="tanka-text">
+      <div class="haiku-text">
         秋ん宵<br>
-        夏んの花火<br>
+        お盆の花火<br>
         残り香じゃ
       </div>
-      <div class="tanka-translation" id="tanka-translation">
+      <div class="haiku-translation" id="haiku-translation">
         Cool autumn evenings,<br>
-        remembering hanabi<br>
-        from last summer.
+        Obon hanabi linger<br>
+        in my memory.
       </div>
     </div>
     <div class="image-stack">
@@ -179,7 +179,7 @@
     const hanko = document.getElementById('hanko');
     const YH = document.getElementById('yomotsu-hirasaka-image');
     const overlay = document.getElementById('overlay-photo');
-    const translation = document.getElementById('tanka-translation');
+    const translation = document.getElementById('haiku-translation');
     let visibilityTimer;
     let lastShown = 0;
     let canReveal = false;
