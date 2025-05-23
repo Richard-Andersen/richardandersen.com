@@ -30,13 +30,27 @@
       padding: 0 40px;
     }
 
-    .haiku-text {
+    <!--
+      .haiku-text {
       font-size: 20px;
       color: #555;
       white-space: pre-wrap;
       letter-spacing: 0.02em;
       font-feature-settings: "liga" on, "calt" on;
       line-height: 1.4;
+    }  
+    -->
+    .haiku-text {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      font-size: 20px;
+      color: #555;
+      white-space: pre-wrap;
+      letter-spacing: 0.05em;
+      font-feature-settings: "liga" on, "calt" on;
+      line-height: 2;
+      padding-left: 20px;
+      padding-right: 20px;
     }
 
     .haiku-english {
