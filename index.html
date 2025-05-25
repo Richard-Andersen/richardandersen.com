@@ -30,7 +30,7 @@
       padding: 0 40px;
     }
 
-    .haiku-text {
+    .poem-text {
       font-size: 20px;
       color: #555;
       white-space: pre-wrap;
@@ -39,7 +39,7 @@
       line-height: 1.4;
     }  
  
-    .haiku-english {
+    .poem-english {
       font-size: 16px;
       color: #666;
       white-space: pre-wrap;
@@ -49,7 +49,7 @@
       margin-top: 16px;
      }
 
-    .haiku-english.visible {
+    .poem-english.visible {
       opacity: 1;
     }
 
@@ -137,14 +137,14 @@
 
     /* iPhone-only: hide images for any device-width up to 428px */
     @media screen and (max-device-width: 428px) and (pointer: coarse) {
-      .haiku-text { font-size: 17px; }
+      .poem-text { font-size: 17px; }
       .image-stack { display: none !important; }
       .overlay-photo { display: none !important; }
-      .haiku-english { display: none !important; }
+      .poem-english { display: none !important; }
     }
 
     @media (min-width: 768px) and (max-width: 1024px) {
-      .haiku-text { font-size: 20px; }
+      .poem-text { font-size: 20px; }
     }
   </style>
   <meta name="description" content="Richard Andersen">
@@ -162,14 +162,14 @@
 <body>
   <div class="content-wrapper">
     <div>
-      <div class="haiku-text">
+      <div class="poem-text">
           秋ん宵<br>  
           散りし盆の火<br>  
           のこりけり<br>  
           のこるひかげの<br>  
           盆のあどすぎ
       </div>
-      <div class="haiku-english" id="haiku-english">
+      <div class="poem-english" id="poem-english">
           Autumn at twilight,<br>   
           soft echoes from Obon fires<br>   
           flicker in the dusk—<br>   
@@ -194,7 +194,7 @@
     const hanko = document.getElementById('hanko');
     const YH = document.getElementById('yomotsu-hirasaka-image');
     const overlay = document.getElementById('overlay-photo');
-    const english = document.getElementById('haiku-english');
+    const english = document.getElementById('poem-english');
     let visibilityTimer;
     let lastShown = 0;
     let canReveal = false;
