@@ -135,7 +135,7 @@
       }
     }
 
-    /* iPhone-only: hide images for any device-width up to 428px */
+    /* iPhone-only: Hide images for any device-width up to 428px. */
     @media screen and (max-device-width: 428px) and (pointer: coarse) {
       .poem-text { font-size: 17px; }
       .image-stack { display: none !important; }
@@ -241,7 +241,7 @@
     });
 
     function showOverlay() {
-      // Hide background and seal
+      // Hide background and hanko.
       YH.classList.remove('visible'); english.classList.remove('visible'); hanko.classList.remove('visible'); canReveal = false;
       overlay.classList.add('visible'); clearTimeout(visibilityTimer);
       setTimeout(() => {
@@ -252,20 +252,20 @@
 
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
       if (isMobile) {
-        // iPhone: tap anywhere shows seal for 5s, seal itself not interactive
+        // iPhone: tap anywhere shows hanko for 5s, hanko itself not interactive.
         document.body.addEventListener('touchstart', () => {
           hanko.classList.add('visible');
           setTimeout(() => { hanko.classList.remove('visible'); }, 5000);
         });
       } else {
-        // iPad/tablet: as before
+        // iPad/tablet: as before.
         document.body.addEventListener('touchstart', () => {
           YH.classList.add('visible'); english.classList.add('visible'); hanko.classList.add('visible');
         });
         hanko.addEventListener('click', showOverlay);
       }
     } else {
-      // desktop photo overlay
+      // Desktop photo overlay.
       hanko.addEventListener('click', showOverlay);
     }
   </script>
