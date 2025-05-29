@@ -141,6 +141,19 @@
       z-index: 1000;
     }
 
+    .shu {
+      position: fixed;
+      bottom: calc(0.75em + 5px);   /* same vertical offset as .wabun */
+      left: 1em;                    /* mirror the right:1em of .wabun */
+      font-family: serif;           /* match your main font */
+      font-size: 0.6em;             /* very tiny—user must zoom to read */
+      color: #444;                  /* same subdued tone */
+      opacity: 0.7;                 /* same translucency */
+      pointer-events: none;         /* never intercept clicks/taps */
+      user-select: none;            /* not selectable */
+      z-index: 1000;                /* above content but below any overlays */
+    }
+
     /* iPad-only: Slightly rounder corners for overlay photo */
     @media screen and (min-device-width: 768px) and (max-device-width: 1024px) and (pointer: coarse) {
       .overlay-photo {
@@ -215,6 +228,8 @@
   <div class="wabun">
     ・－・&nbsp;&nbsp;・－－・&nbsp;&nbsp;・－・・&nbsp;&nbsp;－－・－・&nbsp;&nbsp;－・&nbsp;&nbsp;－・－－&nbsp;&nbsp;・・－&nbsp;
   </div>
+
+  <div class="shu">守</div>
 
   <script>
     const hanko = document.getElementById('hanko');
