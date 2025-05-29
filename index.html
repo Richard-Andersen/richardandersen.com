@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Richard Andersen 2025">
     <!--
-      いやや まつえ、しまねの みなさんへ。
-      もう たくさんの としつきが たちましたが、いまでも よく おもいだします。
-      みなさんが おげんきで ありますように。
+		いやや まつえ、しまねの みなさんへ。
+		もう たくさんの としつきが たちましたが、いまでも よく おもいだします。
+		みなさんが おげんきで ありますように。
     -->
   <title>伊野</title>
   <style>
@@ -128,7 +128,20 @@
       opacity: 1;
     }
 
-    /* iPad-only: Rounder corners for overlay photo */
+    .wabun-tiny {
+      position: fixed;
+      bottom: 0.75em;
+      right: 1em;
+      font-family: monospace;
+      font-size: 0.6em;
+      color: #444;
+      opacity: 0.7;
+      pointer-events: none;
+      user-select: none;
+      z-index: 1000;
+    }
+
+    /* iPad-only: Slightly rounder corners for overlay photo */
     @media screen and (min-device-width: 768px) and (max-device-width: 1024px) and (pointer: coarse) {
       .overlay-photo {
         border-radius: 50px !important;
@@ -197,6 +210,10 @@
     <div class="hanko-wrapper">
       <img src="hanko.png" alt="Hanko" class="hanko" id="hanko">
     </div>
+  </div>
+
+  <div class="wabun-tiny">
+  ・－・ ・－－・ ・－・・ －－・－・ －・ ・・－－・ ・・－
   </div>
 
   <script>
@@ -277,6 +294,7 @@
       // Desktop photo overlay.
       hanko.addEventListener('click', showOverlay);
     }
+    
   </script>
 </body>
 </html>
