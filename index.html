@@ -54,8 +54,9 @@
       margin-top: 16px;
     }
 
+    /* make sure .visible can override any prior !important on iPhone */
     .poem-english.visible {
-      opacity: 1;
+      opacity: 1 !important;
     }
 
     .image-stack {
@@ -154,7 +155,7 @@
       z-index: 1000;
     }
 
-    /* iPad-only: Slightly rounder corners for overlay photo */
+    /* iPad-only */
     @media screen and (min-device-width: 768px) and (max-device-width: 1024px) and (pointer: coarse) {
       .overlay-photo {
         border-radius: 50px !important;
@@ -173,7 +174,7 @@
       }
     }
 
-    /* iPhone-only: reserve space but keep English hidden via opacity */
+    /* iPhone-only: reserve space, hide via opacity */
     @media screen and (max-device-width: 428px) and (pointer: coarse) {
       .poem-text { font-size: 17px; }
       .image-stack { display: none !important; }
@@ -181,6 +182,10 @@
       .poem-english {
         display: block !important;
         opacity: 0 !important;
+      }
+      /* re-show on .visible */
+      .poem-english.visible {
+        opacity: 1 !important;
       }
     }
 
@@ -215,7 +220,6 @@
       </div>
     </div>
     <div class="image-stack">
-      <!-- Derived work. Photo: “Yomotsu Hirasaka” by ChiefHira, CC BY-SA 3.0 -->
       <img src="yomotsu_hirasaka.png" alt="Yomotsu Hirasaka" class="yomotsu-hirasaka-image" id="yomotsu-hirasaka-image">
       <img src="photo2025.png" alt="Photo" class="overlay-photo" id="overlay-photo">
     </div>
