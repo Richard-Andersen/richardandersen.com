@@ -143,15 +143,15 @@
 
     .hai {
       position: fixed;
-      bottom: calc(0.75em + 5px);   /* same vertical offset as .wabun */
-      left: 1em;                    /* mirror the right:1em of .wabun */
-      font-family: serif;           /* match your main font */
-      font-size: 0.6em;             /* very tiny—user must zoom to read */
-      color: #444;                  /* same subdued tone */
-      opacity: 0.7;                 /* same translucency */
-      pointer-events: none;         /* never intercept clicks/taps */
-      user-select: none;            /* not selectable */
-      z-index: 1000;                /* above content but below any overlays */
+      bottom: calc(0.75em + 5px);
+      left: 1em;
+      font-family: serif;
+      font-size: 0.6em;
+      color: #444;
+      opacity: 0.7;
+      pointer-events: none;
+      user-select: none;
+      z-index: 1000;
     }
 
     /* iPad-only: Slightly rounder corners for overlay photo */
@@ -173,12 +173,13 @@
       }
     }
 
-    /* iPhone-only: Hide images for any device-width up to 428px. */
+    /* iPhone-only: keep English in flow, hide images, tighten spacing */
     @media screen and (max-device-width: 428px) and (pointer: coarse) {
       .poem-text { font-size: 17px; }
       .image-stack { display: none !important; }
       .overlay-photo { display: none !important; }
-      .poem-english { display: none !important; }
+      /* remove display:none so poem-english stays in flow, just tighten its lines */
+      .poem-english { line-height: 1.1; }
     }
 
     @media (min-width: 768px) and (max-width: 1024px) {
@@ -214,7 +215,6 @@
     <div class="image-stack">
       <!-- Derived work. Photo: “Yomotsu Hirasaka” by ChiefHira, CC BY-SA 3.0 -->
       <img src="yomotsu_hirasaka.png" alt="Yomotsu Hirasaka" class="yomotsu-hirasaka-image" id="yomotsu-hirasaka-image">
-
       <img src="photo2025.png" alt="Photo" class="overlay-photo" id="overlay-photo">
     </div>
   </div>
@@ -232,8 +232,8 @@
   <div class="hai">拝</div>
 
   <script>
-    const hanko = document.getElementById('hanko');
-    const YH = document.getElementById('yomotsu-hirasaka-image');
+    const hanko   = document.getElementById('hanko');
+    const YH      = document.getElementById('yomotsu-hirasaka-image');
     const overlay = document.getElementById('overlay-photo');
     const english = document.getElementById('poem-english');
     let visibilityTimer;
@@ -241,7 +241,7 @@
     let canReveal = false;
 
     const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-    const isMobile = window.matchMedia('(max-device-width: 428px) and (pointer: coarse)').matches;
+    const isMobile  = window.matchMedia('(max-device-width: 428px) and (pointer: coarse)').matches;
 
     if (isDesktop) {
       setTimeout(() => { canReveal = true; }, 2000);
@@ -267,14 +267,18 @@
     }
 
     document.body.addEventListener('mousemove', () => {
-      const now = Date.now(); if (now - lastShown > 1000) {
-        showYH(5000); lastShown = now;
+      const now = Date.now();
+      if (now - lastShown > 1000) {
+        showYH(5000);
+        lastShown = now;
       }
     });
 
     hanko.addEventListener('mouseenter', () => {
       clearTimeout(visibilityTimer);
-      YH.classList.add('visible'); english.classList.add('visible'); hanko.classList.add('visible');
+      YH.classList.add('visible');
+      english.classList.add('visible');
+      hanko.classList.add('visible');
     });
 
     hanko.addEventListener('mouseleave', () => {
@@ -282,9 +286,12 @@
     });
 
     function showOverlay() {
-      // Hide background and hanko.
-      YH.classList.remove('visible'); english.classList.remove('visible'); hanko.classList.remove('visible'); canReveal = false;
-      overlay.classList.add('visible'); clearTimeout(visibilityTimer);
+      YH.classList.remove('visible');
+      english.classList.remove('visible');
+      hanko.classList.remove('visible');
+      canReveal = false;
+      overlay.classList.add('visible');
+      clearTimeout(visibilityTimer);
       setTimeout(() => {
         overlay.classList.remove('visible');
         canReveal = true;
@@ -293,23 +300,24 @@
 
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
       if (isMobile) {
-        // iPhone: tap anywhere shows hanko for 5s, hanko itself not interactive.
+        // iPhone: tap shows English poem only, then fade out in 5 s
         document.body.addEventListener('touchstart', () => {
-          hanko.classList.add('visible');
-          setTimeout(() => { hanko.classList.remove('visible'); }, 5000);
+          english.classList.add('visible');
+          setTimeout(() => { english.classList.remove('visible'); }, 5000);
         });
       } else {
-        // iPad/tablet: as before.
+        // iPad/tablet: as before
         document.body.addEventListener('touchstart', () => {
-          YH.classList.add('visible'); english.classList.add('visible'); hanko.classList.add('visible');
+          YH.classList.add('visible');
+          english.classList.add('visible');
+          hanko.classList.add('visible');
         });
         hanko.addEventListener('click', showOverlay);
       }
     } else {
-      // Desktop photo overlay.
+      // Desktop photo overlay
       hanko.addEventListener('click', showOverlay);
     }
-    
   </script>
 </body>
 </html>
