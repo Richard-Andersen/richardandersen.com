@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Richard Andersen 2025">
-    <!--
-          伊野や 松江、島根の みなさんへ。
-          もう たくさんの 歳月が たちましたが、いまでも よく 思い出します。
-          みなさんが お元気で ありますように。
-    -->
+  <!--
+        伊野や 松江、島根の みなさんへ。
+        もう たくさんの 歳月が たちましたが、いまでも よく 思い出します。
+        みなさんが お元気で ありますように。
+  -->
   <title>伊野</title>
   <style>
     html, body {
@@ -141,7 +141,7 @@
       z-index: 1000;
     }
 
-    .hai {
+    .shu {
       position: fixed;
       bottom: calc(0.75em + 5px);
       left: 1em;
@@ -173,7 +173,7 @@
       }
     }
 
-    /* iPhone-only: reserve space, reduce English line spacing */
+    /* iPhone-only: reserve space, tighten English lines */
     @media screen and (max-device-width: 428px) and (pointer: coarse) {
       .poem-text { font-size: 17px; }
       .image-stack { display: none !important; }
@@ -181,7 +181,7 @@
       .poem-english {
         display: block !important;
         opacity: 0 !important;
-        line-height: 1.1 !important;  /* tighter lines on iPhone */
+        line-height: 1.1 !important;
       }
       .poem-english.visible {
         opacity: 1 !important;
@@ -234,7 +234,7 @@
   <div class="wabun">
     ・－・&nbsp;&nbsp;・－－・&nbsp;&nbsp;・－・・&nbsp;&nbsp;－－・－・&nbsp;&nbsp;－・&nbsp;&nbsp;－・－－&nbsp;&nbsp;・・－&nbsp;
   </div>
-  <div class="hai">拝</div>
+  <div class="shu">守</div>
 
   <script>
     const hanko = document.getElementById('hanko');
@@ -305,6 +305,7 @@
 
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
       if (isMobile) {
+        // iPhone
         document.body.addEventListener('touchstart', () => {
           hanko.classList.add('visible');
           english.classList.add('visible');
@@ -314,14 +315,17 @@
           }, 5000);
         });
       } else {
+        // iPad/tablet: now schedules hide after 5s
         document.body.addEventListener('touchstart', () => {
           YH.classList.add('visible');
           english.classList.add('visible');
           hanko.classList.add('visible');
+          setTimeout(hideYHAndHanko, 5000);
         });
         hanko.addEventListener('click', showOverlay);
       }
     } else {
+      // Desktop photo overlay
       hanko.addEventListener('click', showOverlay);
     }
   </script>
