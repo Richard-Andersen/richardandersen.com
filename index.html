@@ -308,10 +308,10 @@
         });
       } else {
         // iPad/tablet: as before
-        document.body.addEventListener('touchstart', () => {
-          YH.classList.add('visible');
-          english.classList.add('visible');
-          hanko.classList.add('visible');
+        document.body.addEventListener('touchend', () => {
+            YH.classList.add('visible');
+            english.classList.add('visible');
+            hanko.classList.add('visible');
         });
         hanko.addEventListener('click', showOverlay);
       }
