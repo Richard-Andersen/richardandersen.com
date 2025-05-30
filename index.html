@@ -262,7 +262,7 @@
       }
     }
 
-    function showYH(duration = 9000) {
+    function showYH(duration = 15000) {
       if (!canReveal) return;
       YH.classList.add('visible');
       english.classList.add('visible');
@@ -274,7 +274,7 @@
     document.body.addEventListener('mousemove', () => {
       const now = Date.now();
       if (now - lastShown > 1000) {
-        showYH(9000);
+        showYH(15000);
         lastShown = now;
       }
     });
@@ -320,7 +320,7 @@
           YH.classList.add('visible');
           english.classList.add('visible');
           hanko.classList.add('visible');
-          setTimeout(hideYHAndHanko, 9000);
+          setTimeout(hideYHAndHanko, 15000);
         });
         hanko.addEventListener('click', showOverlay);
       }
