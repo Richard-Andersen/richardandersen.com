@@ -262,7 +262,7 @@
       }
     }
 
-    function showYH(duration = 5000) {
+    function showYH(duration = 9000) {
       if (!canReveal) return;
       YH.classList.add('visible');
       english.classList.add('visible');
@@ -274,7 +274,7 @@
     document.body.addEventListener('mousemove', () => {
       const now = Date.now();
       if (now - lastShown > 1000) {
-        showYH(5000);
+        showYH(9000);
         lastShown = now;
       }
     });
