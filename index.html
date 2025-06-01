@@ -5,9 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Richard Andersen 2025">
     <!--
-          伊野や 松江、島根の みなさんへ。
-          もう たくさんの 歳月が たちましたが、いまでも よく 思い出します。
-          みなさんが お元気で ありますように。
           拝
     -->
   <title>伊野</title>
@@ -80,7 +77,7 @@
     .yomotsu-hirasaka-image.visible {
       opacity: 1;
     }
-
+    /* Round corners for overlay photo // 12 or 50 */
     .overlay-photo {
       position: absolute;
       top: 0;
@@ -89,7 +86,7 @@
       transition: opacity 5s ease;
       pointer-events: auto;
       z-index: 2;
-      border-radius: 12px;
+      border-radius: 50px;
     }
 
     .overlay-photo.visible {
@@ -142,20 +139,7 @@
       z-index: 1000;
     }
 
-    .hai {
-      position: fixed;
-      bottom: calc(0.75em + 5px);
-      left: 1em;
-      font-family: serif;
-      font-size: 0.6em;
-      color: #444;
-      opacity: 0.7;
-      pointer-events: none;
-      user-select: none;
-      z-index: 1000;
-    }
-
-    /* iPad-only: Slightly rounder corners for overlay photo */
+    /* iPad-only: Round corners for overlay photo */
     @media screen and (min-device-width: 768px) and (max-device-width: 1024px) and (pointer: coarse) {
       .overlay-photo {
         border-radius: 50px !important;
@@ -230,8 +214,6 @@
     ・－・&nbsp;&nbsp;・－－・&nbsp;&nbsp;・－・・&nbsp;&nbsp;－－・－・&nbsp;&nbsp;－・&nbsp;&nbsp;－・－－&nbsp;&nbsp;・・－&nbsp;
   </div>
 
-  <div class="hai">拝</div>
-
   <script>
     const hanko   = document.getElementById('hanko');
     const YH      = document.getElementById('yomotsu-hirasaka-image');
@@ -301,24 +283,46 @@
 
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
       if (isMobile) {
-        // iPhone: tap shows English poem only, then fade out in 5 s
+        // iPhone: tap or pull shows English poem + hanko, then fades
         document.body.addEventListener('touchstart', () => {
           english.classList.add('visible');
-          setTimeout(() => { english.classList.remove('visible'); }, 5000);
+          hanko.classList.add('visible');
+          setTimeout(() => {
+            english.classList.remove('visible');
+            hanko.classList.remove('visible');
+          }, 5000);
         });
       } else {
-        // iPad/tablet: as before
+        // iPad: tap or pull shows all three, then fades
         document.body.addEventListener('pointerup', () => {
-            YH.classList.add('visible');
-            english.classList.add('visible');
-            hanko.classList.add('visible');
+          YH.classList.add('visible');
+          english.classList.add('visible');
+          hanko.classList.add('visible');
+          clearTimeout(visibilityTimer);
+          visibilityTimer = setTimeout(hideYHAndHanko, 5000);
         });
+
+        document.body.addEventListener('touchstart', () => {
+          YH.classList.add('visible');
+          english.classList.add('visible');
+          hanko.classList.add('visible');
+          clearTimeout(visibilityTimer);
+          visibilityTimer = setTimeout(hideYHAndHanko, 5000);
+        });
+
         hanko.addEventListener('click', showOverlay);
       }
     } else {
       // Desktop photo overlay
       hanko.addEventListener('click', showOverlay);
     }
+
+      // Show Yomotsu Hirasaka image after 5 seconds
+      setTimeout(() => {
+        YH.classList.add('visible');
+        english.classList.add('visible');
+        hanko.classList.add('visible');
+      }, 5000);
   </script>
 </body>
 </html>
