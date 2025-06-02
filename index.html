@@ -19,7 +19,7 @@
     body {
       display: flex;
       align-items: center;
-      justify-content: center; /* overridden on narrow viewports */
+      justify-content: center;
     }
 
     .content-wrapper {
@@ -38,7 +38,7 @@
       letter-spacing: 0.02em;
       font-feature-settings: "liga" on, "calt" on;
       line-height: 1.4;
-    }
+    }  
 
     .poem-english {
       font-size: 16px;
@@ -49,6 +49,7 @@
       transition: opacity 5s ease;
       margin-top: 16px;
     }
+
     .poem-english.visible {
       opacity: 1;
     }
@@ -57,6 +58,7 @@
       position: relative;
       width: 346px;
     }
+
     .image-stack img {
       width: 100%;
       height: auto;
@@ -69,11 +71,11 @@
       pointer-events: none;
       z-index: 1;
     }
+
     .yomotsu-hirasaka-image.visible {
       opacity: 1;
     }
-
-    /* Round corners for overlay photo */
+    /* Round corners for overlay photo // 12 or 50 */
     .overlay-photo {
       position: absolute;
       top: 0;
@@ -84,6 +86,7 @@
       z-index: 2;
       border-radius: 50px;
     }
+
     .overlay-photo.visible {
       opacity: 1;
     }
@@ -106,6 +109,7 @@
       opacity: 0;
       transition: opacity 0.4s ease;
     }
+
     .hanko-wrapper.visible {
       opacity: 1;
     }
@@ -121,9 +125,11 @@
       pointer-events: auto;
       z-index: 1;
     }
+
     .hanko-grey {
       opacity: 1;
     }
+
     .hanko-red {
       opacity: 0;
     }
@@ -142,7 +148,6 @@
       }
     }
 
-    /* Touch‐only “flash red” placeholder (iPad still does the same JS logic) */
     @media (hover: none) and (pointer: coarse) {
       .hanko-wrapper.touch-flash .hanko-red {
         opacity: 1;
@@ -165,50 +170,24 @@
       z-index: 1000;
     }
 
-    /* iPad‐only: Round corners for overlay photo */
-    @media screen and (min-width: 768px) and (max-width: 1024px) and (pointer: coarse) {
+    /* iPad-only: Round corners for overlay photo */
+    @media screen and (min-device-width: 768px) and (max-device-width: 1024px) and (pointer: coarse) {
       .overlay-photo {
         border-radius: 50px !important;
       }
     }
 
-    /* ─── IPHONE PORTRAIT OVERRIDES ─── */
-    @media screen and (max-width: 428px) and (pointer: coarse) {
-      body {
-        justify-content: flex-start;  /* force wrapper flush left */
-      }
-      .content-wrapper {
-        padding: 0 5px;               /* minimal left/right padding */
-        justify-content: flex-start;  /* keep poems left‐aligned inside wrapper */
-      }
-
-      .image-stack {
-        display: block !important;
-        width: 200px;
-        margin-left: auto;            /* push gate‐image to right side */
-      }
-      .yomotsu-hirasaka-image,
-      .overlay-photo {
-        display: block !important;
-        max-width: 200px;
-      }
-
-      /* leave hanko at original 120×120 */
-
-      .poem-text {
-        font-size: 17px;
-      }
-      .poem-english {
-        line-height: 1.1;
-        font-size: 14px;
-      }
+    /* iPhone-only: keep English in flow, hide images, tighten spacing */
+    @media screen and (max-device-width: 428px) and (pointer: coarse) {
+      .poem-text { font-size: 17px; }
+      .image-stack { display: none !important; }
+      .overlay-photo { display: none !important; }
+      /* remove display:none so poem-english stays in flow, just tighten its lines */
+      .poem-english { line-height: 1.1; }
     }
 
-    /* ─── TABLET→DESKTOP (unchanged) ─── */
     @media (min-width: 768px) and (max-width: 1024px) {
-      .poem-text {
-        font-size: 20px;
-      }
+      .poem-text { font-size: 20px; }
     }
   </style>
   <meta name="description" content="Richard Andersen">
@@ -227,44 +206,32 @@
   <div class="content-wrapper">
     <div>
       <div class="poem-text">
-          秋ん宵<br>
-          散りし盆の灯<br>
+          秋ん宵<br>  
+          散りし盆の灯<br>  
           のこりけり
       </div>
       <div class="poem-english" id="poem-english">
-          Autumn at twilight—<br>
-          soft echoes from Obon fires<br>
+          Autumn at twilight—<br>   
+          soft echoes from Obon fires<br>   
           flicker in the dusk
       </div>
     </div>
     <div class="image-stack">
       <!-- Derived work. Photo: “Yomotsu Hirasaka” by ChiefHira, CC BY-SA 3.0 -->
-      <img src="yomotsu_hirasaka.png"
-           alt="Yomotsu Hirasaka"
-           class="yomotsu-hirasaka-image"
-           id="yomotsu-hirasaka-image">
-      <img src="photo2025.png"
-           alt="Photo"
-           class="overlay-photo"
-           id="overlay-photo">
+      <img src="yomotsu_hirasaka.png" alt="Yomotsu Hirasaka" class="yomotsu-hirasaka-image" id="yomotsu-hirasaka-image">
+      <img src="photo2025.png" alt="Photo" class="overlay-photo" id="overlay-photo">
     </div>
   </div>
 
   <div class="hanko-container">
     <div class="hanko-wrapper" id="hanko-wrapper">
-      <img src="hanko_greyscale.png"
-           alt="Hanko Greyscale"
-           class="hanko-grey"
-           id="hanko-grey">
-      <img src="hanko.png"
-           alt="Hanko Red"
-           class="hanko-red"
-           id="hanko-red">
+      <img src="hanko_greyscale.png" alt="Hanko Greyscale" class="hanko-grey" id="hanko-grey">
+      <img src="hanko.png" alt="Hanko Red" class="hanko-red" id="hanko-red">
     </div>
   </div>
 
   <div class="wabun">
-    ・－・  ・－－・  ・－・・  －－・－・  －・  －・－－  ・・－ 
+    ・－・&nbsp;&nbsp;・－－・&nbsp;&nbsp;・－・・&nbsp;&nbsp;－－・－・&nbsp;&nbsp;－・&nbsp;&nbsp;－・－－&nbsp;&nbsp;・・－&nbsp;
   </div>
 
   <script>
@@ -279,7 +246,7 @@
     let canReveal = false;
 
     const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-    const isMobile  = window.matchMedia('(max-width: 428px) and (pointer: coarse)').matches;
+    const isMobile  = window.matchMedia('(max-device-width: 428px) and (pointer: coarse)').matches;
 
     // Prevent saving greyscale: on drag/context menu, temporarily show red
     hankoGrey.addEventListener('dragstart', () => {
@@ -426,44 +393,14 @@
             hankoGrey.style.transform = 'translateX(-50%) scale(1)';
           }, 5000);
         });
-
-        // Ensure tapping the hanko on iPhone also shows the photo overlay:
-        hankoWrapper.addEventListener('click', showOverlay);
-
       } else {
         // iPad: tap or pull
         document.body.addEventListener('pointerup', () => {
-          YH.classList.add('visible');
-          english.classList.add('visible');
-          hankoWrapper.classList.add('visible');
-          // Flash red for 1s, then fade over 2s to greyscale
-          hankoRed.style.opacity = '1';
-          hankoGrey.style.opacity = '0';
-          hankoRed.style.transform = 'translateX(-50%) scale(1)';
-          hankoGrey.style.transform = 'translateX(-50%) scale(1)';
-          setTimeout(() => {
-            hankoRed.style.opacity = '0';
-            hankoGrey.style.opacity = '1';
-          }, 1000);
-          clearTimeout(visibilityTimer);
-          visibilityTimer = setTimeout(hideYHAndHanko, 5000);
+          showYH(5000);
         });
 
         document.body.addEventListener('touchstart', () => {
-          YH.classList.add('visible');
-          english.classList.add('visible');
-          hankoWrapper.classList.add('visible');
-          // Flash red for 1s, then fade over 2s to greyscale
-          hankoRed.style.opacity = '1';
-          hankoGrey.style.opacity = '0';
-          hankoRed.style.transform = 'translateX(-50%) scale(1)';
-          hankoGrey.style.transform = 'translateX(-50%) scale(1)';
-          setTimeout(() => {
-            hankoRed.style.opacity = '0';
-            hankoGrey.style.opacity = '1';
-          }, 1000);
-          clearTimeout(visibilityTimer);
-          visibilityTimer = setTimeout(hideYHAndHanko, 5000);
+          showYH(5000);
         });
 
         hankoWrapper.addEventListener('click', showOverlay);
