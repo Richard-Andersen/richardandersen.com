@@ -241,9 +241,6 @@
     let lastShown = 0;
     let canReveal = false;
 
-    // Always bind this to ensure image reveal works on all devices
-    hankoWrapper.addEventListener('click', showOverlay);
-
     window.addEventListener('pageshow', () => {
       if (visibilityTimer) clearTimeout(visibilityTimer);
       YH.classList.remove('visible');
@@ -259,6 +256,11 @@
 
     const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     const isMobile  = window.matchMedia('(max-device-width: 428px) and (pointer: coarse)').matches;
+
+    // Re-enable desktop click on hanko to show photo
+    if (isDesktop) {
+      hankoWrapper.addEventListener('click', showOverlay);
+    }
 
     hankoGrey.addEventListener('dragstart', () => {
       hankoRed.style.opacity = '1';
@@ -395,13 +397,19 @@
           }, 5000);
         });
       } else {
-        document.body.addEventListener('pointerup', () => {
-          showYH(5000);
-        });
+        // iPad behavior — tap once to show, tap again to overlay
+        function handleTabletTap() {
+          if (YH.classList.contains('visible') &&
+              english.classList.contains('visible') &&
+              hankoWrapper.classList.contains('visible')) {
+            showOverlay();
+          } else {
+            showYH(5000);
+          }
+        }
 
-        document.body.addEventListener('touchstart', () => {
-          showYH(5000);
-        });
+        document.body.addEventListener('pointerup', handleTabletTap);
+        document.body.addEventListener('touchstart', handleTabletTap);
       }
     }
 
