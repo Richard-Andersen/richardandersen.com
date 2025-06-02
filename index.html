@@ -396,37 +396,11 @@
       } else {
         // iPad: tap or pull
         document.body.addEventListener('pointerup', () => {
-          YH.classList.add('visible');
-          english.classList.add('visible');
-          hankoWrapper.classList.add('visible');
-          // Flash red for 1s, fade over 2s into greyscale
-          hankoRed.style.opacity = '1';
-          hankoGrey.style.opacity = '0';
-          hankoRed.style.transform = 'translateX(-50%) scale(1)';
-          hankoGrey.style.transform = 'translateX(-50%) scale(1)';
-          setTimeout(() => {
-            hankoRed.style.opacity = '0';
-            hankoGrey.style.opacity = '1';
-          }, 1000);
-          clearTimeout(visibilityTimer);
-          visibilityTimer = setTimeout(hideYHAndHanko, 5000);
+          showYH(5000);
         });
 
         document.body.addEventListener('touchstart', () => {
-          YH.classList.add('visible');
-          english.classList.add('visible');
-          hankoWrapper.classList.add('visible');
-          // Flash red for 1s, fade over 2s into greyscale
-          hankoRed.style.opacity = '1';
-          hankoGrey.style.opacity = '0';
-          hankoRed.style.transform = 'translateX(-50%) scale(1)';
-          hankoGrey.style.transform = 'translateX(-50%) scale(1)';
-          setTimeout(() => {
-            hankoRed.style.opacity = '0';
-            hankoGrey.style.opacity = '1';
-          }, 1000);
-          clearTimeout(visibilityTimer);
-          visibilityTimer = setTimeout(hideYHAndHanko, 5000);
+          showYH(5000);
         });
 
         hankoWrapper.addEventListener('click', showOverlay);
@@ -436,15 +410,9 @@
       hankoWrapper.addEventListener('click', showOverlay);
     }
 
-    // Initial reveal after 5 seconds: desktop shows greyscale only
+    // Initial reveal after 5 seconds: fade in then fade out after 5s
     setTimeout(() => {
-      YH.classList.add('visible');
-      english.classList.add('visible');
-      hankoWrapper.classList.add('visible');
-      hankoGrey.style.opacity = '1';
-      hankoRed.style.opacity = '0';
-      hankoRed.style.transform = 'translateX(-50%) scale(1)';
-      hankoGrey.style.transform = 'translateX(-50%) scale(1)';
+      showYH(5000);
     }, 5000);
   </script>
 </body>
