@@ -31,7 +31,7 @@
       padding: 0 40px;
     }
 
-    /* Ensure “拝” and the haiku share the same left alignment */
+    /* Shifted right by 5px so that “拝” visually lines up with the haiku text */
     .poem-text {
       font-size: 20px;
       color: #555;
@@ -39,8 +39,8 @@
       letter-spacing: 0.02em;
       font-feature-settings: "liga" on, "calt" on;
       line-height: 1.4;
-      transition: opacity 0.4s ease;
-      margin-left: 0;
+      transition: opacity 0.6s ease; /* slower fade */
+      margin-left: 5px;              /* nudge right 5px */
     }
 
     .poem-haiku {
@@ -209,7 +209,7 @@
 <body>
   <div class="content-wrapper">
     <div>
-      <!-- “拝” now lines up flush with the haiku -->
+      <!-- “拝” now shifts right by 5px to line up with the haiku -->
       <div class="poem-text" id="poem-text">拝</div>
 
       <div class="poem-haiku" id="poem-haiku">
@@ -273,7 +273,7 @@
       if (visibilityTimer) clearTimeout(visibilityTimer);
 
       // Reset everything:
-      poemText.style.opacity = '1';               // Make “拝” visible
+      poemText.style.opacity = '1';               // “拝” visible
       YH.classList.remove('visible');
       overlay.classList.remove('visible');
       english.classList.remove('visible');
@@ -333,15 +333,17 @@
         hankoGrey.style.transform = 'translateX(-50%) scale(1)';
       }
 
-      // When YH/poem/hanko are hidden, bring back “拝”:
+      // Brady: Once poem+YH+hanko have disappeared, restore “拝”
       poemText.style.opacity = '1';
     }
 
     function showYH(duration = 5000) {
       if (!canReveal) return;
 
-      // Hide “拝” immediately when YH/poem/hanko appear:
-      poemText.style.opacity = '0';
+      // Delay hiding “拝” by 0.5s, then fade over 0.6s
+      setTimeout(() => {
+        poemText.style.opacity = '0';
+      }, 500);
 
       YH.classList.add('visible');
       english.classList.add('visible');
@@ -380,8 +382,10 @@
     hankoWrapper.addEventListener('mouseenter', () => {
       if (isDesktop) {
         clearTimeout(visibilityTimer);
-        // Hide “拝” when hovering on desktop
-        poemText.style.opacity = '0';
+        // Delay hiding “拝” by 0.5s when hovering
+        setTimeout(() => {
+          poemText.style.opacity = '0';
+        }, 500);
         YH.classList.add('visible');
         english.classList.add('visible');
         hankoWrapper.classList.add('visible');
@@ -425,9 +429,11 @@
 
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
       if (isMobile) {
-        // iPhone: tap shows poem+hanko; hide “拝” then restore after 5s
+        // iPhone: tap shows poem+hanko; hide “拝” after 0.5s then restore after 5s
         document.body.addEventListener('touchstart', () => {
-          poemText.style.opacity = '0';
+          setTimeout(() => {
+            poemText.style.opacity = '0';
+          }, 500);
           english.classList.add('visible');
           hankoWrapper.classList.add('visible');
           hankoRed.style.opacity = '1';
@@ -449,7 +455,7 @@
           }, 5000);
         });
       } else {
-        // iPad/tablet: first tap/pull hides “拝” & shows poem+YH+hanko; next tap/pull shows overlay
+        // iPad/tablet: first tap/pull hides “拝” after 0.5s & shows poem+YH+hanko; next tap/pull shows overlay
         function handleTabletTap() {
           if (
             YH.classList.contains('visible') &&
