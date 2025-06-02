@@ -19,7 +19,7 @@
     body {
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: center; /* Will be overridden on iPhone */
     }
 
     .content-wrapper {
@@ -174,17 +174,18 @@
 
     /* ─── IPHONE SPECIFIC OVERRIDES ─── */
     @media screen and (max-device-width: 428px) and (pointer: coarse) {
-      /* 1) bring poem much closer to the left edge */
+      body {
+        justify-content: flex-start; /* Force content-wrapper flush to left */
+      }
       .content-wrapper {
-        padding: 0 5px;               /* only 5px on each side now */
-        justify-content: flex-start;   /* left-align the content block */
+        padding: 0 5px;              /* Minimal horizontal padding */
+        justify-content: flex-start; /* Keep poem text at left inside wrapper */
       }
 
-      /* 2) keep image-stack at the right by using auto margin */
       .image-stack {
         display: block !important;
         width: 200px;
-        margin-left: auto;            /* push it to the right side */
+        margin-left: auto;           /* Push YH to right */
       }
       .yomotsu-hirasaka-image,
       .overlay-photo {
@@ -192,9 +193,8 @@
         max-width: 200px;
       }
 
-      /* 3) leave hanko at its original desktop size (120×120), no shrink */
+      /* Leave hanko at original desktop size */
 
-      /* 4) tighten poem fonts slightly */
       .poem-text {
         font-size: 17px;
       }
