@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="author" content="Richard Andersen 2025">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Richard Andersen 2025" />
 
   <title>伊野</title>
   <style>
@@ -38,7 +38,9 @@
       letter-spacing: 0.02em;
       font-feature-settings: "liga" on, "calt" on;
       line-height: 1.4;
-    }  
+      /* We’ll toggle opacity via JS */
+      transition: opacity 0.4s ease;
+    }
 
     .poem-haiku {
       font-size: 16px;
@@ -189,7 +191,8 @@
       .poem-text { font-size: 20px; }
     }
   </style>
-  <meta name="description" content="Richard Andersen">
+
+  <meta name="description" content="Richard Andersen" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -201,28 +204,50 @@
   }
   </script>
 </head>
+
 <body>
   <div class="content-wrapper">
     <div>
-      <div class="poem-text">
-          拝
-      </div>
+      <!-- Give this div an id so we can toggle its opacity in JS -->
+      <div class="poem-text" id="poem-text">拝</div>
+
       <div class="poem-haiku" id="poem-haiku">
-          Autumn at twilight—<br>   
-          soft echoes from Obon fires<br>   
-          flicker in the dusk
+        Autumn at twilight—<br />
+        soft echoes from Obon fires<br />
+        flicker in the dusk
       </div>
     </div>
+
     <div class="image-stack">
-      <img src="yomotsu_hirasaka.png" alt="Yomotsu Hirasaka" class="yomotsu-hirasaka-image" id="yomotsu-hirasaka-image">
-      <img src="photo2025.png" alt="Photo" class="overlay-photo" id="overlay-photo">
+      <img
+        src="yomotsu_hirasaka.png"
+        alt="Yomotsu Hirasaka"
+        class="yomotsu-hirasaka-image"
+        id="yomotsu-hirasaka-image"
+      />
+      <img
+        src="photo2025.png"
+        alt="Photo"
+        class="overlay-photo"
+        id="overlay-photo"
+      />
     </div>
   </div>
 
   <div class="hanko-container">
     <div class="hanko-wrapper" id="hanko-wrapper">
-      <img src="hanko_greyscale.png" alt="Hanko Greyscale" class="hanko-grey" id="hanko-grey">
-      <img src="hanko.png" alt="Hanko Red" class="hanko-red" id="hanko-red">
+      <img
+        src="hanko_greyscale.png"
+        alt="Hanko Greyscale"
+        class="hanko-grey"
+        id="hanko-grey"
+      />
+      <img
+        src="hanko.png"
+        alt="Hanko Red"
+        class="hanko-red"
+        id="hanko-red"
+      />
     </div>
   </div>
 
@@ -231,33 +256,40 @@
   </div>
 
   <script>
+    const poemText = document.getElementById('poem-text');
     const hankoWrapper = document.getElementById('hanko-wrapper');
-    const hankoGrey    = document.getElementById('hanko-grey');
-    const hankoRed     = document.getElementById('hanko-red');
-    const YH           = document.getElementById('yomotsu-hirasaka-image');
-    const overlay      = document.getElementById('overlay-photo');
-    const english      = document.getElementById('poem-haiku');
+    const hankoGrey = document.getElementById('hanko-grey');
+    const hankoRed = document.getElementById('hanko-red');
+    const YH = document.getElementById('yomotsu-hirasaka-image');
+    const overlay = document.getElementById('overlay-photo');
+    const english = document.getElementById('poem-haiku');
+
     let visibilityTimer;
     let lastShown = 0;
     let canReveal = false;
 
     window.addEventListener('pageshow', () => {
       if (visibilityTimer) clearTimeout(visibilityTimer);
+
+      // Reset everything on page show/reload:
+      poemText.style.opacity = '1';               // “拝” visible
       YH.classList.remove('visible');
       overlay.classList.remove('visible');
       english.classList.remove('visible');
       hankoWrapper.classList.remove('visible');
+
       hankoRed.style.opacity = '0';
       hankoGrey.style.opacity = '1';
       hankoRed.style.transform = 'translateX(-50%) scale(1)';
       hankoGrey.style.transform = 'translateX(-50%) scale(1)';
+
       canReveal = true;
     });
 
     const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-    const isMobile  = window.matchMedia('(max-device-width: 428px) and (pointer: coarse)').matches;
+    const isMobile = window.matchMedia('(max-device-width: 428px) and (pointer: coarse)').matches;
 
-    // Re-enable desktop click on hanko to show photo
+    // On desktop, clicking the hanko still shows the photo overlay:
     if (isDesktop) {
       hankoWrapper.addEventListener('click', showOverlay);
     }
@@ -282,7 +314,9 @@
     });
 
     if (isDesktop) {
-      setTimeout(() => { canReveal = true; }, 2000);
+      setTimeout(() => {
+        canReveal = true;
+      }, 2000);
     } else {
       canReveal = true;
     }
@@ -297,10 +331,17 @@
         hankoRed.style.transform = 'translateX(-50%) scale(1)';
         hankoGrey.style.transform = 'translateX(-50%) scale(1)';
       }
+
+      // As soon as YH/poem/hanko are gone, bring “拝” back:
+      poemText.style.opacity = '1';
     }
 
     function showYH(duration = 5000) {
       if (!canReveal) return;
+
+      // Hide “拝” immediately when poem + YH + hanko appear:
+      poemText.style.opacity = '0';
+
       YH.classList.add('visible');
       english.classList.add('visible');
       hankoWrapper.classList.add('visible');
@@ -338,6 +379,8 @@
     hankoWrapper.addEventListener('mouseenter', () => {
       if (isDesktop) {
         clearTimeout(visibilityTimer);
+        // On desktop hover, poem + YH + hanko should appear:
+        poemText.style.opacity = '0';
         YH.classList.add('visible');
         english.classList.add('visible');
         hankoWrapper.classList.add('visible');
@@ -358,6 +401,7 @@
     });
 
     function showOverlay() {
+      // When showing the photo overlay, hide poem + YH + hanko:
       YH.classList.remove('visible');
       english.classList.remove('visible');
       hankoWrapper.classList.remove('visible');
@@ -365,18 +409,25 @@
       hankoGrey.style.opacity = '1';
       hankoRed.style.transform = 'translateX(-50%) scale(1)';
       hankoGrey.style.transform = 'translateX(-50%) scale(1)';
+
       canReveal = false;
       overlay.classList.add('visible');
+
       clearTimeout(visibilityTimer);
-      setTimeout(() => {
+      // After 5 seconds, fade out overlay and bring “拝” back:
+      visibilityTimer = setTimeout(() => {
         overlay.classList.remove('visible');
         canReveal = true;
+        poemText.style.opacity = '1';
       }, 5000);
     }
 
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
       if (isMobile) {
+        // iPhone: tap briefly shows poem + hanko; they fade after 5s.
         document.body.addEventListener('touchstart', () => {
+          // Hide “拝” as soon as poem + hanko appear:
+          poemText.style.opacity = '0';
           english.classList.add('visible');
           hankoWrapper.classList.add('visible');
           hankoRed.style.opacity = '1';
@@ -390,6 +441,8 @@
           setTimeout(() => {
             english.classList.remove('visible');
             hankoWrapper.classList.remove('visible');
+            // Once poem + hanko are hidden, bring “拝” back:
+            poemText.style.opacity = '1';
             hankoRed.style.opacity = '0';
             hankoGrey.style.opacity = '1';
             hankoRed.style.transform = 'translateX(-50%) scale(1)';
@@ -397,11 +450,14 @@
           }, 5000);
         });
       } else {
-        // iPad behavior — tap once to show, tap again to overlay
+        // iPad/tablet: first tap or pull shows YH + poem + hanko; hide “拝” then.
+        // Second tap/pull shows the photo overlay; then bring “拝” back afterward.
         function handleTabletTap() {
-          if (YH.classList.contains('visible') &&
-              english.classList.contains('visible') &&
-              hankoWrapper.classList.contains('visible')) {
+          if (
+            YH.classList.contains('visible') &&
+            english.classList.contains('visible') &&
+            hankoWrapper.classList.contains('visible')
+          ) {
             showOverlay();
           } else {
             showYH(5000);
@@ -409,6 +465,7 @@
         }
 
         document.body.addEventListener('pointerup', handleTabletTap);
+        document.body.addEventListener('touchend', handleTabletTap);
       }
     }
 
