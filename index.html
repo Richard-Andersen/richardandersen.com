@@ -372,6 +372,16 @@
       }, 5000);
     }
 
+  const isiPad = navigator.userAgent.includes('iPad') || 
+                (navigator.userAgent.includes('Macintosh') && 'ontouchend' in document);
+
+  if (isiPad) {
+    hankoWrapper.addEventListener('pointerup', (e) => {
+      e.preventDefault();
+      showOverlay();
+    });
+  }
+</script>
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
       if (isMobile) {
         document.body.addEventListener('touchstart', () => {
