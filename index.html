@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="author" content="Richard Andersen 2025">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Richard Andersen 2025" />
 
   <title>伊野</title>
   <style>
-    html, body {
+    html,
+    body {
       margin: 0;
       padding: 0;
       height: 100%;
@@ -38,7 +39,7 @@
       letter-spacing: 0.02em;
       font-feature-settings: "liga" on, "calt" on;
       line-height: 1.4;
-    }  
+    }
 
     .poem-haiku {
       font-size: 16px;
@@ -179,50 +180,80 @@
     }
 
     @media screen and (max-device-width: 428px) and (pointer: coarse) {
-      .poem-text { font-size: 17px; }
-      .image-stack { display: none !important; }
-      .overlay-photo { display: none !important; }
-      .poem-haiku { line-height: 1.1; }
+      .poem-text {
+        font-size: 17px;
+      }
+      .image-stack {
+        display: none !important;
+      }
+      .overlay-photo {
+        display: none !important;
+      }
+      .poem-haiku {
+        line-height: 1.1;
+      }
     }
 
     @media (min-width: 768px) and (max-width: 1024px) {
-      .poem-text { font-size: 20px; }
+      .poem-text {
+        font-size: 20px;
+      }
     }
   </style>
-  <meta name="description" content="Richard Andersen">
+  <meta name="description" content="Richard Andersen" />
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "author": {
-      "@type": "Person",
-      "name": "Richard Andersen"
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "author": {
+        "@type": "Person",
+        "name": "Richard Andersen"
+      }
     }
-  }
   </script>
 </head>
 <body>
   <div class="content-wrapper">
     <div>
       <div class="poem-text">
-          拝
+        拝
       </div>
       <div class="poem-haiku" id="poem-haiku">
-          Autumn at twilight—<br>   
-          soft echoes from Obon fires<br>   
-          flicker in the dusk
+        Autumn at twilight—<br />
+        soft echoes from Obon fires<br />
+        flicker in the dusk
       </div>
     </div>
     <div class="image-stack">
-      <img src="yomotsu_hirasaka.png" alt="Yomotsu Hirasaka" class="yomotsu-hirasaka-image" id="yomotsu-hirasaka-image">
-      <img src="photo2025.png" alt="Photo" class="overlay-photo" id="overlay-photo">
+      <img
+        src="yomotsu_hirasaka.png"
+        alt="Yomotsu Hirasaka"
+        class="yomotsu-hirasaka-image"
+        id="yomotsu-hirasaka-image"
+      />
+      <img
+        src="photo2025.png"
+        alt="Photo"
+        class="overlay-photo"
+        id="overlay-photo"
+      />
     </div>
   </div>
 
   <div class="hanko-container">
     <div class="hanko-wrapper" id="hanko-wrapper">
-      <img src="hanko_greyscale.png" alt="Hanko Greyscale" class="hanko-grey" id="hanko-grey">
-      <img src="hanko.png" alt="Hanko Red" class="hanko-red" id="hanko-red">
+      <img
+        src="hanko_greyscale.png"
+        alt="Hanko Greyscale"
+        class="hanko-grey"
+        id="hanko-grey"
+      />
+      <img
+        src="hanko.png"
+        alt="Hanko Red"
+        class="hanko-red"
+        id="hanko-red"
+      />
     </div>
   </div>
 
@@ -232,207 +263,8 @@
 
   <script>
     const hankoWrapper = document.getElementById('hanko-wrapper');
-    const hankoGrey    = document.getElementById('hanko-grey');
-    const hankoRed     = document.getElementById('hanko-red');
-    const YH           = document.getElementById('yomotsu-hirasaka-image');
-    const overlay      = document.getElementById('overlay-photo');
-    const english      = document.getElementById('poem-haiku');
-    let visibilityTimer;
-    let lastShown = 0;
-    let canReveal = false;
-
-    // New flag to track “first vs. second” interaction on iPad/tablet
-    let tabletHasShownFirst = false;
-
-    window.addEventListener('pageshow', () => {
-      if (visibilityTimer) clearTimeout(visibilityTimer);
-
-      // Reset everything on page (re)show:
-      YH.classList.remove('visible');
-      overlay.classList.remove('visible');
-      english.classList.remove('visible');
-      hankoWrapper.classList.remove('visible');
-
-      hankoRed.style.opacity = '0';
-      hankoGrey.style.opacity = '1';
-      hankoRed.style.transform = 'translateX(-50%) scale(1)';
-      hankoGrey.style.transform = 'translateX(-50%) scale(1)';
-
-      canReveal = true;
-      tabletHasShownFirst = false;
-    });
-
-    const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-    const isMobile  = window.matchMedia('(max-device-width: 428px) and (pointer: coarse)').matches;
-
-    // Re-enable desktop click on hanko to show photo:
-    if (isDesktop) {
-      hankoWrapper.addEventListener('click', showOverlay);
-    }
-
-    hankoGrey.addEventListener('dragstart', () => {
-      hankoRed.style.opacity = '1';
-      hankoGrey.style.opacity = '0';
-    });
-    hankoGrey.addEventListener('dragend', () => {
-      hankoRed.style.opacity = '0';
-      hankoGrey.style.opacity = '1';
-    });
-    hankoRed.addEventListener('contextmenu', (e) => {
-      e.preventDefault();
-      hankoRed.style.opacity = '1';
-      hankoGrey.style.opacity = '0';
-      setTimeout(() => {
-        hankoRed.style.opacity = '0';
-        hankoGrey.style.opacity = '1';
-      }, 100);
-      return false;
-    });
-
-    if (isDesktop) {
-      setTimeout(() => { 
-        canReveal = true; 
-      }, 2000);
-    } else {
-      canReveal = true;
-    }
-
-    function hideYHAndHanko() {
-      if (!hankoWrapper.matches(':hover')) {
-        YH.classList.remove('visible');
-        english.classList.remove('visible');
-        hankoWrapper.classList.remove('visible');
-        hankoRed.style.opacity = '0';
-        hankoGrey.style.opacity = '1';
-        hankoRed.style.transform = 'translateX(-50%) scale(1)';
-        hankoGrey.style.transform = 'translateX(-50%) scale(1)';
-      }
-    }
-
-    function showYH(duration = 5000) {
-      if (!canReveal) return;
-      YH.classList.add('visible');
-      english.classList.add('visible');
-      hankoWrapper.classList.add('visible');
-
-      if (!isDesktop) {
-        hankoRed.style.opacity = '1';
-        hankoGrey.style.opacity = '0';
-        hankoRed.style.transform = 'translateX(-50%) scale(1)';
-        hankoGrey.style.transform = 'translateX(-50%) scale(1)';
-        setTimeout(() => {
-          hankoRed.style.opacity = '0';
-          hankoGrey.style.opacity = '1';
-        }, 1000);
-      } else {
-        if (!hankoWrapper.matches(':hover')) {
-          hankoGrey.style.opacity = '1';
-          hankoRed.style.opacity = '0';
-          hankoRed.style.transform = 'translateX(-50%) scale(1)';
-          hankoGrey.style.transform = 'translateX(-50%) scale(1)';
-        }
-      }
-
-      clearTimeout(visibilityTimer);
-      visibilityTimer = setTimeout(hideYHAndHanko, duration);
-    }
-
-    document.body.addEventListener('mousemove', () => {
-      const now = Date.now();
-      if (now - lastShown > 1000) {
-        showYH(5000);
-        lastShown = now;
-      }
-    });
-
-    hankoWrapper.addEventListener('mouseenter', () => {
-      if (isDesktop) {
-        clearTimeout(visibilityTimer);
-        YH.classList.add('visible');
-        english.classList.add('visible');
-        hankoWrapper.classList.add('visible');
-        hankoRed.style.opacity = '1';
-        hankoGrey.style.opacity = '0';
-        hankoRed.style.transform = 'translateX(-50%) scale(1.2)';
-        hankoGrey.style.transform = 'translateX(-50%) scale(1.2)';
-      }
-    });
-
-    hankoWrapper.addEventListener('mouseleave', () => {
-      if (isDesktop) {
-        hankoRed.style.opacity = '0';
-        hankoGrey.style.opacity = '1';
-        hankoRed.style.transform = 'translateX(-50%) scale(1)';
-        hankoGrey.style.transform = 'translateX(-50%) scale(1)';
-      }
-    });
-
-    function showOverlay() {
-      // Hide YH/poem/hanko:
-      YH.classList.remove('visible');
-      english.classList.remove('visible');
-      hankoWrapper.classList.remove('visible');
-      hankoRed.style.opacity = '0';
-      hankoGrey.style.opacity = '1';
-      hankoRed.style.transform = 'translateX(-50%) scale(1)';
-      hankoGrey.style.transform = 'translateX(-50%) scale(1)';
-
-      canReveal = false;
-      overlay.classList.add('visible');
-
-      // After 5 seconds, fade the overlay out and reset:
-      clearTimeout(visibilityTimer);
-      visibilityTimer = setTimeout(() => {
-        overlay.classList.remove('visible');
-        canReveal = true;
-        tabletHasShownFirst = false;  // Reset so next tap/pull starts fresh
-      }, 5000);
-    }
-
-    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-      if (isMobile) {
-        // iPhone logic remains unchanged:
-        document.body.addEventListener('touchstart', () => {
-          english.classList.add('visible');
-          hankoWrapper.classList.add('visible');
-          hankoRed.style.opacity = '1';
-          hankoGrey.style.opacity = '0';
-          hankoRed.style.transform = 'translateX(-50%) scale(1)';
-          hankoGrey.style.transform = 'translateX(-50%) scale(1)';
-          setTimeout(() => {
-            hankoRed.style.opacity = '0';
-            hankoGrey.style.opacity = '1';
-          }, 1000);
-          setTimeout(() => {
-            english.classList.remove('visible');
-            hankoWrapper.classList.remove('visible');
-            hankoRed.style.opacity = '0';
-            hankoGrey.style.opacity = '1';
-            hankoRed.style.transform = 'translateX(-50%) scale(1)';
-            hankoGrey.style.transform = 'translateX(-50%) scale(1)';
-          }, 5000);
-        });
-      } else {
-        // iPad/tablet logic: tap or pull once to reveal, tap or pull again to overlay
-        function handleTabletTap() {
-          if (!tabletHasShownFirst) {
-            // FIRST interaction: show YH/poem/hanko
-            showYH(5000);
-            tabletHasShownFirst = true;
-          } else {
-            // SECOND interaction: show overlay
-            showOverlay();
-          }
-        }
-
-        // Listen for both pointerup (tap) and touchend (drag+lift):
-        document.body.addEventListener('pointerup', handleTabletTap);
-        document.body.addEventListener('touchend', handleTabletTap);
-      }
-    }
-
-    // Optional: disable automatic show on load
-    // setTimeout(() => { showYH(5000); }, 5000);
-  </script>
-</body>
-</html>
+    const hankoGrey = document.getElementById('hanko-grey');
+    const hankoRed = document.getElementById('hanko-red');
+    const YH = document.getElementById('yomotsu-hirasaka-image');
+    const overlay = document.getElementById('overlay-photo');
+   
