@@ -38,7 +38,7 @@
       letter-spacing: 0.02em;
       font-feature-settings: "liga" on, "calt" on;
       line-height: 1.4;
-    }  
+    }
 
     .poem-english {
       font-size: 16px;
@@ -75,7 +75,8 @@
     .yomotsu-hirasaka-image.visible {
       opacity: 1;
     }
-    /* Round corners for overlay photo // 12 or 50 */
+
+    /* Round corners for overlay photo */
     .overlay-photo {
       position: absolute;
       top: 0;
@@ -148,6 +149,7 @@
       }
     }
 
+    /* Touch‐only “flash red” placeholder (iPad still does the same JS logic) */
     @media (hover: none) and (pointer: coarse) {
       .hanko-wrapper.touch-flash .hanko-red {
         opacity: 1;
@@ -170,24 +172,47 @@
       z-index: 1000;
     }
 
-    /* iPad-only: Round corners for overlay photo */
+    /* iPad‐only: Round corners for overlay photo */
     @media screen and (min-device-width: 768px) and (max-device-width: 1024px) and (pointer: coarse) {
       .overlay-photo {
         border-radius: 50px !important;
       }
     }
 
-    /* iPhone-only: keep English in flow, hide images, tighten spacing */
+    /* ─── IPHONE SPECIFIC OVERRIDES ─── */
     @media screen and (max-device-width: 428px) and (pointer: coarse) {
-      .poem-text { font-size: 17px; }
-      .image-stack { display: none !important; }
-      .overlay-photo { display: none !important; }
-      /* remove display:none so poem-english stays in flow, just tighten its lines */
-      .poem-english { line-height: 1.1; }
+      /* 1) shrink poem text slightly, but keep it visible */
+      .poem-text {
+        font-size: 17px;
+      }
+      /* 2) allow the images (YH + overlay) to be seen instead of hiding them */
+      .image-stack {
+        display: block !important;    /* previously “none” */
+        width: 200px;                  /* scale the width down to fit */
+      }
+      .yomotsu-hirasaka-image,
+      .overlay-photo {
+        display: block !important;    /* ensure they can fade in */
+        max-width: 200px;             /* match image-stack’s narrower width */
+      }
+      /* 3) KEEP HANKO AT ORIGINAL SIZE (120px × 120px), DO NOT SHRINK */
+      /* .hanko-wrapper,
+         .hanko-grey,
+         .hanko-red { 
+           (no changes here—use desktop sizes) 
+         } */
+      /* 4) tighten English line‐height a bit more if you like */
+      .poem-english {
+        line-height: 1.1;
+        font-size: 14px;
+      }
     }
 
+    /* ─── TABLET‐TO‐DESKTOP MEDIA QUERY (unchanged) ─── */
     @media (min-width: 768px) and (max-width: 1024px) {
-      .poem-text { font-size: 20px; }
+      .poem-text {
+        font-size: 20px;
+      }
     }
   </style>
   <meta name="description" content="Richard Andersen">
@@ -206,27 +231,39 @@
   <div class="content-wrapper">
     <div>
       <div class="poem-text">
-          秋ん宵<br>  
-          散りし盆の灯<br>  
+          秋ん宵<br>
+          散りし盆の灯<br>
           のこりけり
       </div>
       <div class="poem-english" id="poem-english">
-          Autumn at twilight—<br>   
-          soft echoes from Obon fires<br>   
+          Autumn at twilight—<br>
+          soft echoes from Obon fires<br>
           flicker in the dusk
       </div>
     </div>
     <div class="image-stack">
       <!-- Derived work. Photo: “Yomotsu Hirasaka” by ChiefHira, CC BY-SA 3.0 -->
-      <img src="yomotsu_hirasaka.png" alt="Yomotsu Hirasaka" class="yomotsu-hirasaka-image" id="yomotsu-hirasaka-image">
-      <img src="photo2025.png" alt="Photo" class="overlay-photo" id="overlay-photo">
+      <img src="yomotsu_hirasaka.png"
+           alt="Yomotsu Hirasaka"
+           class="yomotsu-hirasaka-image"
+           id="yomotsu-hirasaka-image">
+      <img src="photo2025.png"
+           alt="Photo"
+           class="overlay-photo"
+           id="overlay-photo">
     </div>
   </div>
 
   <div class="hanko-container">
     <div class="hanko-wrapper" id="hanko-wrapper">
-      <img src="hanko_greyscale.png" alt="Hanko Greyscale" class="hanko-grey" id="hanko-grey">
-      <img src="hanko.png" alt="Hanko Red" class="hanko-red" id="hanko-red">
+      <img src="hanko_greyscale.png"
+           alt="Hanko Greyscale"
+           class="hanko-grey"
+           id="hanko-grey">
+      <img src="hanko.png"
+           alt="Hanko Red"
+           class="hanko-red"
+           id="hanko-red">
     </div>
   </div>
 
@@ -396,11 +433,37 @@
       } else {
         // iPad: tap or pull
         document.body.addEventListener('pointerup', () => {
-          showYH(5000);
+          YH.classList.add('visible');
+          english.classList.add('visible');
+          hankoWrapper.classList.add('visible');
+          // Flash red for 1s, then fade over 2s to greyscale
+          hankoRed.style.opacity = '1';
+          hankoGrey.style.opacity = '0';
+          hankoRed.style.transform = 'translateX(-50%) scale(1)';
+          hankoGrey.style.transform = 'translateX(-50%) scale(1)';
+          setTimeout(() => {
+            hankoRed.style.opacity = '0';
+            hankoGrey.style.opacity = '1';
+          }, 1000);
+          clearTimeout(visibilityTimer);
+          visibilityTimer = setTimeout(hideYHAndHanko, 5000);
         });
 
         document.body.addEventListener('touchstart', () => {
-          showYH(5000);
+          YH.classList.add('visible');
+          english.classList.add('visible');
+          hankoWrapper.classList.add('visible');
+          // Flash red for 1s, then fade over 2s to greyscale
+          hankoRed.style.opacity = '1';
+          hankoGrey.style.opacity = '0';
+          hankoRed.style.transform = 'translateX(-50%) scale(1)';
+          hankoGrey.style.transform = 'translateX(-50%) scale(1)';
+          setTimeout(() => {
+            hankoRed.style.opacity = '0';
+            hankoGrey.style.opacity = '1';
+          }, 1000);
+          clearTimeout(visibilityTimer);
+          visibilityTimer = setTimeout(hideYHAndHanko, 5000);
         });
 
         hankoWrapper.addEventListener('click', showOverlay);
