@@ -31,7 +31,7 @@
       padding: 0 40px;
     }
 
-    /* Shifted right by 5px so that “拝” visually lines up with the haiku text */
+    /* Shifted right by 45px so that “拝” visually lines up with the haiku text */
     .poem-text {
       font-size: 20px;
       color: #555;
@@ -40,7 +40,7 @@
       font-feature-settings: "liga" on, "calt" on;
       line-height: 1.4;
       transition: opacity 0.6s ease; /* slower fade */
-      margin-left: 45px;              /* nudge right 5px */
+      margin-left: 45px;              /* nudge right 45px */
     }
 
     .poem-haiku {
@@ -209,7 +209,7 @@
 <body>
   <div class="content-wrapper">
     <div>
-      <!-- “拝” now shifts right by 5px to line up with the haiku -->
+      <!-- “拝” now shifts right by 45px to line up with the haiku -->
       <div class="poem-text" id="poem-text">拝</div>
 
       <div class="poem-haiku" id="poem-haiku">
@@ -268,6 +268,8 @@
     let visibilityTimer;
     let lastShown = 0;
     let canReveal = false;
+    let tabletHasShownFirst = false;
+    let justDragged = false;
 
     window.addEventListener('pageshow', () => {
       if (visibilityTimer) clearTimeout(visibilityTimer);
@@ -285,6 +287,8 @@
       hankoGrey.style.transform = 'translateX(-50%) scale(1)';
 
       canReveal = true;
+      tabletHasShownFirst = false;
+      justDragged = false;
     });
 
     const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -333,14 +337,17 @@
         hankoGrey.style.transform = 'translateX(-50%) scale(1)';
       }
 
-      // Brady: Once poem+YH+hanko have disappeared, restore “拝”
+      // Once poem + YH + hanko have disappeared, restore “拝”
       poemText.style.opacity = '1';
+      tabletHasShownFirst = false;
+      justDragged = false;
     }
 
     function showYH(duration = 5000) {
-      if (!canReveal) return;
+      if (!canReveal || tabletHasShownFirst) return;
 
-      // Delay hiding “拝” by 0.5s, then fade over 0.6s
+      // Mark first interaction and hide “拝” after 0.5s
+      tabletHasShownFirst = true;
       setTimeout(() => {
         poemText.style.opacity = '0';
       }, 500);
@@ -371,6 +378,83 @@
       visibilityTimer = setTimeout(hideYHAndHanko, duration);
     }
 
+    function showOverlay() {
+      // Hide poem + YH + hanko
+      YH.classList.remove('visible');
+      english.classList.remove('visible');
+      hankoWrapper.classList.remove('visible');
+      hankoRed.style.opacity = '0';
+      hankoGrey.style.opacity = '1';
+      hankoRed.style.transform = 'translateX(-50%) scale(1)';
+      hankoGrey.style.transform = 'translateX(-50%) scale(1)';
+
+      canReveal = false;
+      overlay.classList.add('visible');
+
+      clearTimeout(visibilityTimer);
+      // After 5 seconds, fade out overlay and bring back “拝”
+      visibilityTimer = setTimeout(() => {
+        overlay.classList.remove('visible');
+        canReveal = true;
+        poemText.style.opacity = '1';
+        tabletHasShownFirst = false;
+        justDragged = false;
+      }, 5000);
+    }
+
+    function handleTabletTap() {
+      if (justDragged) {
+        // If a drag just happened, ignore this tap and clear flag
+        justDragged = false;
+      } else if (!tabletHasShownFirst) {
+        showYH(5000);
+      } else {
+        showOverlay();
+      }
+    }
+
+    // On iPad/tablet, combine touchmove (drag) and tap logic
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+      if (isMobile) {
+        // iPhone: tap shows poem+hanko; hide “拝” after 0.5s then restore after 5s
+        document.body.addEventListener('touchstart', () => {
+          setTimeout(() => {
+            poemText.style.opacity = '0';
+          }, 500);
+          english.classList.add('visible');
+          hankoWrapper.classList.add('visible');
+          hankoRed.style.opacity = '1';
+          hankoGrey.style.opacity = '0';
+          hankoRed.style.transform = 'translateX(-50%) scale(1)';
+          hankoGrey.style.transform = 'translateX(-50%) scale(1)';
+          setTimeout(() => {
+            hankoRed.style.opacity = '0';
+            hankoGrey.style.opacity = '1';
+          }, 1000);
+          setTimeout(() => {
+            english.classList.remove('visible');
+            hankoWrapper.classList.remove('visible');
+            poemText.style.opacity = '1';
+            hankoRed.style.opacity = '0';
+            hankoGrey.style.opacity = '1';
+            hankoRed.style.transform = 'translateX(-50%) scale(1)';
+            hankoGrey.style.transform = 'translateX(-50%) scale(1)';
+          }, 5000);
+        });
+      } else {
+        // iPad/tablet: first drag or tap reveals, second tap reveals overlay
+        document.body.addEventListener('touchmove', (e) => {
+          if (!tabletHasShownFirst) {
+            // First drag event: show YH/poem/hanko
+            showYH(5000);
+            justDragged = true;
+          }
+        });
+        document.body.addEventListener('pointerup', handleTabletTap);
+      }
+    }
+
+    // Keep desktop mousemove and hover logic for showYH
     document.body.addEventListener('mousemove', () => {
       const now = Date.now();
       if (now - lastShown > 1000) {
@@ -404,76 +488,6 @@
         hankoGrey.style.transform = 'translateX(-50%) scale(1)';
       }
     });
-
-    function showOverlay() {
-      // Hide poem + YH + hanko
-      YH.classList.remove('visible');
-      english.classList.remove('visible');
-      hankoWrapper.classList.remove('visible');
-      hankoRed.style.opacity = '0';
-      hankoGrey.style.opacity = '1';
-      hankoRed.style.transform = 'translateX(-50%) scale(1)';
-      hankoGrey.style.transform = 'translateX(-50%) scale(1)';
-
-      canReveal = false;
-      overlay.classList.add('visible');
-
-      clearTimeout(visibilityTimer);
-      // After 5 seconds, fade out overlay and bring back “拝”
-      visibilityTimer = setTimeout(() => {
-        overlay.classList.remove('visible');
-        canReveal = true;
-        poemText.style.opacity = '1';
-      }, 5000);
-    }
-
-    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-      if (isMobile) {
-        // iPhone: tap shows poem+hanko; hide “拝” after 0.5s then restore after 5s
-        document.body.addEventListener('touchstart', () => {
-          setTimeout(() => {
-            poemText.style.opacity = '0';
-          }, 500);
-          english.classList.add('visible');
-          hankoWrapper.classList.add('visible');
-          hankoRed.style.opacity = '1';
-          hankoGrey.style.opacity = '0';
-          hankoRed.style.transform = 'translateX(-50%) scale(1)';
-          hankoGrey.style.transform = 'translateX(-50%) scale(1)';
-          setTimeout(() => {
-            hankoRed.style.opacity = '0';
-            hankoGrey.style.opacity = '1';
-          }, 1000);
-          setTimeout(() => {
-            english.classList.remove('visible');
-            hankoWrapper.classList.remove('visible');
-            poemText.style.opacity = '1';
-            hankoRed.style.opacity = '0';
-            hankoGrey.style.opacity = '1';
-            hankoRed.style.transform = 'translateX(-50%) scale(1)';
-            hankoGrey.style.transform = 'translateX(-50%) scale(1)';
-          }, 5000);
-        });
-      } else {
-        // iPad/tablet: first tap/pull hides “拝” after 0.5s & shows poem+YH+hanko; next tap/pull shows overlay
-        function handleTabletTap() {
-          if (
-            YH.classList.contains('visible') &&
-            english.classList.contains('visible') &&
-            hankoWrapper.classList.contains('visible')
-          ) {
-            showOverlay();
-          } else {
-            showYH(5000);
-          }
-        }
-
-        document.body.addEventListener('pointerup', handleTabletTap);
-      }
-    }
-
-    // Optional: disable automatic show on load
-    // setTimeout(() => { showYH(5000); }, 5000);
   </script>
 </body>
 </html>
