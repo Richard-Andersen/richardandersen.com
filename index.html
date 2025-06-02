@@ -343,7 +343,7 @@
       justDragged = false;
     }
 
-    function showYH(duration = 10000) {
+    function showYH(duration = 5000) {
       if (!canReveal || tabletHasShownFirst) return;
 
       // Mark first interaction and hide “拝” after 0.5s
@@ -407,7 +407,7 @@
         // If a drag just happened, ignore this tap and clear flag
         justDragged = false;
       } else if (!tabletHasShownFirst) {
-        showYH(10000);
+        showYH(5000);
       } else {
         showOverlay();
       }
@@ -445,8 +445,8 @@
         // iPad/tablet: first drag or tap reveals, second tap reveals overlay
         document.body.addEventListener('touchmove', (e) => {
           if (!tabletHasShownFirst) {
-            // First drag event: show YH/poem/hanko for 10s
-            showYH(10000);
+            // First drag event: show YH/poem/hanko for 5s
+            showYH(5000);
             justDragged = true;
           }
         });
