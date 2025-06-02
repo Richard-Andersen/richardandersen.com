@@ -75,7 +75,7 @@
     .yomotsu-hirasaka-image.visible {
       opacity: 1;
     }
-    /* Round corners for overlay photo // 12 or 50 */
+
     .overlay-photo {
       position: absolute;
       top: 0;
@@ -134,7 +134,6 @@
       opacity: 0;
     }
 
-    /* Desktop hover: fade over 2s to red and scale up */
     @media (hover: hover) and (pointer: fine) {
       .hanko-wrapper:hover .hanko-red {
         opacity: 1;
@@ -170,19 +169,16 @@
       z-index: 1000;
     }
 
-    /* iPad-only: Round corners for overlay photo */
     @media screen and (min-device-width: 768px) and (max-device-width: 1024px) and (pointer: coarse) {
       .overlay-photo {
         border-radius: 50px !important;
       }
     }
 
-    /* iPhone-only: keep English in flow, hide images, tighten spacing */
     @media screen and (max-device-width: 428px) and (pointer: coarse) {
       .poem-text { font-size: 17px; }
       .image-stack { display: none !important; }
       .overlay-photo { display: none !important; }
-      /* remove display:none so poem-haiku stays in flow, just tighten its lines */
       .poem-haiku { line-height: 1.1; }
     }
 
@@ -215,7 +211,6 @@
       </div>
     </div>
     <div class="image-stack">
-      <!-- Derived work. Photo: “Yomotsu Hirasaka” by ChiefHira, CC BY-SA 3.0 -->
       <img src="yomotsu_hirasaka.png" alt="Yomotsu Hirasaka" class="yomotsu-hirasaka-image" id="yomotsu-hirasaka-image">
       <img src="photo2025.png" alt="Photo" class="overlay-photo" id="overlay-photo">
     </div>
@@ -242,11 +237,12 @@
     let visibilityTimer;
     let lastShown = 0;
     let canReveal = false;
+
+    // Always bind this to ensure image reveal works on all devices
+    hankoWrapper.addEventListener('click', showOverlay);
+
     window.addEventListener('pageshow', () => {
-      // Clean up locked states after refresh/pull-to-refresh
-      if (visibilityTimer) {
-        clearTimeout(visibilityTimer);
-      }
+      if (visibilityTimer) clearTimeout(visibilityTimer);
       YH.classList.remove('visible');
       overlay.classList.remove('visible');
       english.classList.remove('visible');
@@ -257,10 +253,10 @@
       hankoGrey.style.transform = 'translateX(-50%) scale(1)';
       canReveal = true;
     });
+
     const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     const isMobile  = window.matchMedia('(max-device-width: 428px) and (pointer: coarse)').matches;
 
-    // Prevent saving greyscale: on drag/context menu, temporarily show red
     hankoGrey.addEventListener('dragstart', () => {
       hankoRed.style.opacity = '1';
       hankoGrey.style.opacity = '0';
@@ -291,10 +287,8 @@
         YH.classList.remove('visible');
         english.classList.remove('visible');
         hankoWrapper.classList.remove('visible');
-        // Ensure greyscale remains on desktop
         hankoRed.style.opacity = '0';
         hankoGrey.style.opacity = '1';
-        // Reset scale
         hankoRed.style.transform = 'translateX(-50%) scale(1)';
         hankoGrey.style.transform = 'translateX(-50%) scale(1)';
       }
@@ -307,7 +301,6 @@
       hankoWrapper.classList.add('visible');
 
       if (!isDesktop) {
-        // Mobile/tablet: flash red for 1s, then revert to greyscale
         hankoRed.style.opacity = '1';
         hankoGrey.style.opacity = '0';
         hankoRed.style.transform = 'translateX(-50%) scale(1)';
@@ -317,7 +310,6 @@
           hankoGrey.style.opacity = '1';
         }, 1000);
       } else {
-        // Desktop: if not hovered, remain greyscale
         if (!hankoWrapper.matches(':hover')) {
           hankoGrey.style.opacity = '1';
           hankoRed.style.opacity = '0';
@@ -344,7 +336,6 @@
         YH.classList.add('visible');
         english.classList.add('visible');
         hankoWrapper.classList.add('visible');
-        // On hover: fade to red over 2s, scale to 1.2
         hankoRed.style.opacity = '1';
         hankoGrey.style.opacity = '0';
         hankoRed.style.transform = 'translateX(-50%) scale(1.2)';
@@ -354,12 +345,10 @@
 
     hankoWrapper.addEventListener('mouseleave', () => {
       if (isDesktop) {
-        // On mouse off: fade back to greyscale over 2s, scale back to 1
         hankoRed.style.opacity = '0';
         hankoGrey.style.opacity = '1';
         hankoRed.style.transform = 'translateX(-50%) scale(1)';
         hankoGrey.style.transform = 'translateX(-50%) scale(1)';
-        // The existing timer will handle fading out if no further mouse movement
       }
     });
 
@@ -367,7 +356,6 @@
       YH.classList.remove('visible');
       english.classList.remove('visible');
       hankoWrapper.classList.remove('visible');
-      // Reset to greyscale
       hankoRed.style.opacity = '0';
       hankoGrey.style.opacity = '1';
       hankoRed.style.transform = 'translateX(-50%) scale(1)';
@@ -383,11 +371,9 @@
 
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
       if (isMobile) {
-        // iPhone: tap or pull
         document.body.addEventListener('touchstart', () => {
           english.classList.add('visible');
           hankoWrapper.classList.add('visible');
-          // Flash red for 1s, fade over 2s into greyscale
           hankoRed.style.opacity = '1';
           hankoGrey.style.opacity = '0';
           hankoRed.style.transform = 'translateX(-50%) scale(1)';
@@ -406,7 +392,6 @@
           }, 5000);
         });
       } else {
-        // iPad: tap or pull
         document.body.addEventListener('pointerup', () => {
           showYH(5000);
         });
@@ -414,18 +399,11 @@
         document.body.addEventListener('touchstart', () => {
           showYH(5000);
         });
-
-        hankoWrapper.addEventListener('click', showOverlay);
       }
-    } else {
-      // Desktop photo overlay
-      hankoWrapper.addEventListener('click', showOverlay);
     }
 
-    // Initial reveal after 5 seconds: fade in then fade out after 5s
-    // setTimeout(() => {
-    //   showYH(5000);
-    // }, 5000);
+    // Optional: disable automatic show on load
+    // setTimeout(() => { showYH(5000); }, 5000);
   </script>
 </body>
 </html>
