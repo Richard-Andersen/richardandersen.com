@@ -40,7 +40,7 @@
       line-height: 1.4;
     }  
 
-    .poem-english {
+    .poem-haiku {
       font-size: 16px;
       color: #666;
       white-space: pre-wrap;
@@ -50,7 +50,7 @@
       margin-top: 16px;
     }
 
-    .poem-english.visible {
+    .poem-haiku.visible {
       opacity: 1;
     }
 
@@ -182,8 +182,8 @@
       .poem-text { font-size: 17px; }
       .image-stack { display: none !important; }
       .overlay-photo { display: none !important; }
-      /* remove display:none so poem-english stays in flow, just tighten its lines */
-      .poem-english { line-height: 1.1; }
+      /* remove display:none so poem-haiku stays in flow, just tighten its lines */
+      .poem-haiku { line-height: 1.1; }
     }
 
     @media (min-width: 768px) and (max-width: 1024px) {
@@ -207,7 +207,7 @@
     <div>
       <div class="poem-text">
       </div>
-      <div class="poem-english" id="poem-english">
+      <div class="poem-haiku" id="poem-haiku">
           Autumn at twilight—<br>   
           soft echoes from Obon fires<br>   
           flicker in the dusk
@@ -237,7 +237,7 @@
     const hankoRed     = document.getElementById('hanko-red');
     const YH           = document.getElementById('yomotsu-hirasaka-image');
     const overlay      = document.getElementById('overlay-photo');
-    const english      = document.getElementById('poem-english');
+    const english      = document.getElementById('poem-haiku');
     let visibilityTimer;
     let lastShown = 0;
     let canReveal = false;
