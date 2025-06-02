@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="author" content="Richard Andersen 2025" />
+
   <title>伊野</title>
   <style>
     html, body {
@@ -30,16 +31,16 @@
       padding: 0 40px;
     }
 
-    /* Shifted right by 45px so that “拝” visually lines up with the haiku text */
+    /* “拝” set to 22px on all devices */
     .poem-text {
-      font-size: 20px;
+      font-size: 22px;
       color: #555;
       white-space: pre-wrap;
       letter-spacing: 0.02em;
       font-feature-settings: "liga" on, "calt" on;
       line-height: 1.4;
-      transition: opacity 0.6s ease; /* slower fade */
-      margin-left: 45px;              /* nudge right 45px */
+      transition: opacity 0.6s ease;
+      margin-left: 45px;  /* nudge right 45px */
     }
 
     .poem-haiku {
@@ -181,14 +182,9 @@
     }
 
     @media screen and (max-device-width: 428px) and (pointer: coarse) {
-      .poem-text { font-size: 17px; }
       .image-stack { display: none !important; }
       .overlay-photo { display: none !important; }
       .poem-haiku { line-height: 1.1; }
-    }
-
-    @media (min-width: 768px) and (max-width: 1024px) {
-      .poem-text { font-size: 20px; }
     }
   </style>
 
@@ -208,7 +204,7 @@
 <body>
   <div class="content-wrapper">
     <div>
-      <!-- “拝” now shifts right by 45px to line up with the haiku -->
+      <!-- “拝” now set to 22px and shifted right by 45px -->
       <div class="poem-text" id="poem-text">拝</div>
 
       <div class="poem-haiku" id="poem-haiku">
