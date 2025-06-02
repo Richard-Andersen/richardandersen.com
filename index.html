@@ -49,7 +49,6 @@
       transition: opacity 5s ease;
       margin-top: 16px;
     }
-
     .poem-english.visible {
       opacity: 1;
     }
@@ -177,24 +176,23 @@
     @media screen and (max-device-width: 428px) and (pointer: coarse) {
       /* 1) bring poem much closer to the left edge */
       .content-wrapper {
-        padding: 0 10px;               /* reduce horizontal padding */
-        justify-content: flex-start;   /* left-align the two flex items */
+        padding: 0 5px;               /* only 5px on each side now */
+        justify-content: flex-start;   /* left-align the content block */
       }
 
       /* 2) keep image-stack at the right by using auto margin */
       .image-stack {
-        display: block !important; 
-        width: 200px; 
+        display: block !important;
+        width: 200px;
         margin-left: auto;            /* push it to the right side */
       }
       .yomotsu-hirasaka-image,
       .overlay-photo {
-        display: block !important; 
+        display: block !important;
         max-width: 200px;
       }
 
       /* 3) leave hanko at its original desktop size (120×120), no shrink */
-      /*    (so we simply do not override .hanko-wrapper or .hanko-grey/.hanko-red here) */
 
       /* 4) tighten poem fonts slightly */
       .poem-text {
@@ -266,7 +264,7 @@
   </div>
 
   <div class="wabun">
-    ・－・&nbsp;&nbsp;・－－・&nbsp;&nbsp;・－・・&nbsp;&nbsp;－－・－・&nbsp;&nbsp;－・&nbsp;&nbsp;－・－－&nbsp;&nbsp;・・－&nbsp;
+    ・－・  ・－－・  ・－・・  －－・－・  －・  －・－－  ・・－ 
   </div>
 
   <script>
@@ -346,7 +344,7 @@
           hankoRed.style.opacity = '0';
           hankoRed.style.transform = 'translateX(-50%) scale(1)';
           hankoGrey.style.transform = 'translateX(-50%) scale(1)';
-        }  
+        }
       }
 
       clearTimeout(visibilityTimer);
@@ -428,6 +426,10 @@
             hankoGrey.style.transform = 'translateX(-50%) scale(1)';
           }, 5000);
         });
+
+        // Ensure tapping the hanko on iPhone also shows the photo overlay:
+        hankoWrapper.addEventListener('click', showOverlay);
+
       } else {
         // iPad: tap or pull
         document.body.addEventListener('pointerup', () => {
