@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Richard Andersen 2025">
 
-  <title>伊野</title>
+  <title>伊野 ｜ 拝</title>
   <style>
     html, body {
       margin: 0;
@@ -31,7 +31,7 @@
       padding: 0 40px;
     }
 
-    .poem-hai {
+    .poem-text {
       font-size: 20px;
       color: #555;
       white-space: pre-wrap;
@@ -40,7 +40,7 @@
       line-height: 1.4;
     }  
 
-    .poem-haiku {
+    .poem-english {
       font-size: 16px;
       color: #666;
       white-space: pre-wrap;
@@ -50,7 +50,7 @@
       margin-top: 16px;
     }
 
-    .poem-haiku.visible {
+    .poem-english.visible {
       opacity: 1;
     }
 
@@ -147,7 +147,7 @@
         transform: translateX(-50%) scale(1.2);
       }
     }
-    /*
+
     @media (hover: none) and (pointer: coarse) {
       .hanko-wrapper.touch-flash .hanko-red {
         opacity: 1;
@@ -156,7 +156,7 @@
         opacity: 0;
       }
     }
-    */
+
     .wabun {
       position: fixed;
       bottom: calc(0.75em + 5px);
@@ -179,15 +179,15 @@
 
     /* iPhone-only: keep English in flow, hide images, tighten spacing */
     @media screen and (max-device-width: 428px) and (pointer: coarse) {
-      .poem-hai { font-size: 17px; }
+      .poem-text { font-size: 17px; }
       .image-stack { display: none !important; }
       .overlay-photo { display: none !important; }
-      /* remove display:none so poem-haiku stays in flow, just tighten its lines */
-      .poem-haiku { line-height: 1.1; }
+      /* remove display:none so poem-english stays in flow, just tighten its lines */
+      .poem-english { line-height: 1.1; }
     }
 
     @media (min-width: 768px) and (max-width: 1024px) {
-      .poem-hai { font-size: 20px; }
+      .poem-text { font-size: 20px; }
     }
   </style>
   <meta name="description" content="Richard Andersen">
@@ -205,10 +205,12 @@
 <body>
   <div class="content-wrapper">
     <div>
-      <div class="poem-hai">
-        拝
+      <div class="poem-text">
+          秋ん宵<br>  
+          散りし盆の灯<br>  
+          のこりけり
       </div>
-      <div class="poem-haiku" id="poem-haiku">
+      <div class="poem-english" id="poem-english">
           Autumn at twilight—<br>   
           soft echoes from Obon fires<br>   
           flicker in the dusk
@@ -238,7 +240,7 @@
     const hankoRed     = document.getElementById('hanko-red');
     const YH           = document.getElementById('yomotsu-hirasaka-image');
     const overlay      = document.getElementById('overlay-photo');
-    const english      = document.getElementById('poem-haiku');
+    const english      = document.getElementById('poem-english');
     let visibilityTimer;
     let lastShown = 0;
     let canReveal = false;
