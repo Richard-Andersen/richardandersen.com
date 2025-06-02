@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="author" content="Richard Andersen 2025" />
-
   <title>伊野</title>
   <style>
     html, body {
@@ -366,11 +365,18 @@
           hankoGrey.style.opacity = '1';
         }, 1000);
       } else {
+        // On desktop, flash red hanko briefly if not hovered
         if (!hankoWrapper.matches(':hover')) {
-          hankoGrey.style.opacity = '1';
-          hankoRed.style.opacity = '0';
+          hankoRed.style.opacity = '1';
+          hankoGrey.style.opacity = '0';
           hankoRed.style.transform = 'translateX(-50%) scale(1)';
           hankoGrey.style.transform = 'translateX(-50%) scale(1)';
+          setTimeout(() => {
+            if (!hankoWrapper.matches(':hover')) {
+              hankoRed.style.opacity = '0';
+              hankoGrey.style.opacity = '1';
+            }
+          }, 1000);
         }
       }
 
