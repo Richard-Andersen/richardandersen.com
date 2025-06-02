@@ -19,7 +19,7 @@
     body {
       display: flex;
       align-items: center;
-      justify-content: center; /* Will be overridden on iPhone */
+      justify-content: center; /* overridden on narrow viewports */
     }
 
     .content-wrapper {
@@ -142,7 +142,7 @@
       }
     }
 
-    /* Touch-only “flash red” placeholder (iPad still does the same JS logic) */
+    /* Touch‐only “flash red” placeholder (iPad still does the same JS logic) */
     @media (hover: none) and (pointer: coarse) {
       .hanko-wrapper.touch-flash .hanko-red {
         opacity: 1;
@@ -165,27 +165,27 @@
       z-index: 1000;
     }
 
-    /* iPad-only: Round corners for overlay photo */
-    @media screen and (min-device-width: 768px) and (max-device-width: 1024px) and (pointer: coarse) {
+    /* iPad‐only: Round corners for overlay photo */
+    @media screen and (min-width: 768px) and (max-width: 1024px) and (pointer: coarse) {
       .overlay-photo {
         border-radius: 50px !important;
       }
     }
 
-    /* ─── IPHONE SPECIFIC OVERRIDES ─── */
-    @media screen and (max-device-width: 428px) and (pointer: coarse) {
+    /* ─── IPHONE PORTRAIT OVERRIDES ─── */
+    @media screen and (max-width: 428px) and (pointer: coarse) {
       body {
-        justify-content: flex-start; /* Force content-wrapper flush to left */
+        justify-content: flex-start;  /* force wrapper flush left */
       }
       .content-wrapper {
-        padding: 0 5px;              /* Minimal horizontal padding */
-        justify-content: flex-start; /* Keep poem text at left inside wrapper */
+        padding: 0 5px;               /* minimal left/right padding */
+        justify-content: flex-start;  /* keep poems left‐aligned inside wrapper */
       }
 
       .image-stack {
         display: block !important;
         width: 200px;
-        margin-left: auto;           /* Push YH to right */
+        margin-left: auto;            /* push gate‐image to right side */
       }
       .yomotsu-hirasaka-image,
       .overlay-photo {
@@ -193,7 +193,7 @@
         max-width: 200px;
       }
 
-      /* Leave hanko at original desktop size */
+      /* leave hanko at original 120×120 */
 
       .poem-text {
         font-size: 17px;
@@ -204,7 +204,7 @@
       }
     }
 
-    /* ─── TABLET-TO-DESKTOP MEDIA QUERY (unchanged) ─── */
+    /* ─── TABLET→DESKTOP (unchanged) ─── */
     @media (min-width: 768px) and (max-width: 1024px) {
       .poem-text {
         font-size: 20px;
@@ -279,7 +279,7 @@
     let canReveal = false;
 
     const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-    const isMobile  = window.matchMedia('(max-device-width: 428px) and (pointer: coarse)').matches;
+    const isMobile  = window.matchMedia('(max-width: 428px) and (pointer: coarse)').matches;
 
     // Prevent saving greyscale: on drag/context menu, temporarily show red
     hankoGrey.addEventListener('dragstart', () => {
