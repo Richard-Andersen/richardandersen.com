@@ -39,7 +39,7 @@
       font-feature-settings: "liga" on, "calt" on;
       line-height: 1.4;
     }  
- 
+
     .poem-english {
       font-size: 16px;
       color: #666;
@@ -48,7 +48,7 @@
       opacity: 0;
       transition: opacity 5s ease;
       margin-top: 16px;
-     }
+    }
 
     .poem-english.visible {
       opacity: 1;
@@ -106,22 +106,55 @@
       width: 120px;
       height: 120px;
       margin-top: 8px;
+      opacity: 0;
+      transition: opacity 0.4s ease;
     }
 
-    .hanko {
+    .hanko-wrapper.visible {
+      opacity: 1;
+    }
+
+    .hanko-grey,
+    .hanko-red {
       position: absolute;
       top: 0;
       left: 50%;
       transform: translateX(-50%) scale(1);
       width: 60px;
-      opacity: 0;
-      transition: opacity 0.4s ease, transform 0.3s ease;
+      transition: opacity 2s ease, transform 0.3s ease;
       pointer-events: auto;
       z-index: 1;
     }
 
-    .hanko.visible {
+    .hanko-grey {
       opacity: 1;
+    }
+
+    .hanko-red {
+      opacity: 0;
+    }
+
+    /* Desktop hover: fade over 2s to red and scale up */
+    @media (hover: hover) and (pointer: fine) {
+      .hanko-wrapper:hover .hanko-red {
+        opacity: 1;
+      }
+      .hanko-wrapper:hover .hanko-grey {
+        opacity: 0;
+      }
+      .hanko-wrapper:hover .hanko-grey,
+      .hanko-wrapper:hover .hanko-red {
+        transform: translateX(-50%) scale(1.2);
+      }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .hanko-wrapper.touch-flash .hanko-red {
+        opacity: 1;
+      }
+      .hanko-wrapper.touch-flash .hanko-grey {
+        opacity: 0;
+      }
     }
 
     .wabun {
@@ -141,18 +174,6 @@
     @media screen and (min-device-width: 768px) and (max-device-width: 1024px) and (pointer: coarse) {
       .overlay-photo {
         border-radius: 50px !important;
-      }
-    }
-
-    @media (hover: hover) and (pointer: fine) {
-      .hanko-wrapper:hover .hanko {
-        transform: translateX(-50%) scale(1.2);
-      }
-    }
-
-    @media (hover: none) and (pointer: coarse) {
-      .hanko.touch-visible {
-        opacity: 1;
       }
     }
 
@@ -203,8 +224,9 @@
   </div>
 
   <div class="hanko-container">
-    <div class="hanko-wrapper">
-      <img src="hanko.png" alt="Hanko" class="hanko" id="hanko">
+    <div class="hanko-wrapper" id="hanko-wrapper">
+      <img src="hanko_greyscale.png" alt="Hanko Greyscale" class="hanko-grey" id="hanko-grey">
+      <img src="hanko.png" alt="Hanko Red" class="hanko-red" id="hanko-red">
     </div>
   </div>
 
@@ -213,16 +235,38 @@
   </div>
 
   <script>
-    const hanko   = document.getElementById('hanko');
-    const YH      = document.getElementById('yomotsu-hirasaka-image');
-    const overlay = document.getElementById('overlay-photo');
-    const english = document.getElementById('poem-english');
+    const hankoWrapper = document.getElementById('hanko-wrapper');
+    const hankoGrey    = document.getElementById('hanko-grey');
+    const hankoRed     = document.getElementById('hanko-red');
+    const YH           = document.getElementById('yomotsu-hirasaka-image');
+    const overlay      = document.getElementById('overlay-photo');
+    const english      = document.getElementById('poem-english');
     let visibilityTimer;
     let lastShown = 0;
     let canReveal = false;
 
     const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     const isMobile  = window.matchMedia('(max-device-width: 428px) and (pointer: coarse)').matches;
+
+    // Prevent saving greyscale: on drag/context menu, temporarily show red
+    hankoGrey.addEventListener('dragstart', () => {
+      hankoRed.style.opacity = '1';
+      hankoGrey.style.opacity = '0';
+    });
+    hankoGrey.addEventListener('dragend', () => {
+      hankoRed.style.opacity = '0';
+      hankoGrey.style.opacity = '1';
+    });
+    hankoRed.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      hankoRed.style.opacity = '1';
+      hankoGrey.style.opacity = '0';
+      setTimeout(() => {
+        hankoRed.style.opacity = '0';
+        hankoGrey.style.opacity = '1';
+      }, 100);
+      return false;
+    });
 
     if (isDesktop) {
       setTimeout(() => { canReveal = true; }, 2000);
@@ -231,10 +275,16 @@
     }
 
     function hideYHAndHanko() {
-      if (!hanko.matches(':hover')) {
+      if (!hankoWrapper.matches(':hover')) {
         YH.classList.remove('visible');
         english.classList.remove('visible');
-        hanko.classList.remove('visible');
+        hankoWrapper.classList.remove('visible');
+        // Ensure greyscale remains on desktop
+        hankoRed.style.opacity = '0';
+        hankoGrey.style.opacity = '1';
+        // Reset scale
+        hankoRed.style.transform = 'translateX(-50%) scale(1)';
+        hankoGrey.style.transform = 'translateX(-50%) scale(1)';
       }
     }
 
@@ -242,7 +292,28 @@
       if (!canReveal) return;
       YH.classList.add('visible');
       english.classList.add('visible');
-      hanko.classList.add('visible');
+      hankoWrapper.classList.add('visible');
+
+      if (!isDesktop) {
+        // Mobile/tablet: flash red for 1s, then revert to greyscale
+        hankoRed.style.opacity = '1';
+        hankoGrey.style.opacity = '0';
+        hankoRed.style.transform = 'translateX(-50%) scale(1)';
+        hankoGrey.style.transform = 'translateX(-50%) scale(1)';
+        setTimeout(() => {
+          hankoRed.style.opacity = '0';
+          hankoGrey.style.opacity = '1';
+        }, 1000);
+      } else {
+        // Desktop: if not hovered, remain greyscale
+        if (!hankoWrapper.matches(':hover')) {
+          hankoGrey.style.opacity = '1';
+          hankoRed.style.opacity = '0';
+          hankoRed.style.transform = 'translateX(-50%) scale(1)';
+          hankoGrey.style.transform = 'translateX(-50%) scale(1)';
+        }
+      }
+
       clearTimeout(visibilityTimer);
       visibilityTimer = setTimeout(hideYHAndHanko, duration);
     }
@@ -255,21 +326,40 @@
       }
     });
 
-    hanko.addEventListener('mouseenter', () => {
-      clearTimeout(visibilityTimer);
-      YH.classList.add('visible');
-      english.classList.add('visible');
-      hanko.classList.add('visible');
+    hankoWrapper.addEventListener('mouseenter', () => {
+      if (isDesktop) {
+        clearTimeout(visibilityTimer);
+        YH.classList.add('visible');
+        english.classList.add('visible');
+        hankoWrapper.classList.add('visible');
+        // On hover: fade to red over 2s, scale to 1.2
+        hankoRed.style.opacity = '1';
+        hankoGrey.style.opacity = '0';
+        hankoRed.style.transform = 'translateX(-50%) scale(1.2)';
+        hankoGrey.style.transform = 'translateX(-50%) scale(1.2)';
+      }
     });
 
-    hanko.addEventListener('mouseleave', () => {
-      visibilityTimer = setTimeout(hideYHAndHanko, 400);
+    hankoWrapper.addEventListener('mouseleave', () => {
+      if (isDesktop) {
+        // On mouse off: fade back to greyscale over 2s, scale back to 1
+        hankoRed.style.opacity = '0';
+        hankoGrey.style.opacity = '1';
+        hankoRed.style.transform = 'translateX(-50%) scale(1)';
+        hankoGrey.style.transform = 'translateX(-50%) scale(1)';
+        // The existing timer will handle fading out if no further mouse movement
+      }
     });
 
     function showOverlay() {
       YH.classList.remove('visible');
       english.classList.remove('visible');
-      hanko.classList.remove('visible');
+      hankoWrapper.classList.remove('visible');
+      // Reset to greyscale
+      hankoRed.style.opacity = '0';
+      hankoGrey.style.opacity = '1';
+      hankoRed.style.transform = 'translateX(-50%) scale(1)';
+      hankoGrey.style.transform = 'translateX(-50%) scale(1)';
       canReveal = false;
       overlay.classList.add('visible');
       clearTimeout(visibilityTimer);
@@ -281,21 +371,43 @@
 
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
       if (isMobile) {
-        // iPhone: tap or pull shows English poem + hanko, then fades
+        // iPhone: tap or pull
         document.body.addEventListener('touchstart', () => {
           english.classList.add('visible');
-          hanko.classList.add('visible');
+          hankoWrapper.classList.add('visible');
+          // Flash red for 1s, fade over 2s into greyscale
+          hankoRed.style.opacity = '1';
+          hankoGrey.style.opacity = '0';
+          hankoRed.style.transform = 'translateX(-50%) scale(1)';
+          hankoGrey.style.transform = 'translateX(-50%) scale(1)';
+          setTimeout(() => {
+            hankoRed.style.opacity = '0';
+            hankoGrey.style.opacity = '1';
+          }, 1000);
           setTimeout(() => {
             english.classList.remove('visible');
-            hanko.classList.remove('visible');
+            hankoWrapper.classList.remove('visible');
+            hankoRed.style.opacity = '0';
+            hankoGrey.style.opacity = '1';
+            hankoRed.style.transform = 'translateX(-50%) scale(1)';
+            hankoGrey.style.transform = 'translateX(-50%) scale(1)';
           }, 5000);
         });
       } else {
-        // iPad: tap or pull shows all three, then fades
+        // iPad: tap or pull
         document.body.addEventListener('pointerup', () => {
           YH.classList.add('visible');
           english.classList.add('visible');
-          hanko.classList.add('visible');
+          hankoWrapper.classList.add('visible');
+          // Flash red for 1s, fade over 2s into greyscale
+          hankoRed.style.opacity = '1';
+          hankoGrey.style.opacity = '0';
+          hankoRed.style.transform = 'translateX(-50%) scale(1)';
+          hankoGrey.style.transform = 'translateX(-50%) scale(1)';
+          setTimeout(() => {
+            hankoRed.style.opacity = '0';
+            hankoGrey.style.opacity = '1';
+          }, 1000);
           clearTimeout(visibilityTimer);
           visibilityTimer = setTimeout(hideYHAndHanko, 5000);
         });
@@ -303,24 +415,37 @@
         document.body.addEventListener('touchstart', () => {
           YH.classList.add('visible');
           english.classList.add('visible');
-          hanko.classList.add('visible');
+          hankoWrapper.classList.add('visible');
+          // Flash red for 1s, fade over 2s into greyscale
+          hankoRed.style.opacity = '1';
+          hankoGrey.style.opacity = '0';
+          hankoRed.style.transform = 'translateX(-50%) scale(1)';
+          hankoGrey.style.transform = 'translateX(-50%) scale(1)';
+          setTimeout(() => {
+            hankoRed.style.opacity = '0';
+            hankoGrey.style.opacity = '1';
+          }, 1000);
           clearTimeout(visibilityTimer);
           visibilityTimer = setTimeout(hideYHAndHanko, 5000);
         });
 
-        hanko.addEventListener('click', showOverlay);
+        hankoWrapper.addEventListener('click', showOverlay);
       }
     } else {
       // Desktop photo overlay
-      hanko.addEventListener('click', showOverlay);
+      hankoWrapper.addEventListener('click', showOverlay);
     }
 
-      // Show Yomotsu Hirasaka image after 5 seconds
-      setTimeout(() => {
-        YH.classList.add('visible');
-        english.classList.add('visible');
-        hanko.classList.add('visible');
-      }, 5000);
+    // Initial reveal after 5 seconds: desktop shows greyscale only
+    setTimeout(() => {
+      YH.classList.add('visible');
+      english.classList.add('visible');
+      hankoWrapper.classList.add('visible');
+      hankoGrey.style.opacity = '1';
+      hankoRed.style.opacity = '0';
+      hankoRed.style.transform = 'translateX(-50%) scale(1)';
+      hankoGrey.style.transform = 'translateX(-50%) scale(1)';
+    }, 5000);
   </script>
 </body>
 </html>
