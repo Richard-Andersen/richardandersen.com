@@ -31,6 +31,7 @@
       padding: 0 40px;
     }
 
+    /* Ensure “拝” and the haiku share the same left alignment */
     .poem-text {
       font-size: 20px;
       color: #555;
@@ -38,8 +39,8 @@
       letter-spacing: 0.02em;
       font-feature-settings: "liga" on, "calt" on;
       line-height: 1.4;
-      /* We’ll toggle opacity via JS */
       transition: opacity 0.4s ease;
+      margin-left: 0;
     }
 
     .poem-haiku {
@@ -208,7 +209,7 @@
 <body>
   <div class="content-wrapper">
     <div>
-      <!-- Give this div an id so we can toggle its opacity in JS -->
+      <!-- “拝” now lines up flush with the haiku -->
       <div class="poem-text" id="poem-text">拝</div>
 
       <div class="poem-haiku" id="poem-haiku">
@@ -271,8 +272,8 @@
     window.addEventListener('pageshow', () => {
       if (visibilityTimer) clearTimeout(visibilityTimer);
 
-      // Reset everything on page show/reload:
-      poemText.style.opacity = '1';               // “拝” visible
+      // Reset everything:
+      poemText.style.opacity = '1';               // Make “拝” visible
       YH.classList.remove('visible');
       overlay.classList.remove('visible');
       english.classList.remove('visible');
@@ -289,7 +290,7 @@
     const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     const isMobile = window.matchMedia('(max-device-width: 428px) and (pointer: coarse)').matches;
 
-    // On desktop, clicking the hanko still shows the photo overlay:
+    // Desktop: clicking the hanko shows the photo
     if (isDesktop) {
       hankoWrapper.addEventListener('click', showOverlay);
     }
@@ -332,14 +333,14 @@
         hankoGrey.style.transform = 'translateX(-50%) scale(1)';
       }
 
-      // As soon as YH/poem/hanko are gone, bring “拝” back:
+      // When YH/poem/hanko are hidden, bring back “拝”:
       poemText.style.opacity = '1';
     }
 
     function showYH(duration = 5000) {
       if (!canReveal) return;
 
-      // Hide “拝” immediately when poem + YH + hanko appear:
+      // Hide “拝” immediately when YH/poem/hanko appear:
       poemText.style.opacity = '0';
 
       YH.classList.add('visible');
@@ -379,7 +380,7 @@
     hankoWrapper.addEventListener('mouseenter', () => {
       if (isDesktop) {
         clearTimeout(visibilityTimer);
-        // On desktop hover, poem + YH + hanko should appear:
+        // Hide “拝” when hovering on desktop
         poemText.style.opacity = '0';
         YH.classList.add('visible');
         english.classList.add('visible');
@@ -401,7 +402,7 @@
     });
 
     function showOverlay() {
-      // When showing the photo overlay, hide poem + YH + hanko:
+      // Hide poem + YH + hanko
       YH.classList.remove('visible');
       english.classList.remove('visible');
       hankoWrapper.classList.remove('visible');
@@ -414,7 +415,7 @@
       overlay.classList.add('visible');
 
       clearTimeout(visibilityTimer);
-      // After 5 seconds, fade out overlay and bring “拝” back:
+      // After 5 seconds, fade out overlay and bring back “拝”
       visibilityTimer = setTimeout(() => {
         overlay.classList.remove('visible');
         canReveal = true;
@@ -424,9 +425,8 @@
 
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
       if (isMobile) {
-        // iPhone: tap briefly shows poem + hanko; they fade after 5s.
+        // iPhone: tap shows poem+hanko; hide “拝” then restore after 5s
         document.body.addEventListener('touchstart', () => {
-          // Hide “拝” as soon as poem + hanko appear:
           poemText.style.opacity = '0';
           english.classList.add('visible');
           hankoWrapper.classList.add('visible');
@@ -441,7 +441,6 @@
           setTimeout(() => {
             english.classList.remove('visible');
             hankoWrapper.classList.remove('visible');
-            // Once poem + hanko are hidden, bring “拝” back:
             poemText.style.opacity = '1';
             hankoRed.style.opacity = '0';
             hankoGrey.style.opacity = '1';
@@ -450,8 +449,7 @@
           }, 5000);
         });
       } else {
-        // iPad/tablet: first tap or pull shows YH + poem + hanko; hide “拝” then.
-        // Second tap/pull shows the photo overlay; then bring “拝” back afterward.
+        // iPad/tablet: first tap/pull hides “拝” & shows poem+YH+hanko; next tap/pull shows overlay
         function handleTabletTap() {
           if (
             YH.classList.contains('visible') &&
@@ -465,7 +463,6 @@
         }
 
         document.body.addEventListener('pointerup', handleTabletTap);
-        document.body.addEventListener('touchend', handleTabletTap);
       }
     }
 
