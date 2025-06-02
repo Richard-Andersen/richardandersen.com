@@ -108,10 +108,12 @@
       margin-top: 8px;
       opacity: 0;
       transition: opacity 0.4s ease;
+      pointer-events: none; /* default: not clickable */
     }
 
     .hanko-wrapper.visible {
       opacity: 1;
+      pointer-events: auto; /* now clickable */
     }
 
     .hanko-grey,
@@ -122,7 +124,7 @@
       transform: translateX(-50%) scale(1);
       width: 60px;
       transition: opacity 2s ease, transform 0.3s ease;
-      pointer-events: auto;
+      pointer-events: none; /* 👈 pass-through */
       z-index: 1;
     }
 
@@ -201,9 +203,7 @@
 <body>
   <div class="content-wrapper">
     <div>
-      <div class="poem-text">
-          拝
-      </div>
+      <div class="poem-text">拝</div>
       <div class="poem-haiku" id="poem-haiku">
           Autumn at twilight—<br>   
           soft echoes from Obon fires<br>   
@@ -238,7 +238,7 @@
     let lastShown = 0;
     let canReveal = false;
 
-    // Always bind this to ensure image reveal works on all devices
+    // Always bind tap/click handler
     hankoWrapper.addEventListener('click', showOverlay);
 
     window.addEventListener('pageshow', () => {
@@ -402,7 +402,6 @@
       }
     }
 
-    // Optional: disable automatic show on load
     // setTimeout(() => { showYH(5000); }, 5000);
   </script>
 </body>
