@@ -58,7 +58,6 @@
       position: relative;
       width: 346px;
     }
-
     .image-stack img {
       width: 100%;
       height: auto;
@@ -71,7 +70,6 @@
       pointer-events: none;
       z-index: 1;
     }
-
     .yomotsu-hirasaka-image.visible {
       opacity: 1;
     }
@@ -87,7 +85,6 @@
       z-index: 2;
       border-radius: 50px;
     }
-
     .overlay-photo.visible {
       opacity: 1;
     }
@@ -110,7 +107,6 @@
       opacity: 0;
       transition: opacity 0.4s ease;
     }
-
     .hanko-wrapper.visible {
       opacity: 1;
     }
@@ -126,11 +122,9 @@
       pointer-events: auto;
       z-index: 1;
     }
-
     .hanko-grey {
       opacity: 1;
     }
-
     .hanko-red {
       opacity: 0;
     }
@@ -149,7 +143,7 @@
       }
     }
 
-    /* Touch‐only “flash red” placeholder (iPad still does the same JS logic) */
+    /* Touch-only “flash red” placeholder (iPad still does the same JS logic) */
     @media (hover: none) and (pointer: coarse) {
       .hanko-wrapper.touch-flash .hanko-red {
         opacity: 1;
@@ -172,7 +166,7 @@
       z-index: 1000;
     }
 
-    /* iPad‐only: Round corners for overlay photo */
+    /* iPad-only: Round corners for overlay photo */
     @media screen and (min-device-width: 768px) and (max-device-width: 1024px) and (pointer: coarse) {
       .overlay-photo {
         border-radius: 50px !important;
@@ -181,34 +175,38 @@
 
     /* ─── IPHONE SPECIFIC OVERRIDES ─── */
     @media screen and (max-device-width: 428px) and (pointer: coarse) {
-      /* 1) shrink poem text slightly, but keep it visible */
-      .poem-text {
-        font-size: 17px;
+      /* 1) bring poem much closer to the left edge */
+      .content-wrapper {
+        padding: 0 10px;               /* reduce horizontal padding */
+        justify-content: flex-start;   /* left-align the two flex items */
       }
-      /* 2) allow the images (YH + overlay) to be seen instead of hiding them */
+
+      /* 2) keep image-stack at the right by using auto margin */
       .image-stack {
-        display: block !important;    /* previously “none” */
-        width: 200px;                  /* scale the width down to fit */
+        display: block !important; 
+        width: 200px; 
+        margin-left: auto;            /* push it to the right side */
       }
       .yomotsu-hirasaka-image,
       .overlay-photo {
-        display: block !important;    /* ensure they can fade in */
-        max-width: 200px;             /* match image-stack’s narrower width */
+        display: block !important; 
+        max-width: 200px;
       }
-      /* 3) KEEP HANKO AT ORIGINAL SIZE (120px × 120px), DO NOT SHRINK */
-      /* .hanko-wrapper,
-         .hanko-grey,
-         .hanko-red { 
-           (no changes here—use desktop sizes) 
-         } */
-      /* 4) tighten English line‐height a bit more if you like */
+
+      /* 3) leave hanko at its original desktop size (120×120), no shrink */
+      /*    (so we simply do not override .hanko-wrapper or .hanko-grey/.hanko-red here) */
+
+      /* 4) tighten poem fonts slightly */
+      .poem-text {
+        font-size: 17px;
+      }
       .poem-english {
         line-height: 1.1;
         font-size: 14px;
       }
     }
 
-    /* ─── TABLET‐TO‐DESKTOP MEDIA QUERY (unchanged) ─── */
+    /* ─── TABLET-TO-DESKTOP MEDIA QUERY (unchanged) ─── */
     @media (min-width: 768px) and (max-width: 1024px) {
       .poem-text {
         font-size: 20px;
@@ -348,7 +346,7 @@
           hankoRed.style.opacity = '0';
           hankoRed.style.transform = 'translateX(-50%) scale(1)';
           hankoGrey.style.transform = 'translateX(-50%) scale(1)';
-        }
+        }  
       }
 
       clearTimeout(visibilityTimer);
