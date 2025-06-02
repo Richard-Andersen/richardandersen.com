@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="author" content="Richard Andersen 2025" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Richard Andersen 2025">
 
   <title>伊野 ｜ 拝</title>
   <style>
@@ -38,7 +38,7 @@
       letter-spacing: 0.02em;
       font-feature-settings: "liga" on, "calt" on;
       line-height: 1.4;
-    }
+    }  
 
     .poem-english {
       font-size: 16px;
@@ -75,10 +75,7 @@
     .yomotsu-hirasaka-image.visible {
       opacity: 1;
     }
-
-    /*===========================*/
-    /* Desktop/iPad overlay-photo */
-    /*===========================*/
+    /* Round corners for overlay photo // 12 or 50 */
     .overlay-photo {
       position: absolute;
       top: 0;
@@ -91,28 +88,6 @@
     }
 
     .overlay-photo.visible {
-      opacity: 1;
-    }
-
-    /*===========================*/
-    /* iPhone-specific overlay-photo */
-    /*===========================*/
-    .overlay-photo.mobile {
-      display: none;      /* hidden by default */
-      opacity: 0;
-      transition: opacity 0.5s ease;
-    }
-
-    .overlay-photo.mobile.visible {
-      display: block;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      /* Make sure it fits in iPhone portrait (~375–428px wide) */
-      width: 300px;
-      max-width: 90vw;   /* never exceed 90% of viewport width */
-      z-index: 999;
       opacity: 1;
     }
 
@@ -164,11 +139,9 @@
       .hanko-wrapper:hover .hanko-red {
         opacity: 1;
       }
-
       .hanko-wrapper:hover .hanko-grey {
         opacity: 0;
       }
-
       .hanko-wrapper:hover .hanko-grey,
       .hanko-wrapper:hover .hanko-red {
         transform: translateX(-50%) scale(1.2);
@@ -204,11 +177,12 @@
       }
     }
 
-    /* iPhone-only: keep English in flow, hide desktop images, tighten spacing */
+    /* iPhone-only: keep English in flow, hide images, tighten spacing */
     @media screen and (max-device-width: 428px) and (pointer: coarse) {
       .poem-text { font-size: 17px; }
       .image-stack { display: none !important; }
       .overlay-photo { display: none !important; }
+      /* remove display:none so poem-english stays in flow, just tighten its lines */
       .poem-english { line-height: 1.1; }
     }
 
@@ -216,8 +190,7 @@
       .poem-text { font-size: 20px; }
     }
   </style>
-
-  <meta name="description" content="Richard Andersen" />
+  <meta name="description" content="Richard Andersen">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -232,7 +205,7 @@
 <body>
   <div class="content-wrapper">
     <div>
-      <div class="poem-text" id="poem-japanese">
+      <div class="poem-text">
           秋ん宵<br>  
           散りし盆の灯<br>  
           のこりけり
@@ -243,47 +216,17 @@
           flicker in the dusk
       </div>
     </div>
-
     <div class="image-stack">
-      <!-- Desktop/iPad: Yomotsu Hirasaka fades in -->
-      <img
-        src="yomotsu_hirasaka.png"
-        alt="Yomotsu Hirasaka"
-        class="yomotsu-hirasaka-image"
-        id="yomotsu-hirasaka-image"
-      />
-      <!-- Desktop/iPad: overlay-photo (photo2025.png) -->
-      <img
-        src="photo2025.png"
-        alt="Photo"
-        class="overlay-photo"
-        id="overlay-photo"
-      />
+      <!-- Derived work. Photo: “Yomotsu Hirasaka” by ChiefHira, CC BY-SA 3.0 -->
+      <img src="yomotsu_hirasaka.png" alt="Yomotsu Hirasaka" class="yomotsu-hirasaka-image" id="yomotsu-hirasaka-image">
+      <img src="photo2025.png" alt="Photo" class="overlay-photo" id="overlay-photo">
     </div>
   </div>
 
-  <!-- iPhone-specific: second IMG, centered -->
-  <img
-    src="photo2025.png"
-    alt="Photo Mobile"
-    class="overlay-photo mobile"
-    id="overlay-photo-mobile"
-  />
-
   <div class="hanko-container">
     <div class="hanko-wrapper" id="hanko-wrapper">
-      <img
-        src="hanko_greyscale.png"
-        alt="Hanko Greyscale"
-        class="hanko-grey"
-        id="hanko-grey"
-      />
-      <img
-        src="hanko.png"
-        alt="Hanko Red"
-        class="hanko-red"
-        id="hanko-red"
-      />
+      <img src="hanko_greyscale.png" alt="Hanko Greyscale" class="hanko-grey" id="hanko-grey">
+      <img src="hanko.png" alt="Hanko Red" class="hanko-red" id="hanko-red">
     </div>
   </div>
 
@@ -292,29 +235,20 @@
   </div>
 
   <script>
-    /******************************************************************
-     * 1) Grab all the elements we’ll need:
-     ******************************************************************/
     const hankoWrapper = document.getElementById('hanko-wrapper');
-    const hankoGrey = document.getElementById('hanko-grey');
-    const hankoRed = document.getElementById('hanko-red');
-    const YH = document.getElementById('yomotsu-hirasaka-image');
-    const overlay = document.getElementById('overlay-photo');
-    const overlayMobile = document.getElementById('overlay-photo-mobile');
-    const english = document.getElementById('poem-english');
-    const japanese = document.getElementById('poem-japanese');
-
+    const hankoGrey    = document.getElementById('hanko-grey');
+    const hankoRed     = document.getElementById('hanko-red');
+    const YH           = document.getElementById('yomotsu-hirasaka-image');
+    const overlay      = document.getElementById('overlay-photo');
+    const english      = document.getElementById('poem-english');
     let visibilityTimer;
     let lastShown = 0;
     let canReveal = false;
 
     const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     const isMobile  = window.matchMedia('(max-device-width: 428px) and (pointer: coarse)').matches;
-    const isIpad    = !isDesktop && !isMobile; // anything that isn’t desktop or tiny‐screen mobile
 
-    /******************************************************************
-     * 2) “Prevent saving greyscale” trick:
-     ******************************************************************/
+    // Prevent saving greyscale: on drag/context menu, temporarily show red
     hankoGrey.addEventListener('dragstart', () => {
       hankoRed.style.opacity = '1';
       hankoGrey.style.opacity = '0';
@@ -334,25 +268,21 @@
       return false;
     });
 
-    /******************************************************************
-     * 3) Delay revealing for 2s if desktop; immediate if others:
-     ******************************************************************/
     if (isDesktop) {
       setTimeout(() => { canReveal = true; }, 2000);
     } else {
       canReveal = true;
     }
 
-    /******************************************************************
-     * 4) Core functions: hideYHAndHanko() and showYH(duration)
-     ******************************************************************/
     function hideYHAndHanko() {
       if (!hankoWrapper.matches(':hover')) {
         YH.classList.remove('visible');
         english.classList.remove('visible');
         hankoWrapper.classList.remove('visible');
+        // Ensure greyscale remains on desktop
         hankoRed.style.opacity = '0';
         hankoGrey.style.opacity = '1';
+        // Reset scale
         hankoRed.style.transform = 'translateX(-50%) scale(1)';
         hankoGrey.style.transform = 'translateX(-50%) scale(1)';
       }
@@ -388,20 +318,50 @@
       visibilityTimer = setTimeout(hideYHAndHanko, duration);
     }
 
-    /******************************************************************
-     * 5) showOverlay() (desktop + iPad) – hides poem & hanko, shows overlay, then reverts
-     ******************************************************************/
+    document.body.addEventListener('mousemove', () => {
+      const now = Date.now();
+      if (now - lastShown > 1000) {
+        showYH(5000);
+        lastShown = now;
+      }
+    });
+
+    hankoWrapper.addEventListener('mouseenter', () => {
+      if (isDesktop) {
+        clearTimeout(visibilityTimer);
+        YH.classList.add('visible');
+        english.classList.add('visible');
+        hankoWrapper.classList.add('visible');
+        // On hover: fade to red over 2s, scale to 1.2
+        hankoRed.style.opacity = '1';
+        hankoGrey.style.opacity = '0';
+        hankoRed.style.transform = 'translateX(-50%) scale(1.2)';
+        hankoGrey.style.transform = 'translateX(-50%) scale(1.2)';
+      }
+    });
+
+    hankoWrapper.addEventListener('mouseleave', () => {
+      if (isDesktop) {
+        // On mouse off: fade back to greyscale over 2s, scale back to 1
+        hankoRed.style.opacity = '0';
+        hankoGrey.style.opacity = '1';
+        hankoRed.style.transform = 'translateX(-50%) scale(1)';
+        hankoGrey.style.transform = 'translateX(-50%) scale(1)';
+        // The existing timer will handle fading out if no further mouse movement
+      }
+    });
+
     function showOverlay() {
       YH.classList.remove('visible');
       english.classList.remove('visible');
       hankoWrapper.classList.remove('visible');
+      // Reset to greyscale
       hankoRed.style.opacity = '0';
       hankoGrey.style.opacity = '1';
       hankoRed.style.transform = 'translateX(-50%) scale(1)';
       hankoGrey.style.transform = 'translateX(-50%) scale(1)';
-      canReveal = false;            // pause any further colors/fades
+      canReveal = false;
       overlay.classList.add('visible');
-
       clearTimeout(visibilityTimer);
       setTimeout(() => {
         overlay.classList.remove('visible');
@@ -409,16 +369,13 @@
       }, 5000);
     }
 
-    /******************************************************************
-     * 6) Attach desktop (mouse) and iPad (pointer/touch) event handlers
-     ******************************************************************/
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
       if (isMobile) {
-        // iPhone-only: (we’ll override once we add the special iPhone Hanko behavior below)
-        // We still want “body touchstart → show English + Hanko” for non-Hanko taps, if desired.
+        // iPhone: tap or pull
         document.body.addEventListener('touchstart', () => {
           english.classList.add('visible');
           hankoWrapper.classList.add('visible');
+          // Flash red for 1s, fade over 2s into greyscale
           hankoRed.style.opacity = '1';
           hankoGrey.style.opacity = '0';
           hankoRed.style.transform = 'translateX(-50%) scale(1)';
@@ -437,66 +394,26 @@
           }, 5000);
         });
       } else {
-        // iPad: tap/pull reveal YH + Hanko/English
+        // iPad: tap or pull
         document.body.addEventListener('pointerup', () => {
           showYH(5000);
         });
+
         document.body.addEventListener('touchstart', () => {
           showYH(5000);
         });
-        // iPad clicking Hanko = showOverlay (photo fade)
+
         hankoWrapper.addEventListener('click', showOverlay);
       }
     } else {
-      // Desktop: clicking Hanko = showOverlay (photo fade)
+      // Desktop photo overlay
       hankoWrapper.addEventListener('click', showOverlay);
     }
 
-    /******************************************************************
-     * 7) Automatic “first reveal”: after 5s showEnglish + YH + Hanko, then fade out after 5s
-     ******************************************************************/
+    // Initial reveal after 5 seconds: fade in then fade out after 5s
     setTimeout(() => {
       showYH(5000);
     }, 5000);
-
-    /******************************************************************
-     * 8) Desktop “mousemove” → showYH (debounced to once/sec)
-     ******************************************************************/
-    if (isDesktop) {
-      document.body.addEventListener('mousemove', () => {
-        const now = Date.now();
-        if (now - lastShown > 1000) {
-          showYH(5000);
-          lastShown = now;
-        }
-      });
-    }
-
-    /******************************************************************
-     * 9) NEW: iPhone-only hack: tap Hanko → show mobile overlay (photo), hide poems/Hanko, revert after 3s
-     ******************************************************************/
-    if (isMobile) {
-      hankoWrapper.addEventListener('touchstart', (e) => {
-        // Prevent the “body touchstart → showEnglish…” from also firing (stop propagation)
-        e.stopPropagation();
-
-        // Hide poems + Hanko
-        japanese.style.display = 'none';
-        english.style.display = 'none';
-        hankoWrapper.style.display = 'none';
-
-        // Show mobile overlay centered, for 3 s
-        overlayMobile.classList.add('visible');
-        setTimeout(() => {
-          overlayMobile.classList.remove('visible');
-
-          // Revert to only Japanese poem + Hanko
-          japanese.style.display = 'block';
-          english.style.display = 'none';
-          hankoWrapper.style.display = 'block';
-        }, 3000);
-      });
-    }
   </script>
 </body>
 </html>
