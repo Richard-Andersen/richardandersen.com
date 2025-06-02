@@ -31,6 +31,12 @@
       padding: 0 40px;
     }
 
+    .poem-block {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
     .poem-text {
       font-size: 20px;
       color: #555;
@@ -108,12 +114,12 @@
       margin-top: 8px;
       opacity: 0;
       transition: opacity 0.4s ease;
-      pointer-events: none; /* default: not clickable */
+      pointer-events: none;
     }
 
     .hanko-wrapper.visible {
       opacity: 1;
-      pointer-events: auto; /* now clickable */
+      pointer-events: auto;
     }
 
     .hanko-grey,
@@ -124,7 +130,7 @@
       transform: translateX(-50%) scale(1);
       width: 60px;
       transition: opacity 2s ease, transform 0.3s ease;
-      pointer-events: none; /* 👈 pass-through */
+      pointer-events: none;
       z-index: 1;
     }
 
@@ -202,7 +208,7 @@
 </head>
 <body>
   <div class="content-wrapper">
-    <div>
+    <div class="poem-block">
       <div class="poem-text">拝</div>
       <div class="poem-haiku" id="poem-haiku">
           Autumn at twilight—<br>   
@@ -238,7 +244,6 @@
     let lastShown = 0;
     let canReveal = false;
 
-    // Always bind tap/click handler
     hankoWrapper.addEventListener('click', showOverlay);
 
     window.addEventListener('pageshow', () => {
