@@ -31,7 +31,7 @@
       padding: 0 40px;
     }
 
-    /* Shifted right by 7px so that “拝” visually lines up with the haiku text */
+    /* Shifted right by 5px so that “拝” visually lines up with the haiku text */
     .poem-text {
       font-size: 20px;
       color: #555;
@@ -40,7 +40,7 @@
       font-feature-settings: "liga" on, "calt" on;
       line-height: 1.4;
       transition: opacity 0.6s ease; /* slower fade */
-      margin-left: 7px;              /* nudge right 7px */
+      margin-left: 45px;              /* nudge right 5px */
     }
 
     .poem-haiku {
@@ -209,7 +209,7 @@
 <body>
   <div class="content-wrapper">
     <div>
-      <!-- “拝” now shifts right by 7px to line up with the haiku -->
+      <!-- “拝” now shifts right by 5px to line up with the haiku -->
       <div class="poem-text" id="poem-text">拝</div>
 
       <div class="poem-haiku" id="poem-haiku">
@@ -333,7 +333,7 @@
         hankoGrey.style.transform = 'translateX(-50%) scale(1)';
       }
 
-      // Once poem + YH + hanko have disappeared, restore “拝”
+      // Brady: Once poem+YH+hanko have disappeared, restore “拝”
       poemText.style.opacity = '1';
     }
 
