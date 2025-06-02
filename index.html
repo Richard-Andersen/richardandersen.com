@@ -242,21 +242,21 @@
     let visibilityTimer;
     let lastShown = 0;
     let canReveal = false;
-window.addEventListener('pageshow', () => {
-  // Clean up locked states after refresh/pull-to-refresh
-  if (visibilityTimer) {
-    clearTimeout(visibilityTimer);
-  }
-  YH.classList.remove('visible');
-  overlay.classList.remove('visible');
-  english.classList.remove('visible');
-  hankoWrapper.classList.remove('visible');
-  hankoRed.style.opacity = '0';
-  hankoGrey.style.opacity = '1';
-  hankoRed.style.transform = 'translateX(-50%) scale(1)';
-  hankoGrey.style.transform = 'translateX(-50%) scale(1)';
-  canReveal = true;
-});
+    window.addEventListener('pageshow', () => {
+      // Clean up locked states after refresh/pull-to-refresh
+      if (visibilityTimer) {
+        clearTimeout(visibilityTimer);
+      }
+      YH.classList.remove('visible');
+      overlay.classList.remove('visible');
+      english.classList.remove('visible');
+      hankoWrapper.classList.remove('visible');
+      hankoRed.style.opacity = '0';
+      hankoGrey.style.opacity = '1';
+      hankoRed.style.transform = 'translateX(-50%) scale(1)';
+      hankoGrey.style.transform = 'translateX(-50%) scale(1)';
+      canReveal = true;
+    });
     const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     const isMobile  = window.matchMedia('(max-device-width: 428px) and (pointer: coarse)').matches;
 
