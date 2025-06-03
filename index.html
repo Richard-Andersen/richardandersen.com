@@ -273,6 +273,7 @@
     let canReveal = false;
     let tabletHasShownFirst = false;
     let justDragged = false;
+    let photoOverlayActive = false; 
 
     window.addEventListener('pageshow', () => {
       if (visibilityTimer) clearTimeout(visibilityTimer);
@@ -341,7 +342,9 @@
       }
 
       // Once poem + YH + hanko have disappeared, restore “拝”
+     if (!photoOverlayActive) { 
       poemText.style.opacity = '1';
+     }
       tabletHasShownFirst = false;
       justDragged = false;
     }
@@ -389,6 +392,8 @@
     }
 
     function showOverlay() {
+      photoOverlayActive = true;
+
       // Hide poem + YH + hanko
       YH.classList.remove('visible');
       english.classList.remove('visible');
@@ -397,7 +402,7 @@
       hankoGrey.style.opacity = '1';
       hankoRed.style.transform = 'translateX(-50%) scale(1)';
       hankoGrey.style.transform = 'translateX(-50%) scale(1)';
-
+ 
       canReveal = false;
       overlay.classList.add('visible');
 
@@ -407,6 +412,7 @@
 
       // Wait 5s (for fade-out), then allow reveal and show 拝
       setTimeout(() => {
+        photoOverlayActive = false;
         canReveal = true;
         poemText.style.opacity = '1';
       }, 5000);
