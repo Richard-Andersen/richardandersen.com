@@ -402,14 +402,18 @@
       overlay.classList.add('visible');
 
       clearTimeout(visibilityTimer);
-      // After 5 seconds, fade out overlay and bring back “拝”
       visibilityTimer = setTimeout(() => {
-        overlay.classList.remove('visible');
+      overlay.classList.remove('visible');
+
+      // Wait 5s (for fade-out), then allow reveal and show 拝
+      setTimeout(() => {
         canReveal = true;
         poemText.style.opacity = '1';
-        tabletHasShownFirst = false;
-        justDragged = false;
       }, 5000);
+
+  tabletHasShownFirst = false;
+  justDragged = false;
+}, 5000);
     }
 
     function handleTabletTap() {
