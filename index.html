@@ -222,7 +222,7 @@
     </div>
 
     <div class="image-stack">
-    <!-- Derived work. Photo: “Yomotsu Hirasaka” by ChiefHira, CC BY-SA 3.0 -->
+    <!-- Derived work. Photo: “Yomotsu Hirasaka” by ChiefHira, CC BY-SA 3.0 -->		
       <img
         src="yomotsu_hirasaka.png"
         alt="Yomotsu Hirasaka"
@@ -496,6 +496,9 @@
         hankoGrey.style.opacity = '1';
         hankoRed.style.transform = 'translateX(-50%) scale(1)';
         hankoGrey.style.transform = 'translateX(-50%) scale(1)';
+
+        // 🔧 NEW: trigger fade-out when mouse leaves after having hovered
+        hideYHAndHanko();
       }
     });
   </script>
