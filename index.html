@@ -496,26 +496,28 @@
     });
 
     function flashHankoTwice() {
-    hankoRed.style.opacity = '1';
-    hankoGrey.style.opacity = '0';
-    hankoRed.style.transform = 'translateX(-50%) scale(1)';
-    hankoGrey.style.transform = 'translateX(-50%) scale(1)';
-
-    setTimeout(() => {
-      hankoRed.style.opacity = '0';
-      hankoGrey.style.opacity = '1';
-    }, 500);
-
-    setTimeout(() => {
       hankoRed.style.opacity = '1';
       hankoGrey.style.opacity = '0';
-    }, 1000);
+      hankoRed.style.transform = 'translateX(-50%) scale(1)';
+      hankoGrey.style.transform = 'translateX(-50%) scale(1)';
 
-    setTimeout(() => {
-      hankoRed.style.opacity = '0';
-      hankoGrey.style.opacity = '1';
-    }, 1500);
-}
+      // First pulse: on (0–500ms)
+      setTimeout(() => {
+        hankoRed.style.opacity = '0';
+        hankoGrey.style.opacity = '1';
+      }, 500);
+
+      // Pause (500–1000ms), second pulse: on (1000–1500ms)
+      setTimeout(() => {
+        hankoRed.style.opacity = '1';
+        hankoGrey.style.opacity = '0';
+      }, 1000);
+
+      setTimeout(() => {
+        hankoRed.style.opacity = '0';
+        hankoGrey.style.opacity = '1';
+      }, 1500);
+    }
   </script>
   <script data-goatcounter="https://richardandersen.goatcounter.com/count"
           async src="//gc.zgo.at/count.js"></script>
