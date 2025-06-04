@@ -113,6 +113,13 @@
       text-align: center;
     }
 
+    /* Tablet-only: shift Hanko down by 10px (30px total) */
+    @media (hover: none) and (pointer: coarse) and (min-device-width: 768px) {
+      .hanko-container {
+        top: 30px;
+      }
+    }
+
     .hanko-wrapper {
       position: relative;
       display: inline-block;
@@ -222,7 +229,7 @@
     </div>
 
     <div class="image-stack">
-    <!-- Derived work. Photo: “Yomotsu Hirasaka” by ChiefHira, CC BY-SA 3.0 -->		
+      <!-- Derived work. Photo: “Yomotsu Hirasaka” by ChiefHira, CC BY-SA 3.0 -->
       <img
         src="yomotsu_hirasaka.png"
         alt="Yomotsu Hirasaka"
@@ -273,7 +280,7 @@
     let canReveal = false;
     let tabletHasShownFirst = false;
     let justDragged = false;
-    let photoOverlayActive = false; 
+    let photoOverlayActive = false;
     let mouseIsMoving = false;
     let mouseStopTimer;
 
@@ -344,7 +351,7 @@
       }
 
       // Once poem + YH + hanko have disappeared, restore “拝”
-      if (!photoOverlayActive) { 
+      if (!photoOverlayActive) {
         poemText.style.opacity = '1';
       }
       tabletHasShownFirst = false;
@@ -387,7 +394,7 @@
       hankoGrey.style.opacity = '1';
       hankoRed.style.transform = 'translateX(-50%) scale(1)';
       hankoGrey.style.transform = 'translateX(-50%) scale(1)';
-      
+
       canReveal = false;
       overlay.classList.add('visible');
 
