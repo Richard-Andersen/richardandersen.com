@@ -363,27 +363,10 @@
       hankoWrapper.classList.add('visible');
 
       if (!isDesktop) {
-        hankoRed.style.opacity = '1';
-        hankoGrey.style.opacity = '0';
-        hankoRed.style.transform = 'translateX(-50%) scale(1)';
-        hankoGrey.style.transform = 'translateX(-50%) scale(1)';
-        setTimeout(() => {
-          hankoRed.style.opacity = '0';
-          hankoGrey.style.opacity = '1';
-        }, 1000);
+        flashHankoTwice();
       } else {
-        // On desktop, flash red hanko briefly if not hovered
         if (!hankoWrapper.matches(':hover')) {
-          hankoRed.style.opacity = '1';
-          hankoGrey.style.opacity = '0';
-          hankoRed.style.transform = 'translateX(-50%) scale(1)';
-          hankoGrey.style.transform = 'translateX(-50%) scale(1)';
-          setTimeout(() => {
-            if (!hankoWrapper.matches(':hover')) {
-              hankoRed.style.opacity = '0';
-              hankoGrey.style.opacity = '1';
-            }
-          }, 1000);
+          flashHankoTwice();
         }
       }
 
@@ -507,10 +490,32 @@
         hankoRed.style.transform = 'translateX(-50%) scale(1)';
         hankoGrey.style.transform = 'translateX(-50%) scale(1)';
 
-        // 🔧 NEW: trigger fade-out when mouse leaves after having hovered
+        // Trigger fade-out when mouse leaves after having hovered
         hideYHAndHanko();
       }
     });
+
+    function flashHankoTwice() {
+    hankoRed.style.opacity = '1';
+    hankoGrey.style.opacity = '0';
+    hankoRed.style.transform = 'translateX(-50%) scale(1)';
+    hankoGrey.style.transform = 'translateX(-50%) scale(1)';
+
+    setTimeout(() => {
+      hankoRed.style.opacity = '0';
+      hankoGrey.style.opacity = '1';
+    }, 500);
+
+    setTimeout(() => {
+      hankoRed.style.opacity = '1';
+      hankoGrey.style.opacity = '0';
+    }, 1000);
+
+    setTimeout(() => {
+      hankoRed.style.opacity = '0';
+      hankoGrey.style.opacity = '1';
+    }, 1500);
+}
   </script>
   <script data-goatcounter="https://richardandersen.goatcounter.com/count"
           async src="//gc.zgo.at/count.js"></script>
