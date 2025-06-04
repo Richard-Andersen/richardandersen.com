@@ -344,9 +344,9 @@
       }
 
       // Once poem + YH + hanko have disappeared, restore “拝”
-     if (!photoOverlayActive) { 
-      poemText.style.opacity = '1';
-     }
+      if (!photoOverlayActive) { 
+        poemText.style.opacity = '1';
+      }
       tabletHasShownFirst = false;
       justDragged = false;
     }
@@ -387,26 +387,24 @@
       hankoGrey.style.opacity = '1';
       hankoRed.style.transform = 'translateX(-50%) scale(1)';
       hankoGrey.style.transform = 'translateX(-50%) scale(1)';
- 
+      
       canReveal = false;
       overlay.classList.add('visible');
 
       clearTimeout(visibilityTimer);
       visibilityTimer = setTimeout(() => {
+        // t = 5 s after click: start CSS fade‐out
+        overlay.classList.remove('visible');
 
-      // t = 5 s after click: start CSS fade‐out
-      overlay.classList.remove('visible');
+        // Right when we remove .visible, immediately restore these flags:
+        photoOverlayActive = false;
+        canReveal = true;
+        tabletHasShownFirst = false;
+        poemText.style.opacity = '1';
 
-      // Right when we remove .visible, immediately restore these flags:
-      photoOverlayActive = false;
-      canReveal = true;
-      tabletHasShownFirst = false;
-      poemText.style.opacity = '1';
-
-      // Clear interaction flags
-      justDragged = false;
-      mouseIsMoving = false;
-
+        // Clear interaction flags
+        justDragged = false;
+        mouseIsMoving = false;
       }, 5000);
     }
 
@@ -415,7 +413,7 @@
         // If a drag just happened, ignore this tap and clear flag
         justDragged = false;
       } else if (!tabletHasShownFirst) {
-        showYH(10000);
+        showYH(10000); // ← increased duration to 10s
       } else {
         showOverlay();
       }
@@ -450,11 +448,10 @@
           }, 5000);
         });
       } else {
-        // iPad/tablet: first drag or tap reveals, second tap reveals overlay
+        // iPad/tablet: first drag event reveals poem+YH/hanko
         document.body.addEventListener('touchmove', (e) => {
           if (!tabletHasShownFirst) {
-            // First drag event: show YH/poem/hanko for 5s
-            showYH(10000);
+            showYH(10000); // ← increased duration to 10s
             justDragged = true;
           }
         });
@@ -463,19 +460,21 @@
     }
 
     // Keep desktop mousemove and hover logic for showYH (5s)
-    document.body.addEventListener('mousemove', () => {
-      if (!mouseIsMoving) {
-        mouseIsMoving = true;
-        showYH(999999); // Keep visible "indefinitely" while mouse is active
-      }
+    if (isDesktop) {
+      document.body.addEventListener('mousemove', () => {
+        if (!mouseIsMoving) {
+          mouseIsMoving = true;
+          showYH(999999); // Keep visible "indefinitely" while mouse is active
+        }
 
-      clearTimeout(mouseStopTimer);
+        clearTimeout(mouseStopTimer);
 
-      mouseStopTimer = setTimeout(() => {
-        mouseIsMoving = false;
-        hideYHAndHanko(); // Once mouse has stopped for 2s, fade out content
-      }, 2000);
-    });
+        mouseStopTimer = setTimeout(() => {
+          mouseIsMoving = false;
+          hideYHAndHanko(); // Once mouse has stopped for 2s, fade out content
+        }, 2000);
+      });
+    }
 
     hankoWrapper.addEventListener('mouseenter', () => {
       if (isDesktop) {
