@@ -413,7 +413,7 @@
         // If a drag just happened, ignore this tap and clear flag
         justDragged = false;
       } else if (!tabletHasShownFirst) {
-        showYH(12000); // iPad: 12 s (5s fade-in + 7s fully visible)
+        showYH(9000); // iPad: 9 s (5s fade-in + 4s fully visible)
       } else {
         showOverlay();
       }
@@ -451,7 +451,7 @@
         // iPad/tablet: first drag event reveals poem+YH/hanko
         document.body.addEventListener('touchmove', (e) => {
           if (!tabletHasShownFirst) {
-            showYH(12000); // iPad: 12 s (5s fade-in + 7s fully visible)
+            showYH(9000); // iPad: 9 s (5s fade-in + 4s fully visible)
             justDragged = true;
           }
         });
