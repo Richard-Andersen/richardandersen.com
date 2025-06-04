@@ -393,18 +393,21 @@
 
       clearTimeout(visibilityTimer);
       visibilityTimer = setTimeout(() => {
+
+      // t = 5 s after click: start CSS fade‐out
       overlay.classList.remove('visible');
 
-      // Wait 5s (for fade-out), then allow reveal and show 拝
-      setTimeout(() => {
-        photoOverlayActive = false;
-        canReveal = true;
-        poemText.style.opacity = '1';
-      }, 5000);
+      // Right when we remove .visible, immediately restore these flags:
+      photoOverlayActive = false;
+      canReveal = true;
+      tabletHasShownFirst = false;
+      poemText.style.opacity = '1';
 
-  tabletHasShownFirst = false;
-  justDragged = false;
-}, 5000);
+      // Clear interaction flags
+      justDragged = false;
+      mouseIsMoving = false;
+
+      }, 5000);
     }
 
     function handleTabletTap() {
@@ -460,19 +463,19 @@
     }
 
     // Keep desktop mousemove and hover logic for showYH (5s)
-      document.body.addEventListener('mousemove', () => {
-        if (!mouseIsMoving) {
-          mouseIsMoving = true;
-          showYH(999999); // Keep visible "indefinitely" while mouse is active
-        }
+    document.body.addEventListener('mousemove', () => {
+      if (!mouseIsMoving) {
+        mouseIsMoving = true;
+        showYH(999999); // Keep visible "indefinitely" while mouse is active
+      }
 
-        clearTimeout(mouseStopTimer);
+      clearTimeout(mouseStopTimer);
 
-        mouseStopTimer = setTimeout(() => {
-          mouseIsMoving = false;
-          hideYHAndHanko(); // Once mouse has stopped for 2s, fade out content
-        }, 2000);
-      });
+      mouseStopTimer = setTimeout(() => {
+        mouseIsMoving = false;
+        hideYHAndHanko(); // Once mouse has stopped for 2s, fade out content
+      }, 2000);
+    });
 
     hankoWrapper.addEventListener('mouseenter', () => {
       if (isDesktop) {
@@ -498,8 +501,8 @@
         hankoRed.style.transform = 'translateX(-50%) scale(1)';
         hankoGrey.style.transform = 'translateX(-50%) scale(1)';
 
-        // Trigger fade-out when mouse leaves after having hovered
-        hideYHAndHanko();
+        // Do not call hideYHAndHanko() here; rely on mouse‐idle timer instead
+        // hideYHAndHanko();
       }
     });
 
