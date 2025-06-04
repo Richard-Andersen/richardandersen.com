@@ -413,7 +413,7 @@
         // If a drag just happened, ignore this tap and clear flag
         justDragged = false;
       } else if (!tabletHasShownFirst) {
-        showYH(10000); // ← increased duration to 10s
+        showYH(15000); // iPad: 15 s (5s fade-in + 10s fully visible)
       } else {
         showOverlay();
       }
@@ -445,13 +445,13 @@
             hankoGrey.style.opacity = '1';
             hankoRed.style.transform = 'translateX(-50%) scale(1)';
             hankoGrey.style.transform = 'translateX(-50%) scale(1)';
-          }, 5000);
+          }, 10000); // iPhone: increased from 5000 → 10000
         });
       } else {
         // iPad/tablet: first drag event reveals poem+YH/hanko
         document.body.addEventListener('touchmove', (e) => {
           if (!tabletHasShownFirst) {
-            showYH(10000); // ← increased duration to 10s
+            showYH(15000); // iPad: 15 s (5s fade-in + 10s fully visible)
             justDragged = true;
           }
         });
