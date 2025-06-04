@@ -274,6 +274,8 @@
     let tabletHasShownFirst = false;
     let justDragged = false;
     let photoOverlayActive = false; 
+    let mouseIsMoving = false;
+    let mouseStopTimer;
 
     window.addEventListener('pageshow', () => {
       if (visibilityTimer) clearTimeout(visibilityTimer);
@@ -458,13 +460,19 @@
     }
 
     // Keep desktop mousemove and hover logic for showYH (5s)
-    document.body.addEventListener('mousemove', () => {
-      const now = Date.now();
-      if (now - lastShown > 1000) {
-        showYH(5000);
-        lastShown = now;
-      }
-    });
+      document.body.addEventListener('mousemove', () => {
+        if (!mouseIsMoving) {
+          mouseIsMoving = true;
+          showYH(999999); // Keep visible "indefinitely" while mouse is active
+        }
+
+        clearTimeout(mouseStopTimer);
+
+        mouseStopTimer = setTimeout(() => {
+          mouseIsMoving = false;
+          hideYHAndHanko(); // Once mouse has stopped for 2s, fade out content
+        }, 2000);
+      });
 
     hankoWrapper.addEventListener('mouseenter', () => {
       if (isDesktop) {
