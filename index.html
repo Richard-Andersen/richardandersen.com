@@ -26,16 +26,39 @@
       justify-content: center;
     }
 
+    /* Container for poem and illustration */
     .content-wrapper {
       display: flex;
       align-items: center;
       justify-content: space-between;
       width: 100%;
       max-width: 1200px;
-      /* Originally: padding: 0 40px; */
-      /* Now we give a little extra on the right */
-      padding-left: 40px;
-      padding-right: 60px;
+      margin: 0 auto;          /* center the wrapper */
+      padding-left: 40px;      /* left gutter */
+      padding-right: 40px;     /* right gutter (reduced from 60) */
+    }
+
+    /* Tablet-only: wider gutters on iPad-sized viewports */
+    @media (min-width: 768px) and (max-width: 1024px) {
+      .content-wrapper {
+        max-width: 980px;      /* narrower container on iPad */
+        padding-left: 80px;    /* larger left gutter */
+        padding-right: 80px;   /* larger right gutter */
+      }
+    }
+
+    /* Narrow screens: stack poem above illustration */
+    @media (max-width: 680px) {
+      .content-wrapper {
+        flex-direction: column;
+        align-items: center;
+        padding-left: 20px;    /* reduce side padding on narrow */
+        padding-right: 20px;
+      }
+      .image-stack {
+        margin-top: 30px;
+        width: 80%;
+      }
     }
 
     /* “拝” set to 22px on all devices */
@@ -218,8 +241,8 @@
         Autumn at twilight—<br />
         soft echoes from Obon fires<br />
         flicker in the dusk<br /><br />
-        秋の宵<br />  
-        散った盆の火<br />  
+        秋の宵<br />
+        散った盆の火<br />
         残りゆく
       </div>
     </div>
