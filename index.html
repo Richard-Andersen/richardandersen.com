@@ -358,7 +358,9 @@
     }
 
     function hideYHAndHanko() {
-      if (!hankoWrapper.matches(':hover')) {
+      const isHovering = hankoWrapper.matches(':hover');
+
+      if (!isHovering) {
         YH.classList.remove('visible');
         english.classList.remove('visible');
         hankoWrapper.classList.remove('visible');
@@ -368,10 +370,11 @@
         hankoGrey.style.transform = 'translateX(-50%) scale(1)';
       }
 
-      // Once poem + YH + hanko have disappeared, restore “拝”
-      if (!photoOverlayActive) {
+      // Only show “拝” if overlay is off AND we're not hovering over hanko
+      if (!photoOverlayActive && !isHovering) {
         poemText.style.opacity = '1';
       }
+
       tabletHasShownFirst = false;
       justDragged = false;
     }
