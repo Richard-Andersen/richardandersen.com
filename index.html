@@ -4,14 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="author" content="Richard Andersen 2025" />
-  <!-- 
-      皆さん、こんにちは。
-      時々、皆さんのことを思い出して、
-      懐かしく温かい気持ちになります。
-  -->
+ <!-- 
+			皆さん、こんにちは。
+			時々、皆さんのことを思い出して、
+			懐かしく温かい気持ちになります。
+-->
   <title>伊野</title>
   <style>
-    /* styles unchanged */
     html, body {
       margin: 0;
       padding: 0;
@@ -20,39 +19,220 @@
       font-family: 'Yu Mincho', 'Hiragino Mincho ProN', 'HG明朝E', 'MS Mincho', 'Georgia', 'Times New Roman', 'Meiryo', serif;
       box-sizing: border-box;
     }
+
     body {
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    .content-wrapper { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 1200px; margin: 0 auto; padding-left: 40px; padding-right: 40px; }
-    @media (min-width: 768px) and (max-width: 1366px) { .content-wrapper { max-width: 980px; padding-left: 70px; padding-right: 80px; } .image-stack { width: 300px; } }
-    @media (max-width: 680px) { .content-wrapper { flex-direction: column; align-items: center; padding-left: 20px; padding-right: 20px; } .image-stack { margin-top: 30px; width: 80%; } }
-    .poem-text { font-size: 22px; color: #555; white-space: pre-wrap; letter-spacing: 0.02em; font-feature-settings: "liga" on, "calt" on; line-height: 1.4; transition: opacity 0.6s ease; margin-left: 60px; }
-    .poem-haiku { font-size: 18px; color: #666; white-space: pre-wrap; line-height: 0.8; opacity: 0; transition: opacity 5s ease; margin-top: 16px; margin-left: 0; padding-left: 0; text-indent: 0; }
-    .poem-haiku.visible { opacity: 1; }
-    .image-stack { position: relative; width: 346px; }
-    .image-stack img { width: 100%; height: auto; display: block; }
-    .yomotsu-hirasaka-image { opacity: 0; transition: opacity 5s ease; pointer-events: none; z-index: 1; }
-    .yomotsu-hirasaka-image.visible { opacity: 1; }
-    .overlay-photo { position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 5s ease; pointer-events: auto; z-index: 2; border-radius: 50px; }
-    .overlay-photo.visible { opacity: 1; }
-    .hanko-container { position: absolute; top: 20px; right: 20px; font-size: 12px; font-family: sans-serif; text-align: center; }
-    .hanko-wrapper { position: relative; display: inline-block; width: 120px; height: 120px; margin-top: 8px; opacity: 0; transition: opacity 0.4s ease; }
-    .hanko-wrapper.visible { opacity: 1; }
-    .hanko-grey, .hanko-red { position: absolute; top: 0; left: 50%; transform: translateX(-50%) scale(1); width: 60px; transition: opacity 2s ease, transform 0.3s ease; pointer-events: auto; z-index: 1; }
-    .hanko-grey { opacity: 1; }
-    .hanko-red { opacity: 0; }
-    @media (hover: hover) and (pointer: fine) { .hanko-wrapper:hover .hanko-red { opacity: 1; } .hanko-wrapper:hover .hanko-grey { opacity: 0; } .hanko-wrapper:hover .hanko-grey, .hanko-wrapper:hover .hanko-red { transform: translateX(-50%) scale(1.2); } }
-    @media (hover: none) and (pointer: coarse) { .hanko-wrapper.touch-flash .hanko-red { opacity: 1; } .hanko-wrapper.touch-flash .hanko-grey { opacity: 0; } }
-    .wabun { position: fixed; bottom: calc(0.75em + 5px); right: 1em; font-family: monospace; font-size: 0.6em; color: #444; opacity: 0.7; pointer-events: none; user-select: none; z-index: 1000; }
-    @media screen and (min-device-width: 768px) and (max-device-width: 1024px) and (pointer: coarse) { .overlay-photo { border-radius: 50px !important; } }
-    @media screen and (max-device-width: 428px) and (pointer: coarse) { .image-stack { display: none !important; } .overlay-photo { display: none !important; } .poem-haiku { line-height: 1.1; } }
+
+    /* Container for poem and illustration */
+    .content-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;          /* center the wrapper */
+      padding-left: 40px;      /* left gutter */
+      padding-right: 40px;     /* right gutter (reduced from 60) */
+    }
+
+    /* Tablet-only: wider gutters on iPad-sized viewports */
+    @media (min-width: 768px) and (max-width: 1366px) {
+      .content-wrapper {
+        max-width: 980px;      /* narrower container on iPad */
+        padding-left: 70px;    /* left gutter */
+        padding-right: 80px;  /* right gutter */
+      }
+
+      .image-stack {
+        width: 300px;          /* reduced from 346px */
+      }
+ 
+    }
+
+    /* Narrow screens: stack poem above illustration */
+    @media (max-width: 680px) {
+      .content-wrapper {
+        flex-direction: column;
+        align-items: center;
+        padding-left: 20px;    /* reduce side padding on narrow */
+        padding-right: 20px;
+      }
+      .image-stack {
+        margin-top: 30px;
+        width: 80%;
+      }
+    }
+
+    /* “拝” set to 22px on all devices */
+    .poem-text {
+      font-size: 22px;
+      color: #555;
+      white-space: pre-wrap;
+      letter-spacing: 0.02em;
+      font-feature-settings: "liga" on, "calt" on;
+      line-height: 1.4;
+      transition: opacity 0.6s ease;
+      margin-left: 60px;  /* Nudge right 45px-60px */
+    }
+
+    .poem-haiku {
+      font-size: 18px;
+      color: #666;
+      white-space: pre-wrap;
+      line-height: 0.8;
+      opacity: 0;
+      transition: opacity 5s ease;
+      margin-top: 16px;
+      margin-left: 0;
+      padding-left: 0;
+      text-indent: 0;
+    }
+
+    .poem-haiku.visible {
+      opacity: 1;
+    }
+
+    .image-stack {
+      position: relative;
+      width: 346px;
+    }
+
+    .image-stack img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .yomotsu-hirasaka-image {
+      opacity: 0;
+      transition: opacity 5s ease;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .yomotsu-hirasaka-image.visible {
+      opacity: 1;
+    }
+
+    .overlay-photo {
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transition: opacity 5s ease;
+      pointer-events: auto;
+      z-index: 2;
+      border-radius: 50px;
+    }
+
+    .overlay-photo.visible {
+      opacity: 1;
+    }
+
+    .hanko-container {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 12px;
+      font-family: sans-serif;
+      text-align: center;
+    }
+
+    .hanko-wrapper {
+      position: relative;
+      display: inline-block;
+      width: 120px;
+      height: 120px;
+      margin-top: 8px;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .hanko-wrapper.visible {
+      opacity: 1;
+    }
+
+    .hanko-grey,
+    .hanko-red {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%) scale(1);
+      width: 60px;
+      transition: opacity 2s ease, transform 0.3s ease;
+      pointer-events: auto;
+      z-index: 1;
+    }
+
+    .hanko-grey {
+      opacity: 1;
+    }
+
+    .hanko-red {
+      opacity: 0;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .hanko-wrapper:hover .hanko-red {
+        opacity: 1;
+      }
+      .hanko-wrapper:hover .hanko-grey {
+        opacity: 0;
+      }
+      .hanko-wrapper:hover .hanko-grey,
+      .hanko-wrapper:hover .hanko-red {
+        transform: translateX(-50%) scale(1.2);
+      }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .hanko-wrapper.touch-flash .hanko-red {
+        opacity: 1;
+      }
+      .hanko-wrapper.touch-flash .hanko-grey {
+        opacity: 0;
+      }
+    }
+
+    .wabun {
+      position: fixed;
+      bottom: calc(0.75em + 5px);
+      right: 1em;
+      font-family: monospace;
+      font-size: 0.6em;
+      color: #444;
+      opacity: 0.7;
+      pointer-events: none;
+      user-select: none;
+      z-index: 1000;
+    }
+
+    @media screen and (min-device-width: 768px) and (max-device-width: 1024px) and (pointer: coarse) {
+      .overlay-photo {
+        border-radius: 50px !important;
+      }
+    }
+
+    @media screen and (max-device-width: 428px) and (pointer: coarse) {
+      .image-stack { display: none !important; }
+      .overlay-photo { display: none !important; }
+      .poem-haiku { line-height: 1.1; }
+    }
   </style>
 
   <meta name="description" content="Richard Andersen" />
   <script type="application/ld+json">
-  { "@context": "https://schema.org", "@type": "WebPage", "author": { "@type": "Person", "name": "Richard Andersen" } }
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "author": {
+      "@type": "Person",
+      "name": "Richard Andersen"
+    }
+  }
   </script>
 </head>
 
@@ -61,30 +241,54 @@
     <div>
       <!-- “拝” now set to 22px and shifted right by 45px-60px -->
       <div class="poem-text" id="poem-text">拝</div>
+
       <div class="poem-haiku" id="poem-haiku">
-        Autumn at twilight—<br />
-        soft echoes from Obon fires<br />
-        flicker in the dusk<br /><br />
-        秋の宵<br />
-        散った盆の火<br />
-        残りゆく
+          Autumn at twilight—<br />
+          soft echoes from Obon fires<br />
+          flicker in the dusk<br /><br />
+          秋の宵<br />
+          散った盆の火<br />
+          残りゆく
       </div>
     </div>
+
     <div class="image-stack">
       <!-- Derived work. Photo: “Yomotsu Hirasaka” by ChiefHira, CC BY-SA 3.0 -->
-      <img src="yomotsu_hirasaka.png" alt="Yomotsu Hirasaka" class="yomotsu-hirasaka-image" id="yomotsu-hirasaka-image" />
-      <img src="photo2025.png" alt="Photo" class="overlay-photo" id="overlay-photo" />
+      <img
+        src="yomotsu_hirasaka.png"
+        alt="Yomotsu Hirasaka"
+        class="yomotsu-hirasaka-image"
+        id="yomotsu-hirasaka-image"
+      />
+      <img
+        src="photo2025.png"
+        alt="Photo"
+        class="overlay-photo"
+        id="overlay-photo"
+      />
     </div>
   </div>
 
   <div class="hanko-container">
     <div class="hanko-wrapper" id="hanko-wrapper">
-      <img src="hanko_greyscale.png" alt="Hanko Greyscale" class="hanko-grey" id="hanko-grey" />
-      <img src="hanko.png" alt="Hanko Red" class="hanko-red" id="hanko-red" />
+      <img
+        src="hanko_greyscale.png"
+        alt="Hanko Greyscale"
+        class="hanko-grey"
+        id="hanko-grey"
+      />
+      <img
+        src="hanko.png"
+        alt="Hanko Red"
+        class="hanko-red"
+        id="hanko-red"
+      />
     </div>
   </div>
 
-  <div class="wabun">－・  －－・－  －－ </div>
+  <div class="wabun">
+－・&nbsp;&nbsp;－－・－&nbsp;&nbsp;－－&nbsp;
+  </div>
 
   <script>
     const poemText = document.getElementById('poem-text');
@@ -95,30 +299,40 @@
     const overlay = document.getElementById('overlay-photo');
     const english = document.getElementById('poem-haiku');
 
-    let canReveal = true;
+    let visibilityTimer;
+    let lastShown = 0;
+    let canReveal = false;
     let tabletHasShownFirst = false;
     let justDragged = false;
     let photoOverlayActive = false;
     let mouseIsMoving = false;
     let mouseStopTimer;
-    let visibilityTimer;
+
+    window.addEventListener('pageshow', () => {
+      if (visibilityTimer) clearTimeout(visibilityTimer);
+
+      // Reset everything:
+      poemText.style.opacity = '1';               // “拝” visible
+      YH.classList.remove('visible');
+      overlay.classList.remove('visible');
+      english.classList.remove('visible');
+      hankoWrapper.classList.remove('visible');
+
+      hankoRed.style.opacity = '0';
+      hankoGrey.style.opacity = '1';
+      hankoRed.style.transform = 'translateX(-50%) scale(1)';
+      hankoGrey.style.transform = 'translateX(-50%) scale(1)';
+
+      canReveal = true;
+      tabletHasShownFirst = false;
+      justDragged = false;
+    });
 
     const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     const isMobile = window.matchMedia('(max-device-width: 428px) and (pointer: coarse)').matches;
 
+    // Desktop: clicking the hanko shows the photo
     if (isDesktop) {
-      document.body.addEventListener('mousemove', () => {
-        if (!mouseIsMoving) {
-          mouseIsMoving = true;
-          showYH();
-        }
-        clearTimeout(mouseStopTimer);
-        mouseStopTimer = setTimeout(() => {
-          mouseIsMoving = false;
-          hideYHAndHanko();
-        }, 2000);
-      });
-
       hankoWrapper.addEventListener('click', showOverlay);
     }
 
@@ -141,21 +355,17 @@
       return false;
     });
 
-    function showYH(duration = 5000) {
-      if (tabletHasShownFirst) return;
-      tabletHasShownFirst = true;
+    if (isDesktop) {
       setTimeout(() => {
-        poemText.style.opacity = '0';
-      }, 500);
-      YH.classList.add('visible');
-      english.classList.add('visible');
-      hankoWrapper.classList.add('visible');
-      clearTimeout(visibilityTimer);
-      visibilityTimer = setTimeout(hideYHAndHanko, duration);
+        canReveal = true;
+      }, 2000);
+    } else {
+      canReveal = true;
     }
 
     function hideYHAndHanko() {
       const isHovering = hankoWrapper.matches(':hover');
+
       if (!isHovering) {
         YH.classList.remove('visible');
         english.classList.remove('visible');
@@ -165,15 +375,45 @@
         hankoRed.style.transform = 'translateX(-50%) scale(1)';
         hankoGrey.style.transform = 'translateX(-50%) scale(1)';
       }
+
+      // Only show “拝” if overlay is off AND we're not hovering over hanko
       if (!photoOverlayActive && !isHovering) {
         poemText.style.opacity = '1';
       }
+
       tabletHasShownFirst = false;
       justDragged = false;
     }
 
+    function showYH(duration = 5000) {
+      if (!canReveal || tabletHasShownFirst) return;
+
+      // Mark first interaction and hide “拝” after 0.5s
+      tabletHasShownFirst = true;
+      setTimeout(() => {
+        poemText.style.opacity = '0';
+      }, 500);
+
+      YH.classList.add('visible');
+      english.classList.add('visible');
+      hankoWrapper.classList.add('visible');
+
+      if (!isDesktop) {
+        flashHankoTwice();
+      } else {
+        if (!hankoWrapper.matches(':hover')) {
+          flashHankoTwice();
+        }
+      }
+
+      clearTimeout(visibilityTimer);
+      visibilityTimer = setTimeout(hideYHAndHanko, duration);
+    }
+
     function showOverlay() {
       photoOverlayActive = true;
+
+      // Hide poem + YH + hanko
       YH.classList.remove('visible');
       english.classList.remove('visible');
       hankoWrapper.classList.remove('visible');
@@ -181,18 +421,149 @@
       hankoGrey.style.opacity = '1';
       hankoRed.style.transform = 'translateX(-50%) scale(1)';
       hankoGrey.style.transform = 'translateX(-50%) scale(1)';
+
+      canReveal = false;
       overlay.classList.add('visible');
+
       clearTimeout(visibilityTimer);
       visibilityTimer = setTimeout(() => {
+        // t = 5 s after click: start CSS fade‐out
         overlay.classList.remove('visible');
+
+        // Right when we remove .visible, immediately restore these flags:
         photoOverlayActive = false;
+        canReveal = true;
         tabletHasShownFirst = false;
         poemText.style.opacity = '1';
+
+        // Clear interaction flags
+        justDragged = false;
+        mouseIsMoving = false;
       }, 5000);
     }
 
-    // Tablet and mobile handlers unchanged...
+    function handleTabletTap() {
+      if (justDragged) {
+        // If a drag just happened, ignore this tap and clear flag
+        justDragged = false;
+      } else if (!tabletHasShownFirst) {
+        showYH(9000); // iPad: 9 s (5s fade-in + 4s fully visible)
+      } else {
+        showOverlay();
+      }
+    }
+
+    // On iPad/tablet, combine touchmove (drag) and tap logic
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+      if (isMobile) {
+        // iPhone: tap shows poem+hanko; hide “拝” after 0.5s then restore after 10s (doubled)
+        document.body.addEventListener('touchstart', () => {
+          setTimeout(() => {
+            poemText.style.opacity = '0';
+          }, 500);
+          english.classList.add('visible');
+          hankoWrapper.classList.add('visible');
+          hankoRed.style.opacity = '1';
+          hankoGrey.style.opacity = '0';
+          hankoRed.style.transform = 'translateX(-50%) scale(1)';
+          hankoGrey.style.transform = 'translateX(-50%) scale(1)';
+          setTimeout(() => {
+            hankoRed.style.opacity = '0';
+            hankoGrey.style.opacity = '1';
+          }, 1000);
+          setTimeout(() => {
+            english.classList.remove('visible');
+            hankoWrapper.classList.remove('visible');
+            poemText.style.opacity = '1';
+            hankoRed.style.opacity = '0';
+            hankoGrey.style.opacity = '1';
+            hankoRed.style.transform = 'translateX(-50%) scale(1)';
+            hankoGrey.style.transform = 'translateX(-50%) scale(1)';
+          }, 10000); // iPhone: 10 s instead of 5 s
+        });
+      } else {
+        // iPad/tablet: first drag event reveals poem+YH/hanko
+        document.body.addEventListener('touchmove', (e) => {
+          if (!tabletHasShownFirst) {
+            showYH(9000); // iPad: 9 s (5s fade-in + 4s fully visible)
+            justDragged = true;
+          }
+        });
+        document.body.addEventListener('pointerup', handleTabletTap);
+      }
+    }
+
+    // Keep desktop mousemove and hover logic for showYH (5s)
+    if (isDesktop) {
+      document.body.addEventListener('mousemove', () => {
+        if (!mouseIsMoving) {
+          mouseIsMoving = true;
+          showYH(999999); // Keep visible "indefinitely" while mouse is active
+        }
+
+        clearTimeout(mouseStopTimer);
+
+        mouseStopTimer = setTimeout(() => {
+          mouseIsMoving = false;
+          hideYHAndHanko(); // Once mouse has stopped for 2s, fade out content
+        }, 2000);
+      });
+    }
+
+    hankoWrapper.addEventListener('mouseenter', () => {
+      if (isDesktop) {
+        clearTimeout(visibilityTimer);
+        // Delay hiding “拝” by 0.5s when hovering
+        setTimeout(() => {
+          poemText.style.opacity = '0';
+        }, 500);
+        YH.classList.add('visible');
+        english.classList.add('visible');
+        hankoWrapper.classList.add('visible');
+        hankoRed.style.opacity = '1';
+        hankoGrey.style.opacity = '0';
+        hankoRed.style.transform = 'translateX(-50%) scale(1.2)';
+        hankoGrey.style.transform = 'translateX(-50%) scale(1.2)';
+      }
+    });
+
+    hankoWrapper.addEventListener('mouseleave', () => {
+      if (isDesktop) {
+        hankoRed.style.opacity = '0';
+        hankoGrey.style.opacity = '1';
+        hankoRed.style.transform = 'translateX(-50%) scale(1)';
+        hankoGrey.style.transform = 'translateX(-50%) scale(1)';
+
+        // Do not call hideYHAndHanko() here; rely on mouse‐idle timer instead
+        // hideYHAndHanko();
+      }
+    });
+
+    function flashHankoTwice() {
+      hankoRed.style.opacity = '1';
+      hankoGrey.style.opacity = '0';
+      hankoRed.style.transform = 'translateX(-50%) scale(1)';
+      hankoGrey.style.transform = 'translateX(-50%) scale(1)';
+
+      // First pulse: on (0–500ms)
+      setTimeout(() => {
+        hankoRed.style.opacity = '0';
+        hankoGrey.style.opacity = '1';
+      }, 500);
+
+      // Pause (500–1000ms), second pulse: on (1000–1500ms)
+      setTimeout(() => {
+        hankoRed.style.opacity = '1';
+        hankoGrey.style.opacity = '0';
+      }, 1000);
+
+      setTimeout(() => {
+        hankoRed.style.opacity = '0';
+        hankoGrey.style.opacity = '1';
+      }, 1500);
+    }
   </script>
-  <script data-goatcounter="https://richardandersen.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <script data-goatcounter="https://richardandersen.goatcounter.com/count"
+          async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
