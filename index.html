@@ -11,6 +11,7 @@
   -->
   <title>伊野</title>
   <style>
+    /* styles unchanged */
     html, body {
       margin: 0;
       padding: 0;
@@ -19,216 +20,39 @@
       font-family: 'Yu Mincho', 'Hiragino Mincho ProN', 'HG明朝E', 'MS Mincho', 'Georgia', 'Times New Roman', 'Meiryo', serif;
       box-sizing: border-box;
     }
-
     body {
       display: flex;
       align-items: center;
       justify-content: center;
     }
-
-    /* Container for poem and illustration */
-    .content-wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding-left: 40px;
-      padding-right: 40px;
-    }
-
-    /* Tablet-only: wider gutters on iPad-sized viewports */
-    @media (min-width: 768px) and (max-width: 1366px) {
-      .content-wrapper {
-        max-width: 980px;
-        padding-left: 70px;
-        padding-right: 80px;
-      }
-      .image-stack {
-        width: 300px;
-      }
-    }
-
-    /* Narrow screens: stack poem above illustration */
-    @media (max-width: 680px) {
-      .content-wrapper {
-        flex-direction: column;
-        align-items: center;
-        padding-left: 20px;
-        padding-right: 20px;
-      }
-      .image-stack {
-        margin-top: 30px;
-        width: 80%;
-      }
-    }
-
-    /* “拝” set to 22px on all devices */
-    .poem-text {
-      font-size: 22px;
-      color: #555;
-      white-space: pre-wrap;
-      letter-spacing: 0.02em;
-      font-feature-settings: "liga" on, "calt" on;
-      line-height: 1.4;
-      transition: opacity 0.6s ease;
-      margin-left: 60px;
-    }
-
-    .poem-haiku {
-      font-size: 18px;
-      color: #666;
-      white-space: pre-wrap;
-      line-height: 0.8;
-      opacity: 0;
-      transition: opacity 5s ease;
-      margin-top: 16px;
-      margin-left: 0;
-      padding-left: 0;
-      text-indent: 0;
-    }
-
-    .poem-haiku.visible {
-      opacity: 1;
-    }
-
-    .image-stack {
-      position: relative;
-      width: 346px;
-    }
-
-    .image-stack img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .yomotsu-hirasaka-image {
-      opacity: 0;
-      transition: opacity 5s ease;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    .yomotsu-hirasaka-image.visible {
-      opacity: 1;
-    }
-
-    .overlay-photo {
-      position: absolute;
-      top: 0;
-      left: 0;
-      opacity: 0;
-      transition: opacity 5s ease;
-      pointer-events: auto;
-      z-index: 2;
-      border-radius: 50px;
-    }
-
-    .overlay-photo.visible {
-      opacity: 1;
-    }
-
-    .hanko-container {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      font-size: 12px;
-      font-family: sans-serif;
-      text-align: center;
-    }
-
-    .hanko-wrapper {
-      position: relative;
-      display: inline-block;
-      width: 120px;
-      height: 120px;
-      margin-top: 8px;
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-
-    .hanko-wrapper.visible {
-      opacity: 1;
-    }
-
-    .hanko-grey,
-    .hanko-red {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%) scale(1);
-      width: 60px;
-      transition: opacity 2s ease, transform 0.3s ease;
-      pointer-events: auto;
-      z-index: 1;
-    }
-
-    .hanko-grey {
-      opacity: 1;
-    }
-
-    .hanko-red {
-      opacity: 0;
-    }
-
-    @media (hover: hover) and (pointer: fine) {
-      .hanko-wrapper:hover .hanko-red {
-        opacity: 1;
-      }
-      .hanko-wrapper:hover .hanko-grey {
-        opacity: 0;
-      }
-      .hanko-wrapper:hover .hanko-grey,
-      .hanko-wrapper:hover .hanko-red {
-        transform: translateX(-50%) scale(1.2);
-      }
-    }
-
-    @media (hover: none) and (pointer: coarse) {
-      .hanko-wrapper.touch-flash .hanko-red {
-        opacity: 1;
-      }
-      .hanko-wrapper.touch-flash .hanko-grey {
-        opacity: 0;
-      }
-    }
-
-    .wabun {
-      position: fixed;
-      bottom: calc(0.75em + 5px);
-      right: 1em;
-      font-family: monospace;
-      font-size: 0.6em;
-      color: #444;
-      opacity: 0.7;
-      pointer-events: none;
-      user-select: none;
-      z-index: 1000;
-    }
-
-    @media screen and (min-device-width: 768px) and (max-device-width: 1024px) and (pointer: coarse) {
-      .overlay-photo { border-radius: 50px !important; }
-    }
-
-    @media screen and (max-device-width: 428px) and (pointer: coarse) {
-      .image-stack { display: none !important; }
-      .overlay-photo { display: none !important; }
-      .poem-haiku { line-height: 1.1; }
-    }
+    .content-wrapper { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 1200px; margin: 0 auto; padding-left: 40px; padding-right: 40px; }
+    @media (min-width: 768px) and (max-width: 1366px) { .content-wrapper { max-width: 980px; padding-left: 70px; padding-right: 80px; } .image-stack { width: 300px; } }
+    @media (max-width: 680px) { .content-wrapper { flex-direction: column; align-items: center; padding-left: 20px; padding-right: 20px; } .image-stack { margin-top: 30px; width: 80%; } }
+    .poem-text { font-size: 22px; color: #555; white-space: pre-wrap; letter-spacing: 0.02em; font-feature-settings: "liga" on, "calt" on; line-height: 1.4; transition: opacity 0.6s ease; margin-left: 60px; }
+    .poem-haiku { font-size: 18px; color: #666; white-space: pre-wrap; line-height: 0.8; opacity: 0; transition: opacity 5s ease; margin-top: 16px; margin-left: 0; padding-left: 0; text-indent: 0; }
+    .poem-haiku.visible { opacity: 1; }
+    .image-stack { position: relative; width: 346px; }
+    .image-stack img { width: 100%; height: auto; display: block; }
+    .yomotsu-hirasaka-image { opacity: 0; transition: opacity 5s ease; pointer-events: none; z-index: 1; }
+    .yomotsu-hirasaka-image.visible { opacity: 1; }
+    .overlay-photo { position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 5s ease; pointer-events: auto; z-index: 2; border-radius: 50px; }
+    .overlay-photo.visible { opacity: 1; }
+    .hanko-container { position: absolute; top: 20px; right: 20px; font-size: 12px; font-family: sans-serif; text-align: center; }
+    .hanko-wrapper { position: relative; display: inline-block; width: 120px; height: 120px; margin-top: 8px; opacity: 0; transition: opacity 0.4s ease; }
+    .hanko-wrapper.visible { opacity: 1; }
+    .hanko-grey, .hanko-red { position: absolute; top: 0; left: 50%; transform: translateX(-50%) scale(1); width: 60px; transition: opacity 2s ease, transform 0.3s ease; pointer-events: auto; z-index: 1; }
+    .hanko-grey { opacity: 1; }
+    .hanko-red { opacity: 0; }
+    @media (hover: hover) and (pointer: fine) { .hanko-wrapper:hover .hanko-red { opacity: 1; } .hanko-wrapper:hover .hanko-grey { opacity: 0; } .hanko-wrapper:hover .hanko-grey, .hanko-wrapper:hover .hanko-red { transform: translateX(-50%) scale(1.2); } }
+    @media (hover: none) and (pointer: coarse) { .hanko-wrapper.touch-flash .hanko-red { opacity: 1; } .hanko-wrapper.touch-flash .hanko-grey { opacity: 0; } }
+    .wabun { position: fixed; bottom: calc(0.75em + 5px); right: 1em; font-family: monospace; font-size: 0.6em; color: #444; opacity: 0.7; pointer-events: none; user-select: none; z-index: 1000; }
+    @media screen and (min-device-width: 768px) and (max-device-width: 1024px) and (pointer: coarse) { .overlay-photo { border-radius: 50px !important; } }
+    @media screen and (max-device-width: 428px) and (pointer: coarse) { .image-stack { display: none !important; } .overlay-photo { display: none !important; } .poem-haiku { line-height: 1.1; } }
   </style>
 
   <meta name="description" content="Richard Andersen" />
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "author": {
-      "@type": "Person",
-      "name": "Richard Andersen"
-    }
-  }
+  { "@context": "https://schema.org", "@type": "WebPage", "author": { "@type": "Person", "name": "Richard Andersen" } }
   </script>
 </head>
 
@@ -238,12 +62,12 @@
       <!-- “拝” now set to 22px and shifted right by 45px-60px -->
       <div class="poem-text" id="poem-text">拝</div>
       <div class="poem-haiku" id="poem-haiku">
-          Autumn at twilight—<br />
-          soft echoes from Obon fires<br />
-          flicker in the dusk<br /><br />
-          秋の宵<br />
-          散った盆の火<br />
-          残りゆく
+        Autumn at twilight—<br />
+        soft echoes from Obon fires<br />
+        flicker in the dusk<br /><br />
+        秋の宵<br />
+        散った盆の火<br />
+        残りゆく
       </div>
     </div>
     <div class="image-stack">
