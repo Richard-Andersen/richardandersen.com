@@ -331,7 +331,7 @@
     const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     const isMobile = window.matchMedia('(max-device-width: 428px) and (pointer: coarse)').matches;
 
-    // Desktop: clicking the hanko shows the photo
+    // Desktop: clicking here shows the photo
     if (isDesktop) {
       hankoWrapper.addEventListener('click', showOverlay);
     }
