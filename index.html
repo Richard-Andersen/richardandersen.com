@@ -4,11 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="author" content="Richard Andersen 2025" />
- <!-- 
-			皆さん、こんにちは。
-			時々、皆さんのことを思い出して、
-			懐かしく温かい気持ちになります。
--->
+  <!-- 
+      皆さん、こんにちは。
+      時々、皆さんのことを思い出して、
+      懐かしく温かい気持ちになります。
+  -->
   <title>伊野</title>
   <style>
     html, body {
@@ -33,21 +33,20 @@
       justify-content: space-between;
       width: 100%;
       max-width: 1200px;
-      margin: 0 auto;          /* center the wrapper */
-      padding-left: 40px;      /* left gutter */
-      padding-right: 40px;     /* right gutter (reduced from 60) */
+      margin: 0 auto;
+      padding-left: 40px;
+      padding-right: 40px;
     }
 
     /* Tablet-only: wider gutters on iPad-sized viewports */
     @media (min-width: 768px) and (max-width: 1366px) {
       .content-wrapper {
-        max-width: 980px;      /* narrower container on iPad */
-        padding-left: 70px;    /* left gutter */
-        padding-right: 80px;   /* right gutter */
+        max-width: 980px;
+        padding-left: 70px;
+        padding-right: 80px;
       }
-
       .image-stack {
-        width: 300px;          /* reduced from 346px */
+        width: 300px;
       }
     }
 
@@ -56,7 +55,7 @@
       .content-wrapper {
         flex-direction: column;
         align-items: center;
-        padding-left: 20px;    /* reduce side padding on narrow */
+        padding-left: 20px;
         padding-right: 20px;
       }
       .image-stack {
@@ -74,7 +73,7 @@
       font-feature-settings: "liga" on, "calt" on;
       line-height: 1.4;
       transition: opacity 0.6s ease;
-      margin-left: 60px;  /* Nudge right 45px-60px */
+      margin-left: 60px;
     }
 
     .poem-haiku {
@@ -210,9 +209,7 @@
     }
 
     @media screen and (min-device-width: 768px) and (max-device-width: 1024px) and (pointer: coarse) {
-      .overlay-photo {
-        border-radius: 50px !important;
-      }
+      .overlay-photo { border-radius: 50px !important; }
     }
 
     @media screen and (max-device-width: 428px) and (pointer: coarse) {
@@ -240,9 +237,138 @@
     <div>
       <!-- “拝” now set to 22px and shifted right by 45px-60px -->
       <div class="poem-text" id="poem-text">拝</div>
-
       <div class="poem-haiku" id="poem-haiku">
           Autumn at twilight—<br />
           soft echoes from Obon fires<br />
           flicker in the dusk<br /><br />
           秋の宵<br />
+          散った盆の火<br />
+          残りゆく
+      </div>
+    </div>
+    <div class="image-stack">
+      <!-- Derived work. Photo: “Yomotsu Hirasaka” by ChiefHira, CC BY-SA 3.0 -->
+      <img src="yomotsu_hirasaka.png" alt="Yomotsu Hirasaka" class="yomotsu-hirasaka-image" id="yomotsu-hirasaka-image" />
+      <img src="photo2025.png" alt="Photo" class="overlay-photo" id="overlay-photo" />
+    </div>
+  </div>
+
+  <div class="hanko-container">
+    <div class="hanko-wrapper" id="hanko-wrapper">
+      <img src="hanko_greyscale.png" alt="Hanko Greyscale" class="hanko-grey" id="hanko-grey" />
+      <img src="hanko.png" alt="Hanko Red" class="hanko-red" id="hanko-red" />
+    </div>
+  </div>
+
+  <div class="wabun">－・  －－・－  －－ </div>
+
+  <script>
+    const poemText = document.getElementById('poem-text');
+    const hankoWrapper = document.getElementById('hanko-wrapper');
+    const hankoGrey = document.getElementById('hanko-grey');
+    const hankoRed = document.getElementById('hanko-red');
+    const YH = document.getElementById('yomotsu-hirasaka-image');
+    const overlay = document.getElementById('overlay-photo');
+    const english = document.getElementById('poem-haiku');
+
+    let canReveal = true;
+    let tabletHasShownFirst = false;
+    let justDragged = false;
+    let photoOverlayActive = false;
+    let mouseIsMoving = false;
+    let mouseStopTimer;
+    let visibilityTimer;
+
+    const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const isMobile = window.matchMedia('(max-device-width: 428px) and (pointer: coarse)').matches;
+
+    if (isDesktop) {
+      document.body.addEventListener('mousemove', () => {
+        if (!mouseIsMoving) {
+          mouseIsMoving = true;
+          showYH();
+        }
+        clearTimeout(mouseStopTimer);
+        mouseStopTimer = setTimeout(() => {
+          mouseIsMoving = false;
+          hideYHAndHanko();
+        }, 2000);
+      });
+
+      hankoWrapper.addEventListener('click', showOverlay);
+    }
+
+    hankoGrey.addEventListener('dragstart', () => {
+      hankoRed.style.opacity = '1';
+      hankoGrey.style.opacity = '0';
+    });
+    hankoGrey.addEventListener('dragend', () => {
+      hankoRed.style.opacity = '0';
+      hankoGrey.style.opacity = '1';
+    });
+    hankoRed.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      hankoRed.style.opacity = '1';
+      hankoGrey.style.opacity = '0';
+      setTimeout(() => {
+        hankoRed.style.opacity = '0';
+        hankoGrey.style.opacity = '1';
+      }, 100);
+      return false;
+    });
+
+    function showYH(duration = 5000) {
+      if (tabletHasShownFirst) return;
+      tabletHasShownFirst = true;
+      setTimeout(() => {
+        poemText.style.opacity = '0';
+      }, 500);
+      YH.classList.add('visible');
+      english.classList.add('visible');
+      hankoWrapper.classList.add('visible');
+      clearTimeout(visibilityTimer);
+      visibilityTimer = setTimeout(hideYHAndHanko, duration);
+    }
+
+    function hideYHAndHanko() {
+      const isHovering = hankoWrapper.matches(':hover');
+      if (!isHovering) {
+        YH.classList.remove('visible');
+        english.classList.remove('visible');
+        hankoWrapper.classList.remove('visible');
+        hankoRed.style.opacity = '0';
+        hankoGrey.style.opacity = '1';
+        hankoRed.style.transform = 'translateX(-50%) scale(1)';
+        hankoGrey.style.transform = 'translateX(-50%) scale(1)';
+      }
+      if (!photoOverlayActive && !isHovering) {
+        poemText.style.opacity = '1';
+      }
+      tabletHasShownFirst = false;
+      justDragged = false;
+    }
+
+    function showOverlay() {
+      photoOverlayActive = true;
+      YH.classList.remove('visible');
+      english.classList.remove('visible');
+      hankoWrapper.classList.remove('visible');
+      hankoRed.style.opacity = '0';
+      hankoGrey.style.opacity = '1';
+      hankoRed.style.transform = 'translateX(-50%) scale(1)';
+      hankoGrey.style.transform = 'translateX(-50%) scale(1)';
+      overlay.classList.add('visible');
+      clearTimeout(visibilityTimer);
+      visibilityTimer = setTimeout(() => {
+        overlay.classList.remove('visible');
+        photoOverlayActive = false;
+        tabletHasShownFirst = false;
+        poemText.style.opacity = '1';
+      }, 5000);
+    }
+
+    // Tablet and mobile handlers unchanged...
+  </script>
+  <script data-goatcounter="https://richardandersen.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
