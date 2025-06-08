@@ -31,7 +31,7 @@
       justify-content: center;
     }
 
-    /* Container for poem and illustration */
+    /* Container for word and illustration */
     .content-wrapper {
       display: flex;
       align-items: center;
@@ -70,7 +70,7 @@
  
     }
 
-    /* Narrow screens: stack poem above illustration */
+    /* Narrow screens: stack word above illustration */
     @media (max-width: 680px) {
       .content-wrapper {
         flex-direction: column;
@@ -85,7 +85,7 @@
     }
 
     /* “響” set to 22px on all devices */
-    .poem-text {
+    .word-text {
       font-size: 22px;
       color: #555;
       white-space: pre-wrap;
@@ -249,7 +249,7 @@
   <div class="content-wrapper">
     <div>
       <!-- “響” now set to 22px and shifted right up above, if needed -->
-      <div class="poem-text" id="poem-text"><span translate="no">
+      <div class="word-text" id="word-text"><span translate="no">
         響
       </span></div>
 
@@ -296,7 +296,7 @@
   </div>
 
   <script>
-    const poemText = document.getElementById('poem-text');
+    const wordText = document.getElementById('word-text');
     const hankoWrapper = document.getElementById('hanko-wrapper');
     const hankoGrey = document.getElementById('hanko-grey');
     const hankoRed = document.getElementById('hanko-red');
@@ -316,7 +316,7 @@
       if (visibilityTimer) clearTimeout(visibilityTimer);
 
       // Reset everything:
-      poemText.style.opacity = '1';               // “響” visible
+      wordText.style.opacity = '1';               // “響” visible
       FadeOut.classList.remove('visible');
       overlay.classList.remove('visible');
       english.classList.remove('visible');
@@ -373,7 +373,7 @@
 
       // Only show “響” if overlay is off AND we're not hovering over hanko
       if (!photoOverlayActive && !isHovering) {
-        poemText.style.opacity = '1';
+        wordText.style.opacity = '1';
       }
 
       tabletHasShownFirst = false;
@@ -386,7 +386,7 @@
       // Mark first interaction and hide “響” after 0.5s
       tabletHasShownFirst = true;
       setTimeout(() => {
-        poemText.style.opacity = '0';
+        wordText.style.opacity = '0';
       }, 500);
 
       FadeOut.classList.add('visible');
@@ -408,7 +408,7 @@
     function showOverlay() {
       photoOverlayActive = true;
 
-      // Hide poem + FadeOut + hanko
+      // Hide word + FadeOut + hanko
       FadeOut.classList.remove('visible');
       english.classList.remove('visible');
       hankoWrapper.classList.remove('visible');
@@ -427,7 +427,7 @@
         // Right when we remove .visible, immediately restore these flags:
         photoOverlayActive = false;
         tabletHasShownFirst = false;
-        poemText.style.opacity = '1';
+        wordText.style.opacity = '1';
 
         // Clear interaction flags
         justDragged = false;
@@ -449,11 +449,11 @@
     // On iPad/tablet, combine touchmove (drag) and tap logic
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
       if (isMobile) {
-        // iPhone: tap shows poem+hanko; hide “響” after 0.5s then 
+        // iPhone: tap shows word+hanko; hide “響” after 0.5s then 
         // restore after 10s (doubled)
         document.body.addEventListener('touchstart', () => {
           setTimeout(() => {
-            poemText.style.opacity = '0';
+            wordText.style.opacity = '0';
           }, 500);
           english.classList.add('visible');
           hankoWrapper.classList.add('visible');
@@ -468,7 +468,7 @@
           setTimeout(() => {
             english.classList.remove('visible');
             hankoWrapper.classList.remove('visible');
-            poemText.style.opacity = '1';
+            wordText.style.opacity = '1';
             hankoRed.style.opacity = '0';
             hankoGrey.style.opacity = '1';
             hankoRed.style.transform = 'translateX(-50%) scale(1)';
@@ -476,7 +476,7 @@
           }, 10000); // iPhone: 10 s instead of 5 s
         });
       } else {
-        // iPad/tablet: first drag event reveals poem+FadeOut/hanko
+        // iPad/tablet: first drag event reveals word+FadeOut/hanko
         document.body.addEventListener('touchmove', (e) => {
           if (!tabletHasShownFirst) {
             showFadeOut(9000); // iPad: 9 s (5s fade-in + 4s fully visible)
@@ -511,7 +511,7 @@
         clearTimeout(visibilityTimer);
         // Delay hiding “響” by 0.5s when hovering
         setTimeout(() => {
-          poemText.style.opacity = '0';
+          wordText.style.opacity = '0';
         }, 500);
         FadeOut.classList.add('visible');
         english.classList.add('visible');
