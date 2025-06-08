@@ -84,7 +84,7 @@
       }
     }
 
-    /* “響” set to 22px on all devices */
+    /* kanji set to 22px on all devices */
     .word-text {
       font-size: 22px;
       color: #555;
@@ -248,13 +248,13 @@
 <body>
   <div class="content-wrapper">
     <div>
-      <!-- “響” now set to 22px and shifted right up above, if needed -->
+      <!-- kanji now set to 22px and shifted right up above, if needed -->
       <div class="word-text" id="word-text"><span translate="no">
-        響
+        在
       </span></div>
 
       <div class="text-reveal" id="text-reveal" translate="no">
-        秋
+        静
       </div>
     </div>
 
@@ -316,7 +316,7 @@
       if (visibilityTimer) clearTimeout(visibilityTimer);
 
       // Reset everything:
-      wordText.style.opacity = '1';               // “響” visible
+      wordText.style.opacity = '1';               // kanji visible
       FadeOut.classList.remove('visible');
       overlay.classList.remove('visible');
       english.classList.remove('visible');
@@ -371,7 +371,7 @@
         hankoGrey.style.transform = 'translateX(-50%) scale(1)';
       }
 
-      // Only show “響” if overlay is off AND we're not hovering over hanko
+      // Only show kanji if overlay is off AND we're not hovering over hanko
       if (!photoOverlayActive && !isHovering) {
         wordText.style.opacity = '1';
       }
@@ -383,7 +383,7 @@
     function showFadeOut(duration = 5000) {
       if (tabletHasShownFirst) return;
 
-      // Mark first interaction and hide “響” after 0.5s
+      // Mark first interaction and hide kanji after 0.5s
       tabletHasShownFirst = true;
       setTimeout(() => {
         wordText.style.opacity = '0';
@@ -449,7 +449,7 @@
     // On iPad/tablet, combine touchmove (drag) and tap logic
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
       if (isMobile) {
-        // iPhone: tap shows word+hanko; hide “響” after 0.5s then 
+        // iPhone: tap shows word+hanko; hide kanji after 0.5s then 
         // restore after 10s (doubled)
         document.body.addEventListener('touchstart', () => {
           setTimeout(() => {
@@ -509,7 +509,7 @@
     hankoWrapper.addEventListener('mouseenter', () => {
       if (isDesktop) {
         clearTimeout(visibilityTimer);
-        // Delay hiding “響” by 0.5s when hovering
+        // Delay hiding kanji by 0.5s when hovering
         setTimeout(() => {
           wordText.style.opacity = '0';
         }, 500);
