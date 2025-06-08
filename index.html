@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="author" content="Richard Andersen 2025" />
  <!-- 
-		皆さん、こんにちは。
-		時々、皆さんのことを思い出して、
-		懐かしく温かい気持ちになります。
- -->
+			皆さん、こんにちは。
+			時々、皆さんのことを思い出して、
+			懐かしく温かい気持ちになります。
+-->
   <title>伊野</title>
   <style>
     html, body {
@@ -301,7 +301,6 @@
 
     let visibilityTimer;
     let lastShown = 0;
-    let canReveal = false;
     let tabletHasShownFirst = false;
     let justDragged = false;
     let photoOverlayActive = false;
@@ -323,7 +322,6 @@
       hankoRed.style.transform = 'translateX(-50%) scale(1)';
       hankoGrey.style.transform = 'translateX(-50%) scale(1)';
 
-      canReveal = true;
       tabletHasShownFirst = false;
       justDragged = false;
     });
@@ -355,14 +353,6 @@
       return false;
     });
 
-    if (isDesktop) {
-      setTimeout(() => {
-        canReveal = true;
-      }, 2000);
-    } else {
-      canReveal = true;
-    }
-
     function hideYHAndHanko() {
       const isHovering = hankoWrapper.matches(':hover');
 
@@ -386,7 +376,7 @@
     }
 
     function showYH(duration = 5000) {
-      if (!canReveal || tabletHasShownFirst) return;
+      if (tabletHasShownFirst) return;
 
       // Mark first interaction and hide “拝” after 0.5s
       tabletHasShownFirst = true;
@@ -422,7 +412,6 @@
       hankoRed.style.transform = 'translateX(-50%) scale(1)';
       hankoGrey.style.transform = 'translateX(-50%) scale(1)';
 
-      canReveal = false;
       overlay.classList.add('visible');
 
       clearTimeout(visibilityTimer);
@@ -432,7 +421,6 @@
 
         // Right when we remove .visible, immediately restore these flags:
         photoOverlayActive = false;
-        canReveal = true;
         tabletHasShownFirst = false;
         poemText.style.opacity = '1';
 
