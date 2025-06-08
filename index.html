@@ -96,7 +96,7 @@
       margin-left: 1px;  /* Nudge right if needed */
     }
 
-    .poem-haiku {
+    .text-reveal {
       font-size: 18px;
       color: #666;
       white-space: pre-wrap;
@@ -109,7 +109,7 @@
       text-indent: 0;
     }
 
-    .poem-haiku.visible {
+    .text-reveal.visible {
       opacity: 1;
     }
 
@@ -227,7 +227,7 @@
         and (pointer: coarse) {
       .image-stack { display: none !important; }
       .overlay-photo { display: none !important; }
-      .poem-haiku { line-height: 1.1; }
+      .text-reveal { line-height: 1.1; }
     }
   </style>
 
@@ -253,13 +253,8 @@
         響
       </span></div>
 
-      <div class="poem-haiku" id="poem-haiku" translate="no">
-          Autumn at twilight—<br />
-          soft echoes from Obon fires<br />
-          flicker in the dusk<br /><br />
-          秋の宵<br />
-          散った盆の火<br />
-          残りゆく
+      <div class="text-reveal" id="text-reveal" translate="no">
+          秋
       </div>
     </div>
 
@@ -308,7 +303,7 @@
     const hankoRed = document.getElementById('hanko-red');
     const FadeOut = document.getElementById('fade-out-image');
     const overlay = document.getElementById('overlay-photo');
-    const english = document.getElementById('poem-haiku');
+    const english = document.getElementById('text-reveal');
 
     let visibilityTimer;
     let lastShown = 0;
