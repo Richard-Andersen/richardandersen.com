@@ -84,7 +84,7 @@
       }
     }
 
-    /* “拝” set to 22px on all devices */
+    /* “響” set to 22px on all devices */
     .poem-text {
       font-size: 22px;
       color: #555;
@@ -248,9 +248,9 @@
 <body>
   <div class="content-wrapper">
     <div>
-      <!-- “拝” now set to 22px and shifted right up above, if needed -->
+      <!-- “響” now set to 22px and shifted right up above, if needed -->
       <div class="poem-text" id="poem-text"><span translate="no">
-        拝
+        響
       </span></div>
 
       <div class="poem-haiku" id="poem-haiku" translate="no">
@@ -322,7 +322,7 @@
       if (visibilityTimer) clearTimeout(visibilityTimer);
 
       // Reset everything:
-      poemText.style.opacity = '1';               // “拝” visible
+      poemText.style.opacity = '1';               // “響” visible
       YH.classList.remove('visible');
       overlay.classList.remove('visible');
       english.classList.remove('visible');
@@ -377,7 +377,7 @@
         hankoGrey.style.transform = 'translateX(-50%) scale(1)';
       }
 
-      // Only show “拝” if overlay is off AND we're not hovering over hanko
+      // Only show “響” if overlay is off AND we're not hovering over hanko
       if (!photoOverlayActive && !isHovering) {
         poemText.style.opacity = '1';
       }
@@ -389,7 +389,7 @@
     function showYH(duration = 5000) {
       if (tabletHasShownFirst) return;
 
-      // Mark first interaction and hide “拝” after 0.5s
+      // Mark first interaction and hide “響” after 0.5s
       tabletHasShownFirst = true;
       setTimeout(() => {
         poemText.style.opacity = '0';
@@ -455,7 +455,7 @@
     // On iPad/tablet, combine touchmove (drag) and tap logic
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
       if (isMobile) {
-        // iPhone: tap shows poem+hanko; hide “拝” after 0.5s then 
+        // iPhone: tap shows poem+hanko; hide “響” after 0.5s then 
         // restore after 10s (doubled)
         document.body.addEventListener('touchstart', () => {
           setTimeout(() => {
@@ -515,7 +515,7 @@
     hankoWrapper.addEventListener('mouseenter', () => {
       if (isDesktop) {
         clearTimeout(visibilityTimer);
-        // Delay hiding “拝” by 0.5s when hovering
+        // Delay hiding “響” by 0.5s when hovering
         setTimeout(() => {
           poemText.style.opacity = '0';
         }, 500);
