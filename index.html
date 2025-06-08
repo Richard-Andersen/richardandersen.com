@@ -2,8 +2,11 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="author" content="Richard Andersen 2025" />
+  <meta name="viewport" 
+	  content="width=device-width, 
+	  initial-scale=1.0" />
+  <meta name="author" 
+	  content="Richard Andersen 2025" />
  <!-- 
 			皆さん、こんにちは。
 			時々、皆さんのことを思い出して、
@@ -16,7 +19,9 @@
       padding: 0;
       height: 100%;
       background-color: white;
-      font-family: 'Yu Mincho', 'Hiragino Mincho ProN', 'HG明朝E', 'MS Mincho', 'Georgia', 'Times New Roman', 'Meiryo', serif;
+      font-family: 'Yu Mincho', 'Hiragino Mincho ProN', 
+	      'HG明朝E', 'MS Mincho', 'Georgia', 
+	      'Times New Roman', 'Meiryo', serif;
       box-sizing: border-box;
     }
 
@@ -36,6 +41,19 @@
       margin: 0 auto;          /* center the wrapper */
       padding-left: 40px;      /* left gutter */
       padding-right: 40px;     /* right gutter (reduced from 60) */
+    }
+/* 和文モールス信号 */
+    .wabun {
+      position: fixed;
+      bottom: calc(0.75em + 5px);
+      right: 1em;
+      font-family: monospace;
+      font-size: 0.6em;
+      color: #444;
+      opacity: 0.7;
+      pointer-events: none;
+      user-select: none;
+      z-index: 1000;
     }
 
     /* Tablet-only: wider gutters on iPad-sized viewports */
@@ -197,26 +215,16 @@
       }
     }
 
-    .wabun {
-      position: fixed;
-      bottom: calc(0.75em + 5px);
-      right: 1em;
-      font-family: monospace;
-      font-size: 0.6em;
-      color: #444;
-      opacity: 0.7;
-      pointer-events: none;
-      user-select: none;
-      z-index: 1000;
-    }
-
-    @media screen and (min-device-width: 768px) and (max-device-width: 1024px) and (pointer: coarse) {
+    @media screen and (min-device-width: 768px) 
+        and (max-device-width: 1024px) 
+        and (pointer: coarse) {
       .overlay-photo {
         border-radius: 50px !important;
       }
     }
 
-    @media screen and (max-device-width: 428px) and (pointer: coarse) {
+    @media screen and (max-device-width: 428px) 
+        and (pointer: coarse) {
       .image-stack { display: none !important; }
       .overlay-photo { display: none !important; }
       .poem-haiku { line-height: 1.1; }
@@ -447,7 +455,8 @@
     // On iPad/tablet, combine touchmove (drag) and tap logic
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
       if (isMobile) {
-        // iPhone: tap shows poem+hanko; hide “拝” after 0.5s then restore after 10s (doubled)
+        // iPhone: tap shows poem+hanko; hide “拝” after 0.5s then 
+        // restore after 10s (doubled)
         document.body.addEventListener('touchstart', () => {
           setTimeout(() => {
             poemText.style.opacity = '0';
@@ -489,14 +498,16 @@
       document.body.addEventListener('mousemove', () => {
         if (!mouseIsMoving) {
           mouseIsMoving = true;
-          showYH(999999); // Keep visible "indefinitely" while mouse is active
+          showYH(999999); 
+          // Keep visible "indefinitely" while mouse is active
         }
 
         clearTimeout(mouseStopTimer);
 
         mouseStopTimer = setTimeout(() => {
           mouseIsMoving = false;
-          hideYHAndHanko(); // Once mouse has stopped for 2s, fade out content
+          hideYHAndHanko(); 
+          // Once mouse has stopped for 2s, fade out content
         }, 2000);
       });
     }
@@ -525,7 +536,8 @@
         hankoRed.style.transform = 'translateX(-50%) scale(1)';
         hankoGrey.style.transform = 'translateX(-50%) scale(1)';
 
-        // Do not call hideYHAndHanko() here; rely on mouse‐idle timer instead
+        // Do not call hideYHAndHanko() here; 
+        // rely on mouse‐idle timer instead
         // hideYHAndHanko();
       }
     });
