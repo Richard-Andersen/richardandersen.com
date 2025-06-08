@@ -124,14 +124,14 @@
       display: block;
     }
 
-    .yomotsu-hirasaka-image {
+    .fade-out-image {
       opacity: 0;
       transition: opacity 5s ease;
       pointer-events: none;
       z-index: 1;
     }
 
-    .yomotsu-hirasaka-image.visible {
+    .fade-out-image.visible {
       opacity: 1;
     }
 
@@ -264,12 +264,12 @@
     </div>
 
     <div class="image-stack">
-      <!-- Derived work. Photo: “Yomotsu Hirasaka” by ChiefHira, CC BY-SA 3.0 -->
+      <!-- Derived work. Photo: “Fade Out” by ChiefHira, CC BY-SA 3.0 -->
       <img
-        src="yomotsu_hirasaka.png"
-        alt="Yomotsu Hirasaka"
-        class="yomotsu-hirasaka-image"
-        id="yomotsu-hirasaka-image"
+        src="fade_out.png"
+        alt="Fade Out"
+        class="fade-out-image"
+        id="fade-out-image"
       />
       <img
         src="photo2025.png"
@@ -306,7 +306,7 @@
     const hankoWrapper = document.getElementById('hanko-wrapper');
     const hankoGrey = document.getElementById('hanko-grey');
     const hankoRed = document.getElementById('hanko-red');
-    const YH = document.getElementById('yomotsu-hirasaka-image');
+    const FadeOut = document.getElementById('fade-out-image');
     const overlay = document.getElementById('overlay-photo');
     const english = document.getElementById('poem-haiku');
 
@@ -323,7 +323,7 @@
 
       // Reset everything:
       poemText.style.opacity = '1';               // “響” visible
-      YH.classList.remove('visible');
+      FadeOut.classList.remove('visible');
       overlay.classList.remove('visible');
       english.classList.remove('visible');
       hankoWrapper.classList.remove('visible');
@@ -364,11 +364,11 @@
       return false;
     });
 
-    function hideYHAndHanko() {
+    function hideFadeOutAndHanko() {
       const isHovering = hankoWrapper.matches(':hover');
 
       if (!isHovering) {
-        YH.classList.remove('visible');
+        FadeOut.classList.remove('visible');
         english.classList.remove('visible');
         hankoWrapper.classList.remove('visible');
         hankoRed.style.opacity = '0';
@@ -386,7 +386,7 @@
       justDragged = false;
     }
 
-    function showYH(duration = 5000) {
+    function showFadeOut(duration = 5000) {
       if (tabletHasShownFirst) return;
 
       // Mark first interaction and hide “響” after 0.5s
@@ -395,7 +395,7 @@
         poemText.style.opacity = '0';
       }, 500);
 
-      YH.classList.add('visible');
+      FadeOut.classList.add('visible');
       english.classList.add('visible');
       hankoWrapper.classList.add('visible');
 
@@ -408,14 +408,14 @@
       }
 
       clearTimeout(visibilityTimer);
-      visibilityTimer = setTimeout(hideYHAndHanko, duration);
+      visibilityTimer = setTimeout(hideFadeOutAndHanko, duration);
     }
 
     function showOverlay() {
       photoOverlayActive = true;
 
-      // Hide poem + YH + hanko
-      YH.classList.remove('visible');
+      // Hide poem + FadeOut + hanko
+      FadeOut.classList.remove('visible');
       english.classList.remove('visible');
       hankoWrapper.classList.remove('visible');
       hankoRed.style.opacity = '0';
@@ -446,7 +446,7 @@
         // If a drag just happened, ignore this tap and clear flag
         justDragged = false;
       } else if (!tabletHasShownFirst) {
-        showYH(9000); // iPad: 9 s (5s fade-in + 4s fully visible)
+        showFadeOut(9000); // iPad: 9 s (5s fade-in + 4s fully visible)
       } else {
         showOverlay();
       }
@@ -482,10 +482,10 @@
           }, 10000); // iPhone: 10 s instead of 5 s
         });
       } else {
-        // iPad/tablet: first drag event reveals poem+YH/hanko
+        // iPad/tablet: first drag event reveals poem+FadeOut/hanko
         document.body.addEventListener('touchmove', (e) => {
           if (!tabletHasShownFirst) {
-            showYH(9000); // iPad: 9 s (5s fade-in + 4s fully visible)
+            showFadeOut(9000); // iPad: 9 s (5s fade-in + 4s fully visible)
             justDragged = true;
           }
         });
@@ -493,12 +493,12 @@
       }
     }
 
-    // Keep desktop mousemove and hover logic for showYH (5s)
+    // Keep desktop mousemove and hover logic for showFadeOut (5s)
     if (isDesktop) {
       document.body.addEventListener('mousemove', () => {
         if (!mouseIsMoving) {
           mouseIsMoving = true;
-          showYH(999999); 
+          showFadeOut(999999); 
           // Keep visible "indefinitely" while mouse is active
         }
 
@@ -506,7 +506,7 @@
 
         mouseStopTimer = setTimeout(() => {
           mouseIsMoving = false;
-          hideYHAndHanko(); 
+          hideFadeOutAndHanko(); 
           // Once mouse has stopped for 2s, fade out content
         }, 2000);
       });
@@ -519,7 +519,7 @@
         setTimeout(() => {
           poemText.style.opacity = '0';
         }, 500);
-        YH.classList.add('visible');
+        FadeOut.classList.add('visible');
         english.classList.add('visible');
         hankoWrapper.classList.add('visible');
         hankoRed.style.opacity = '1';
@@ -536,9 +536,9 @@
         hankoRed.style.transform = 'translateX(-50%) scale(1)';
         hankoGrey.style.transform = 'translateX(-50%) scale(1)';
 
-        // Do not call hideYHAndHanko() here; 
+        // Do not call hideFadeOutAndHanko() here; 
         // rely on mouse‐idle timer instead
-        // hideYHAndHanko();
+        // hideFadeOutAndHanko();
       }
     });
 
