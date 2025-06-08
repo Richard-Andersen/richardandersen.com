@@ -100,7 +100,7 @@
       font-feature-settings: "liga" on, "calt" on;
       line-height: 1.4;
       transition: opacity 0.6s ease;
-      margin-left: 1px;  /* Optional nudge */
+      margin-left: 0px;  /* Optional nudge */
     }
 
     .text-reveal {
@@ -245,18 +245,19 @@
       "name": "Richard Andersen"
     }
   }
-  </script>
+  <meta name="google" content="notranslate">
+</script>
 </head>
 
 <body>
   <div class="content-wrapper">
     <div>
-      <!-- kanji now set to 22px and shifted right up above, if needed -->
-      <div class="word-text" id="word-text">
+      <!-- kanji now set to 22px and it can be shifted right if needed -->
+      <div class="word-text" id="word-text"><span translate="no">
         空
-      </div>
+      </span></div>
 
-      <div class="text-reveal" id="text-reveal">
+      <div class="text-reveal" id="text-reveal" translate="no">
         空 土
       </div>
     </div>
