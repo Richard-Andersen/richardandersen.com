@@ -252,61 +252,50 @@
 			}
 		}
 
-    @media screen and (max-device-width: 428px) 
-          and (pointer: coarse) {
-      .image-stack { display: none !important; }
-      .overlay-photo { display: none !important; }
-      .text-reveal { line-height: 0.4; }
-      .word-text { line-height: 0.5; }
-    /*  .wabun { font-size: 0.1em  } */
-    }
-    @media screen and (max-device-width: 428px) 
-          and (pointer: coarse) {
+    @media screen and (max-device-width: 428px) and (pointer: coarse) {
+  .image-stack { display: none !important; }
+  .overlay-photo { display: none !important; }
 
-      .image-stack { display: none !important; }
-      .overlay-photo { display: none !important; }
-      .text-reveal { line-height: 0.4; }
-      .word-text { line-height: 0.5; }
+  .text-reveal { 
+    line-height: 0.4;
+    font-size: 18px;
+  }
 
-      .wabun {
-        font-size: 0.1em !important; 
-      }
+  .word-text {
+    line-height: 0.5;
+    font-size: 18px;
+  }
 
-      html, body {
-        height: 100vh;
-      }
+  html, body {
+    height: 100vh;
+  }
 
-      body {
-        align-items: flex-start !important;
-        justify-content: flex-start !important;
-        padding-top: 30vh;
-      }
+  body {
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    padding-top: 30vh;
+  }
 
-      .content-wrapper {
-        padding-left: 0px; /* iPhone left margin */
-        padding-right: 12px;
-      }
+  .content-wrapper {
+    padding-left: 0px;
+    padding-right: 12px;
+  }
 
-      .hanko-container {
-        bottom: 1.0em;
-        right: 12px;
-      }
+  .hanko-container {
+    bottom: 1.0em;
+    right: 12px;
+  }
 
-      .hanko-wrapper {
-        width: 60px;
-        height: 60px;
-      }
+  .hanko-wrapper {
+    width: 60px;
+    height: 60px;
+  }
 
-      .hanko-grey,
-      .hanko-red {
-        width: 30px;
-      }
-
-      .word-text,
-      .text-reveal {
-        font-size: 18px;
-      }
-    }
+  .hanko-grey,
+  .hanko-red {
+    width: 30px;
+  }
+}
 
 	</style>
 
