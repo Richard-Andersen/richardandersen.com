@@ -254,38 +254,49 @@
         font-size: 0.3em;
       }
     }
+@media screen and (max-device-width: 428px) 
+      and (pointer: coarse) {
 
-      html, body {
-        height: 100vh;
-      }
+  .image-stack { display: none !important; }
+  .overlay-photo { display: none !important; }
+  .text-reveal { line-height: 0.4; }
+  .word-text { line-height: 0.5; }
 
-      body {
-        align-items: flex-start !important;
-        justify-content: flex-start !important;
-        padding-top: 30vh; /* was 10vh — nudge downward */
-      }
+  .wabun {
+    font-size: 0.3em;
+  }
 
-      .content-wrapper {
-        padding-left: 8px;
-        padding-right: 12px;
-      }
+  html, body {
+    height: 100vh;
+  }
 
-      .hanko-container {
-        bottom: 1.0em; /* was 2.5em — lower it closer to .wabun */
-        right: 12px;   /* Right margin on iPhone */
-      }
+  body {
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    padding-top: 30vh;
+  }
 
-        .hanko-wrapper {
-        width: 60px;
-        height: 60px;
-      }
+  .content-wrapper {
+    padding-left: 8px;
+    padding-right: 12px;
+  }
 
-      .hanko-grey,
-      .hanko-red {
-        width: 30px;  /* Half of original 60px */
-      }
+  .hanko-container {
+    bottom: 1.0em;
+    right: 12px;
+  }
 
-    }
+  .hanko-wrapper {
+    width: 60px;
+    height: 60px;
+  }
+
+  .hanko-grey,
+  .hanko-red {
+    width: 30px;
+  }
+}
+
 	</style>
 
 	<meta name="description" content="Richard Andersen" />
