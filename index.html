@@ -236,28 +236,33 @@
 			}
 		}
 
-		@media screen and (max-device-width: 428px) 
-				and (pointer: coarse) {
-			.image-stack { display: none !important; }
-			.overlay-photo { display: none !important; }
-			.text-reveal { line-height: 0.7; }
-			.word-text { line-height: 1.0; }
+    @media screen and (max-device-width: 428px) 
+        and (pointer: coarse) {
+      .image-stack { display: none !important; }
+      .overlay-photo { display: none !important; }
+      .text-reveal { line-height: 0.7; }
+      .word-text { line-height: 1.0; }
 
-			html, body {
-				height: 100vh;
-			}
+      html, body {
+        height: 100vh;
+      }
 
-			body {
-				align-items: flex-start !important;
-				justify-content: flex-start !important;
-				padding-top: 30vh; /* was 10vh — nudge downward */
-			}
+      body {
+        align-items: flex-start !important;
+        justify-content: flex-start !important;
+        padding-top: 30vh; /* was 10vh — nudge downward */
+      }
 
-			.hanko-container {
-				bottom: 1.2em; /* was 2.5em — lower it closer to .wabun */
-				right: 12px; /* Right margin on iPhone */
-			}
-		}
+      .content-wrapper {
+        padding-left: 8px;
+        padding-right: 12px;
+      }
+
+      .hanko-container {
+        bottom: 1.2em; /* was 2.5em — lower it closer to .wabun */
+        right: 12px;   /* Right margin on iPhone */
+      }
+    }
 	</style>
 
 	<meta name="description" content="Richard Andersen" />
