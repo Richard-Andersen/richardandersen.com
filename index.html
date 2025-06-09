@@ -398,10 +398,10 @@
       hankoWrapper.classList.add('visible');
 
       if (!isDesktop) {
-        flashHankoTwice();
+        flashHankoOnce();
       } else {
         if (!hankoWrapper.matches(':hover')) {
-          flashHankoTwice();
+          flashHankoOnce();
         }
       }
 
@@ -461,7 +461,7 @@
           }, 500);
           english.classList.add('visible');
           hankoWrapper.classList.add('visible');
-          flashHankoTwice(); // <-- Double flash on tap
+          flashHankoOnce(); // <-- Double flash on tap
           setTimeout(() => {
             english.classList.remove('visible');
             hankoWrapper.classList.remove('visible');
@@ -532,7 +532,19 @@
         // hideFadeOutAndHanko();
       }
     });
+    function flashHankoOnce() {
+      hankoRed.style.opacity = '1';
+      hankoGrey.style.opacity = '0';
+      hankoRed.style.transform = 'translateX(-50%) scale(1)';
+      hankoGrey.style.transform = 'translateX(-50%) scale(1)';
 
+      // Flash once: on (0–500ms), then fade
+      setTimeout(() => {
+        hankoRed.style.opacity = '0';
+        hankoGrey.style.opacity = '1';
+      }, 500);
+    }
+    /*
     function flashHankoTwice() {
       hankoRed.style.opacity = '1';
       hankoGrey.style.opacity = '0';
@@ -556,7 +568,8 @@
         hankoGrey.style.opacity = '1';
       }, 1500);
     }
-  </script>
+ */
+ </script>
   <script data-goatcounter="https://richardandersen.goatcounter.com/count"
           async src="//gc.zgo.at/count.js"></script>
 </body>
