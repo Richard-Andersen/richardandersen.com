@@ -234,9 +234,15 @@
       .overlay-photo { display: none !important; }
       .text-reveal { line-height: 0.7; }
       .word-text { line-height: 1.0; }
-      .content-wrapper {
-        align-items: flex-start;
-        margin-top: 10vh;
+
+      html, body {
+        height: 100vh;
+      }
+
+      body {
+        align-items: flex-start !important;
+        justify-content: flex-start !important;
+        padding-top: 10vh;
       }
     }
   </style>
