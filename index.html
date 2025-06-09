@@ -444,7 +444,7 @@
         // If a drag just happened, ignore this tap and clear flag
         justDragged = false;
       } else if (!tabletHasShownFirst) {
-        showFadeOut(9000); // iPad: 9 s (5s fade-in + 4s fully visible)
+        showFadeOut(5000); // 5 seconds total
       } else {
         showOverlay();
       }
@@ -468,7 +468,7 @@
           setTimeout(() => {
             hankoRed.style.opacity = '0';
             hankoGrey.style.opacity = '1';
-          }, 1000);
+          }, 500);
           setTimeout(() => {
             english.classList.remove('visible');
             hankoWrapper.classList.remove('visible');
@@ -477,13 +477,13 @@
             hankoGrey.style.opacity = '1';
             hankoRed.style.transform = 'translateX(-50%) scale(1)';
             hankoGrey.style.transform = 'translateX(-50%) scale(1)';
-          }, 10000); // iPhone: 10 s instead of 5 s
+          }, 5000); // iPhone: 5 seconds
         });
       } else {
         // iPad/tablet: first drag event reveals word+FadeOut/hanko
         document.body.addEventListener('touchmove', (e) => {
           if (!tabletHasShownFirst) {
-            showFadeOut(9000); // iPad: 9 s (5s fade-in + 4s fully visible)
+            showFadeOut(5000); // iPad: 5 seconds
             justDragged = true;
           }
         });
