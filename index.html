@@ -334,23 +334,27 @@
   <div class="wabun">・－  －・・－  －・・－・ </div>
 
   <script>
-    const wordText = document.getElementById('word-text');
+    const wordText     = document.getElementById('word-text');
     const hankoWrapper = document.getElementById('hanko-wrapper');
-    const hankoGrey = document.getElementById('hanko-grey');
-    const hankoRed = document.getElementById('hanko-red');
-    const FadeOut = document.getElementById('fade-out-image');
-    const overlay = document.getElementById('overlay-photo');
-    const english = document.getElementById('text-reveal');
+    const hankoGrey    = document.getElementById('hanko-grey');
+    const hankoRed     = document.getElementById('hanko-red');
+    const FadeOut      = document.getElementById('fade-out-image');
+    const overlay      = document.getElementById('overlay-photo');
+    const english      = document.getElementById('text-reveal');
 
-    let visibilityTimer;
+    // two separate timers so fade vs overlay never conflict
+    let fadeTimer;
+    let overlayTimer;
     let tabletHasShownFirst = false;
-    let justDragged = false;
-    let photoOverlayActive = false;
-    let mouseIsMoving = false;
+    let justDragged         = false;
+    let photoOverlayActive  = false;
+    let mouseIsMoving       = false;
     let mouseStopTimer;
 
     window.addEventListener('pageshow', () => {
-      if (visibilityTimer) clearTimeout(visibilityTimer);
+      // clear both before resetting
+      if (fadeTimer)    clearTimeout(fadeTimer);
+      if (overlayTimer) clearTimeout(overlayTimer);
 
       // Reset everything:
       wordText.style.opacity = '1';
@@ -365,11 +369,11 @@
       hankoGrey.style.transform = 'translateX(-50%) scale(1)';
 
       tabletHasShownFirst = false;
-      justDragged = false;
+      justDragged         = false;
     });
 
     const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-    const isMobile = window.matchMedia('(max-device-width: 428px) and (pointer: coarse)').matches;
+    const isMobile  = window.matchMedia('(max-device-width: 428px) and (pointer: coarse)').matches;
 
     if (isDesktop) {
       hankoWrapper.addEventListener('click', showOverlay);
@@ -383,12 +387,12 @@
       hankoRed.style.opacity = '0';
       hankoGrey.style.opacity = '1';
     });
-    hankoRed.addEventListener('contextmenu', (e) => {
+    hankoRed.addEventListener('contextmenu', e => {
       e.preventDefault();
       hankoRed.style.opacity = '1';
       hankoGrey.style.opacity = '0';
       setTimeout(() => {
-        hankoRed.style.opacity = '0';
+        hankoRed.style.opacity  = '0';
         hankoGrey.style.opacity = '1';
       }, 100);
       return false;
@@ -400,27 +404,31 @@
         FadeOut.classList.remove('visible');
         english.classList.remove('visible');
         hankoWrapper.classList.remove('visible');
-        hankoRed.style.opacity = '0';
+        hankoRed.style.opacity  = '0';
         hankoGrey.style.opacity = '1';
       }
       if (!photoOverlayActive && !isHovering) {
         wordText.style.opacity = '1';
       }
       tabletHasShownFirst = false;
-      justDragged = false;
+      justDragged         = false;
     }
 
     function showFadeOut(duration = 5000) {
       if (tabletHasShownFirst) return;
       tabletHasShownFirst = true;
       setTimeout(() => { wordText.style.opacity = '0'; }, 500);
+
       FadeOut.classList.add('visible');
       english.classList.add('visible');
       hankoWrapper.classList.add('visible');
+
       if (!isDesktop) flashHankoTwice();
       else if (!hankoWrapper.matches(':hover')) flashHankoTwice();
-      clearTimeout(visibilityTimer);
-      visibilityTimer = setTimeout(hideFadeOutAndHanko, duration);
+
+      // clear old fade then start new
+      if (fadeTimer) clearTimeout(fadeTimer);
+      fadeTimer = setTimeout(hideFadeOutAndHanko, duration);
     }
 
     function showOverlay() {
@@ -428,14 +436,19 @@
       FadeOut.classList.remove('visible');
       english.classList.remove('visible');
       hankoWrapper.classList.remove('visible');
-      hankoRed.style.opacity = '0';
+      hankoRed.style.opacity  = '0';
       hankoGrey.style.opacity = '1';
+
       overlay.classList.add('visible');
-      clearTimeout(visibilityTimer);    
-      visibilityTimer = setTimeout(() => {
+
+      // clear any pending fade or overlay timers
+      if (fadeTimer)    clearTimeout(fadeTimer);
+      if (overlayTimer) clearTimeout(overlayTimer);
+
+      overlayTimer = setTimeout(() => {
         overlay.classList.remove('visible');
-        photoOverlayActive = false;
-        tabletHasShownFirst = false;
+        photoOverlayActive    = false;
+        tabletHasShownFirst   = false;
         wordText.style.opacity = '1';
       }, 5000);
     }
@@ -457,7 +470,7 @@
             english.classList.remove('visible');
             hankoWrapper.classList.remove('visible');
             wordText.style.opacity = '1';
-            hankoRed.style.opacity = '0';
+            hankoRed.style.opacity  = '0';
             hankoGrey.style.opacity = '1';
           }, 5000);
         });
@@ -486,39 +499,39 @@
 
     hankoWrapper.addEventListener('mouseenter', () => {
       if (isDesktop) {
-        clearTimeout(visibilityTimer);
+        clearTimeout(fadeTimer);
         setTimeout(() => { wordText.style.opacity = '0'; }, 500);
         FadeOut.classList.add('visible');
         english.classList.add('visible');
         hankoWrapper.classList.add('visible');
-        hankoRed.style.opacity = '1';
+        hankoRed.style.opacity  = '1';
         hankoGrey.style.opacity = '0';
         hankoRed.style.transform = 'translateX(-50%) scale(1.2)';
-        hankoGrey.style.transform = 'translateX(-50%) scale(1.2)';
+        hankoGrey.style.transform= 'translateX(-50%) scale(1.2)';
       }
     });
 
     hankoWrapper.addEventListener('mouseleave', () => {
       if (isDesktop) {
-        hankoRed.style.opacity = '0';
+        hankoRed.style.opacity  = '0';
         hankoGrey.style.opacity = '1';
         hankoRed.style.transform = 'translateX(-50%) scale(1)';
-        hankoGrey.style.transform = 'translateX(-50%) scale(1)';
+        hankoGrey.style.transform= 'translateX(-50%) scale(1)';
       }
     });
 
     /*
-    function flashHankoOnce() { ... }
+    function flashHankoOnce() { … }
     */
 
     function flashHankoTwice() {
-      hankoRed.style.opacity = '1';
+      hankoRed.style.opacity  = '1';
       hankoGrey.style.opacity = '0';
       hankoRed.style.transform = 'translateX(-50%) scale(1)';
-      hankoGrey.style.transform = 'translateX(-50%) scale(1)';
-      setTimeout(() => { hankoRed.style.opacity = '0'; hankoGrey.style.opacity = '1'; }, 500);
-      setTimeout(() => { hankoRed.style.opacity = '1'; hankoGrey.style.opacity = '0'; }, 1000);
-      setTimeout(() => { hankoRed.style.opacity = '0'; hankoGrey.style.opacity = '1'; }, 1500);
+      hankoGrey.style.transform= 'translateX(-50%) scale(1)';
+      setTimeout(() => { hankoRed.style.opacity  = '0'; hankoGrey.style.opacity = '1'; },  500);
+      setTimeout(() => { hankoRed.style.opacity  = '1'; hankoGrey.style.opacity = '0'; }, 1000);
+      setTimeout(() => { hankoRed.style.opacity  = '0'; hankoGrey.style.opacity = '1'; }, 1500);
     }
   </script>
   <script data-goatcounter="https://richardandersen.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
