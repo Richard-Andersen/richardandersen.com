@@ -59,18 +59,21 @@
 		}
 
 		/* Tablet-only: wider gutters on iPad-sized viewports */
-		@media (min-width: 768px) and (max-width: 1366px) {
-			.content-wrapper {
-				max-width: 980px;			/* narrower container on iPad */
-				padding-left: 70px;		/* left gutter */
-				padding-right: 80px;	/* right gutter */
-			}
+    @media (min-width: 768px) and (max-width: 1366px) {
+      .content-wrapper {
+        max-width: 980px;
+        padding-left: 70px;
+        padding-right: 80px;
+      }
 
-			.image-stack {
-				width: 300px;					/* reduced from 346px */
-			}
- 
-		}
+      .image-stack {
+        width: 300px;
+      }
+
+      .hanko-container {
+        right: 12px;  /* Nudge closer on iPad */
+      }
+    }
 
 		/* Narrow screens: stack word above illustration */
 		@media (max-width: 680px) {
