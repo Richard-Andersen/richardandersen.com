@@ -59,32 +59,37 @@
 		}
 
 		/* Tablet-only: wider gutters on iPad-sized viewports */
-    @media (min-width: 768px) and (max-width: 1366px) {
-      .content-wrapper {
-        max-width: 980px;
-        padding-left: 70px;
-        padding-right: 80px;
-        padding-top: 4vh; /* raise everything slightly on iPad */
-      }
+      @media (min-width: 768px) and (max-width: 1366px) {
+        body {
+          justify-content: flex-start;     /* ← Allow top padding to work */
+          padding-top: 6vh;                /* ← Push down from the top */
+        }
 
-      .image-stack {
-        width: 300px;
-      }
+        .content-wrapper {
+          max-width: 980px;
+          padding-left: 70px;
+          padding-right: 80px;
+          /* You can remove padding-top from here — it's now on <body> */
+        }
 
-      .hanko-container {
-        right: 12px;
-      }
+        .image-stack {
+          width: 300px;
+        }
 
-      .word-text {
-        font-size: 26px;
-        line-height: 0.9; /* tighter spacing */
-      }
+        .hanko-container {
+          right: 12px;
+        }
 
-      .text-reveal {
-        font-size: 27px;
-        line-height: 0.9; /* tighter spacing */
+        .word-text {
+          font-size: 26px;
+          line-height: 0.5;
+        }
+
+        .text-reveal {
+          font-size: 27px;
+          line-height: 0.9;
+        }
       }
-    }
 
 		/* Narrow screens: stack word above illustration */
 		@media (max-width: 680px) {
