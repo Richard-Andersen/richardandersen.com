@@ -240,8 +240,8 @@
         and (pointer: coarse) {
       .image-stack { display: none !important; }
       .overlay-photo { display: none !important; }
-      .text-reveal { line-height: 0.7; }
-      .word-text { line-height: 1.0; }
+      .text-reveal { line-height: 0.4; }
+      .word-text { line-height: 0.5 }
 
       html, body {
         height: 100vh;
@@ -259,9 +259,15 @@
       }
 
       .hanko-container {
-        bottom: 1.2em; /* was 2.5em — lower it closer to .wabun */
+        bottom: 0.6em; /* was 2.5em — lower it closer to .wabun */
         right: 12px;   /* Right margin on iPhone */
       }
+
+        .hanko-wrapper {
+        width: 60px;
+        height: 60px;
+      }
+
     }
 	</style>
 
