@@ -61,15 +61,16 @@
 		/* Tablet-only: wider gutters on iPad-sized viewports */
       @media (min-width: 768px) and (max-width: 1366px) {
         body {
-          justify-content: flex-start;     /* ← Allow top padding to work */
-          padding-top: 6vh;                /* ← Push down from the top */
+          display: flex;
+          justify-content: flex-start;
+          align-items: flex-start;
+          padding-top: 6vh; /* Adjust if needed */
         }
 
         .content-wrapper {
           max-width: 980px;
           padding-left: 70px;
           padding-right: 80px;
-          /* You can remove padding-top from here — it's now on <body> */
         }
 
         .image-stack {
