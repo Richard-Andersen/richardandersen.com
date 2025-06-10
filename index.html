@@ -2,18 +2,15 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" 
-    content="width=device-width, 
-    initial-scale=1.0" />
-  <meta name="author" 
-  content="Richard Andersen 2025" />
- <!-- 
-        東出雲（昔の）、
-        松江、島根の皆さん、
-        こんにちは。
-        時々、皆さんのことを思い出して、
-        懐かしく温かい気持ちになります。
--->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Richard Andersen 2025" />
+  <!-- 
+      東出雲（昔の）、
+      松江、島根の皆さん、
+      こんにちは。
+      時々、皆さんのことを思い出して、
+      懐かしく温かい気持ちになります。
+  -->
   <title>東出雲</title>
   <style>
     html, body {
@@ -21,9 +18,7 @@
       padding: 0;
       height: 100%;
       background-color: white;
-      font-family: 'Yu Mincho', 'Hiragino Mincho ProN', 
-        'HG明朝E', 'MS Mincho', 'Georgia', 
-        'Times New Roman', 'Meiryo', serif;
+      font-family: 'Yu Mincho', 'Hiragino Mincho ProN', 'HG明朝E', 'MS Mincho', 'Georgia', 'Times New Roman', 'Meiryo', serif;
       box-sizing: border-box;
     }
 
@@ -237,7 +232,7 @@
       }
     }
 
-    @media screen and (min-device-width: 768px) /* touch-only iPad override */
+    @media screen and (min-device-width: 768px) 
         and (max-device-width: 1024px) 
         and (pointer: coarse) {
       .overlay-photo {
@@ -252,9 +247,9 @@
       .image-stack { display: none !important; }
       .overlay-photo { display: none !important; }
 
-        .wabun {
-            transform: scale(0.6);
-            transform-origin: bottom right;
+      .wabun {
+        transform: scale(0.6);
+        transform-origin: bottom right;
       }
 
       .text-reveal { 
@@ -320,19 +315,15 @@
       <div class="text-reveal" id="text-reveal" translate="no">水 土</div>
     </div>
     <div class="image-stack">
-      <img src="fade_out.png" alt="Fade Out" class="fade-out-image" 
-          id="fade-out-image" />
-      <img src="photo2025.png" alt="Photo" class="overlay-photo" 
-          id="overlay-photo" />
+      <img src="fade_out.png" alt="Fade Out" class="fade-out-image" id="fade-out-image" />
+      <img src="photo2025.png" alt="Photo" class="overlay-photo" id="overlay-photo" />
     </div>
   </div>
 
   <div class="hanko-container">
     <div class="hanko-wrapper" id="hanko-wrapper">
-      <img src="hanko_greyscale.png" alt="Hanko Greyscale" 
-          class="hanko-grey" id="hanko-grey" />
-      <img src="hanko.png" alt="Hanko Red" class="hanko-red" 
-          id="hanko-red" />
+      <img src="hanko_greyscale.png" alt="Hanko Greyscale" class="hanko-grey" id="hanko-grey" />
+      <img src="hanko.png" alt="Hanko Red" class="hanko-red" id="hanko-red" />
     </div>
   </div>
 
@@ -437,117 +428,4 @@
     }
 
     function showOverlay() {
-      photoOverlayActive = true;
-      FadeOut.classList.remove('visible');
-      english.classList.remove('visible');
-      hankoWrapper.classList.remove('visible');
-      hankoRed.style.opacity  = '0';
-      hankoGrey.style.opacity = '1';
-
-      overlay.classList.add('visible');
-
-      // clear any pending fade or overlay timers
-      if (fadeTimer)    clearTimeout(fadeTimer);
-      if (overlayTimer) clearTimeout(overlayTimer);
-
-      overlayTimer = setTimeout(() => {
-        overlay.classList.remove('visible');
-        photoOverlayActive    = false;
-        tabletHasShownFirst   = false;
-        wordText.style.opacity = '1';
-      }, 5000);
-    }
-
-    function handleTabletTap() {
-      if (justDragged) {        // ← if we just scrolled, clear the flag and do nothing
-        justDragged = false;
-      }
-      else if (!tabletHasShownFirst) {
-        showFadeOut(5000);
-      } else {
-        showOverlay();
-      }
-    }
-
-    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-      if (isMobile) {
-        document.body.addEventListener('touchstart', () => {
-          setTimeout(() => { wordText.style.opacity = '0'; }, 500);
-          english.classList.add('visible');
-          hankoWrapper.classList.add('visible');
-          flashHankoTwice();
-          setTimeout(() => {
-            english.classList.remove('visible');
-            hankoWrapper.classList.remove('visible');
-            wordText.style.opacity = '1';
-            hankoRed.style.opacity  = '0';
-            hankoGrey.style.opacity = '1';
-          }, 5000);
-        });
-      } else {
-    document.body.addEventListener('touchmove', e => {
-      if (!tabletHasShownFirst) {
-        showFadeOut(5000);
-        justDragged = true;      // ← mark this scroll as “used”
-      }
-    });
-        document.body.addEventListener('pointerup', handleTabletTap);
-      }
-    }
-
-    // Keep desktop mousemove and hover logic for showFadeOut (5s)
-    if (isDesktop) {
-      document.body.addEventListener('mousemove', () => {
-        if (!mouseIsMoving) {
-          mouseIsMoving = true;
-          showFadeOut(999999);
-        }
-        clearTimeout(mouseStopTimer);
-        mouseStopTimer = setTimeout(() => {
-          mouseIsMoving = false;
-          hideFadeOutAndHanko();
-        }, 2000);
-      });
-    }
-
-    hankoWrapper.addEventListener('mouseenter', () => {
-      if (isDesktop) {
-        clearTimeout(fadeTimer);
-        setTimeout(() => { wordText.style.opacity = '0'; }, 500);
-        FadeOut.classList.add('visible');
-        english.classList.add('visible');
-        hankoWrapper.classList.add('visible');
-        hankoRed.style.opacity  = '1';
-        hankoGrey.style.opacity = '0';
-        hankoRed.style.transform = 'translateX(-50%) scale(1.2)';
-        hankoGrey.style.transform= 'translateX(-50%) scale(1.2)';
-      }
-    });
-
-    hankoWrapper.addEventListener('mouseleave', () => {
-      if (isDesktop) {
-        hankoRed.style.opacity  = '0';
-        hankoGrey.style.opacity = '1';
-        hankoRed.style.transform = 'translateX(-50%) scale(1)';
-        hankoGrey.style.transform= 'translateX(-50%) scale(1)';
-      }
-    });
-
-    /*
-    function flashHankoOnce() { … }
-    */
-
-    function flashHankoTwice() {
-      hankoRed.style.opacity  = '1';
-      hankoGrey.style.opacity = '0';
-      hankoRed.style.transform = 'translateX(-50%) scale(1)';
-      hankoGrey.style.transform= 'translateX(-50%) scale(1)';
-      setTimeout(() => { hankoRed.style.opacity  = '0'; hankoGrey.style.opacity = '1'; },  500);
-      setTimeout(() => { hankoRed.style.opacity  = '1'; hankoGrey.style.opacity = '0'; }, 1000);
-      setTimeout(() => { hankoRed.style.opacity  = '0'; hankoGrey.style.opacity = '1'; }, 1500);
-    }
-  </script>
-  <script data-goatcounter="https://richardandersen.goatcounter.com/count" 
-    async src="//gc.zgo.at/count.js"></script>
-</body>
-</html>
+      photo
