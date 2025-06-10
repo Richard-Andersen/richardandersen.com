@@ -8,11 +8,11 @@
   <meta name="author" 
   content="Richard Andersen 2025" />
  <!-- 
-    東出雲（昔の）、
-    松江、島根の皆さん、
-    こんにちは。
-    時々、皆さんのことを思い出して、
-    懐かしく温かい気持ちになります。
+      東出雲（昔の）、
+      松江、島根の皆さん、
+      こんにちは。
+      時々、皆さんのことを思い出して、
+      懐かしく温かい気持ちになります。
 -->
   <title>東出雲</title>
   <style>
@@ -459,9 +459,11 @@
     }
 
     function handleTabletTap() {
-      if (justDragged) justDragged = false;
-      else if (!tabletHasShownFirst) showFadeOut(5000);
-      else showOverlay();
+      if (!tabletHasShownFirst) {
+        showFadeOut(5000);
+      } else {
+        showOverlay();
+      }
     }
 
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
@@ -480,9 +482,13 @@
           }, 5000);
         });
       } else {
-        document.body.addEventListener('touchmove', e => {
-          if (!tabletHasShownFirst) { showFadeOut(5000); justDragged = true; }
-        });
+      document.body.addEventListener('touchmove', e => {
+        if (!tabletHasShownFirst) {
+          showFadeOut(5000);
+        } else {
+          showOverlay();
+        }
+      });
         document.body.addEventListener('pointerup', handleTabletTap);
       }
     }
