@@ -7,14 +7,8 @@
     initial-scale=1.0" />
   <meta name="author" 
   content="Richard Andersen 2025" />
- <!-- 
-      東出雲（昔の）、
-      松江、島根の皆さん、
-      こんにちは。
-      時々、皆さんのことを思い出して、
-      懐かしく温かい気持ちになります。
--->
-  <title>東出雲</title>
+
+  <title>Richard Andersen</title>
   <style>
     html, body {
       margin: 0;
@@ -25,19 +19,6 @@
         'HG明朝E', 'MS Mincho', 'Georgia', 
         'Times New Roman', 'Meiryo', serif;
       box-sizing: border-box;
-    }
-    /* 和文モールス信号 */
-    .wabun {
-      position: fixed;
-      bottom: calc(0.75em + 5px);
-      right: 1em;
-      font-family: monospace;
-      font-size: 0.6em;
-      color: #444;
-      opacity: 0.7;
-      pointer-events: none;
-      user-select: none;
-      z-index: 1000;
     }
 
     body {
@@ -99,6 +80,19 @@
         margin-top: 30px;
         width: 80%;
       }
+    }
+
+    .wabun {
+      position: fixed;
+      bottom: calc(0.75em + 5px);
+      right: 1em;
+      font-family: monospace;
+      font-size: 0.6em;
+      color: #444;
+      opacity: 0.7;
+      pointer-events: none;
+      user-select: none;
+      z-index: 1000;
     }
 
     .word-text,
@@ -316,13 +310,13 @@
 <body>
   <div class="content-wrapper">
     <div>
-      <div class="word-text" id="word-text"><span translate="no">空</span></div>
-      <div class="text-reveal" id="text-reveal" translate="no">水 土</div>
+      <div class="word-text" id="word-text"><span translate="no">&#9675;</span></div>
+      <div class="text-reveal" id="text-reveal" translate="no">&#9675;</div>
     </div>
     <div class="image-stack">
       <img src="fade_out.png" alt="Fade Out" class="fade-out-image" 
           id="fade-out-image" />
-      <img src="photo2025.png" alt="Photo" class="overlay-photo" 
+      <img src="blank.png" alt="Photo" class="overlay-photo" 
           id="overlay-photo" />
     </div>
   </div>
