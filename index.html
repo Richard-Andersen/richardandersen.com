@@ -2,8 +2,11 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="author" content="Richard Andersen" />
+  <meta name="viewport" 
+    content="width=device-width, 
+    initial-scale=1.0" />
+  <meta name="author" 
+    content="Richard Andersen" />
   <title>Richard Andersen</title>
   <style>
     html, body {
@@ -11,8 +14,8 @@
       padding: 0;
       height: 100%;
       background-color: white;
-      font-family: 'Yu Mincho', 'Hiragino Mincho ProN',
-        'HG明朝E', 'MS Mincho', 'Georgia',
+      font-family: 'Yu Mincho', 'Hiragino Mincho ProN', 
+        'HG明朝E', 'MS Mincho', 'Georgia', 
         'Times New Roman', 'Meiryo', serif;
       box-sizing: border-box;
     }
@@ -30,198 +33,471 @@
       justify-content: space-between;
       width: 100%;
       max-width: 1200px;
-      margin: 0 auto;
-      padding-left: 40px;
-      padding-right: 40px;
+      margin: 0 auto;        /* center the wrapper */
+      padding-left: 40px;    /* left gutter */
+      padding-right: 40px;   /* right gutter */
     }
 
     /* General Tablet: wider gutters on iPad-sized viewports */
     @media (min-width: 768px) and (max-width: 1366px) {
-      .content-wrapper { max-width: 980px; padding-left: 70px; padding-right: 80px; }
-      .image-stack { width: 300px; }
-      .word-text, .text-reveal { font-size: 66px; line-height: 0.6; }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .content-wrapper {
+        max-width: 980px;
+        padding-left: 70px;
+        padding-right: 80px;
+      }
+
+      .image-stack {
+        width: 300px;
+      }
+
+      .word-text {
+        font-size: 66px;
+        line-height: 0.6; /* Tablet/iPad */
+      }
+
+      .text-reveal {
+        font-size: 66px;
+        line-height: 0.6;
+      }
     }
 
     /* Narrow screens: stack word above illustration */
     @media (max-width: 680px) {
-      .content-wrapper { flex-direction: column; align-items: flex-start; padding: 20px; }
-      .image-stack { margin-top: 30px; width: 80%; }
+      .content-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+      .image-stack {
+        margin-top: 30px;
+        width: 80%;
+      }
     }
 
-    .wabun { position: fixed; bottom: calc(0.75em + 5px); right: 1em; font-family: monospace; font-size: 0.6em; color: #444; opacity: 0.7; pointer-events: none; user-select: none; z-index: 1000; }
+    .wabun {
+      position: fixed;
+      bottom: calc(0.75em + 5px);
+      right: 1em;
+      font-family: monospace;
+      font-size: 0.6em;
+      color: #444;
+      opacity: 0.7;
+      pointer-events: none;
+      user-select: none;
+      z-index: 1000;
+    }
 
-    .word-text, .text-reveal { text-align: left; margin-left: 0; padding-left: 0; text-indent: 0; }
-    .word-text { font-size: 60px; color: #665; white-space: pre-wrap; letter-spacing: 0.02em; font-feature-settings: "liga" on, "calt" on; line-height: 0.6; transition: opacity 0.6s ease; }
-    .text-reveal { font-size: 60px; color: #665; white-space: pre-wrap; line-height: 0.6; opacity: 0; transition: opacity 5s ease; margin-top: 16px; }
-    .text-reveal.visible { opacity: 1; }
+    .word-text,
+    .text-reveal {
+      text-align: left;
+      margin-left: 0;
+      padding-left: 0;
+      text-indent: 0;
+    }
 
-    .image-stack { position: relative; width: 346px; }
-    .image-stack img { width: 100%; height: auto; display: block; }
+    .word-text {
+      font-size: 60px;
+      color: #665;
+      white-space: pre-wrap;
+      letter-spacing: 0.02em;
+      font-feature-settings: "liga" on, "calt" on;
+      line-height: 0.6; /* Desktop */
+      transition: opacity 0.6s ease;
+      margin-left: 0px;
+    }
 
-    .fade-out-image { opacity: 0; transition: opacity 5s ease; pointer-events: none; z-index: 1; }
-    .fade-out-image.visible { opacity: 1; }
+    .text-reveal {
+      font-size: 60px;
+      color: #665;
+      white-space: pre-wrap;
+      line-height: 0.6; /* Desktop */
+      opacity: 0;
+      transition: opacity 5s ease;
+      margin-top: 16px;
+    }
 
-    .overlay-image { position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 5s ease; pointer-events: auto; z-index: 2; border-radius: 50px; }
-    .overlay-image.visible { opacity: 1; }
+    .text-reveal.visible {
+      opacity: 1;
+    }
 
-    .hanko-container { position: fixed; bottom: 2.5em; right: 14px; font-size: 12px; font-family: sans-serif; text-align: center; z-index: 999; }
-    .hanko-wrapper { position: relative; display: inline-block; width: 120px; height: 120px; margin-top: 8px; opacity: 0; transition: opacity 0.4s ease; }
-    .hanko-wrapper.visible { opacity: 1; }
-    .hanko-grey, .hanko-red { position: absolute; top: 0; left: 50%; transform: translateX(-50%) scale(1); width: 60px; transition: opacity 2s ease, transform 0.3s ease; pointer-events: auto; z-index: 1; }
-    .hanko-grey { opacity: 1; }
-    .hanko-red { opacity: 0; }
+    .image-stack {
+      position: relative;
+      width: 346px;
+    }
+
+    .image-stack img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .fade-out-image {
+      opacity: 0;
+      transition: opacity 5s ease;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .fade-out-image.visible {
+      opacity: 1;
+    }
+
+    .overlay-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transition: opacity 5s ease;
+      pointer-events: auto;
+      z-index: 2;
+      border-radius: 50px;
+    }
+
+    .overlay-image.visible {
+      opacity: 1;
+    }
+
+    .hanko-container {
+      position: fixed;
+      bottom: 2.5em;
+      right: 14px; /* hanko on desktop */
+      font-size: 12px;
+      font-family: sans-serif;
+      text-align: center;
+      z-index: 999;
+    }
+
+    .hanko-wrapper {
+      position: relative;
+      display: inline-block;
+      width: 120px;
+      height: 120px;
+      margin-top: 8px;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .hanko-wrapper.visible {
+      opacity: 1;
+    }
+
+    .hanko-grey,
+    .hanko-red {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%) scale(1);
+      width: 60px;
+      transition: opacity 2s ease, transform 0.3s ease;
+      pointer-events: auto;
+      z-index: 1;
+    }
+
+    .hanko-grey {
+      opacity: 1;
+    }
+
+    .hanko-red {
+      opacity: 0;
+    }
 
     @media (hover: hover) and (pointer: fine) {
-      .hanko-wrapper:hover .hanko-red { opacity: 1; }
-      .hanko-wrapper:hover .hanko-grey { opacity: 0; }
-      .hanko-wrapper:hover .hanko-grey, .hanko-wrapper:hover .hanko-red { transform: translateX(-50%) scale(1.2); }
+      .hanko-wrapper:hover .hanko-red {
+        opacity: 1;
+      }
+      .hanko-wrapper:hover .hanko-grey {
+        opacity: 0;
+      }
+      .hanko-wrapper:hover .hanko-grey,
+      .hanko-wrapper:hover .hanko-red {
+        transform: translateX(-50%) scale(1.2);
+      }
     }
+
     @media (hover: none) and (pointer: coarse) {
-      .hanko-wrapper.touch-flash .hanko-red { opacity: 1; }
-      .hanko-wrapper.touch-flash .hanko-grey { opacity: 0; }
+      .hanko-wrapper.touch-flash .hanko-red {
+        opacity: 1;
+      }
+      .hanko-wrapper.touch-flash .hanko-grey {
+        opacity: 0;
+      }
     }
 
     @media screen and (min-device-width: 768px) and (max-device-width: 1024px) and (pointer: coarse) {
-      .overlay-image { border-radius: 50px !important; }
-      .hanko-container { right: 5px; }
-      .hanko-wrapper { width: 126px; height: 126px; }
-      .hanko-grey, .hanko-red { width: 63px; }
+      .overlay-image {
+        border-radius: 50px !important;
+      }
+      .hanko-container {
+        right: 5px;
+      }
+      .hanko-wrapper {
+        width: 124px;
+        height: 124px;
+      }
+      .hanko-grey,
+      .hanko-red {
+        width: 62px;
+      }
     }
 
     @media screen and (max-device-width: 428px) and (pointer: coarse) {
-      .image-stack, .overlay-image { display: none !important; }
-      .wabun { transform: scale(0.6); transform-origin: bottom right; }
-      .text-reveal { line-height: 0.4; font-size: 36px; }
-      .word-text { line-height: 0.4; font-size: 36px; }
-      html, body { height: 100vh; }
-      body { align-items: flex-start !important; justify-content: flex-start !important; padding-top: 50vh; }
-      .content-wrapper { padding-left: 24px; padding-right: 12px; }
-      .hanko-container { bottom: 1.0em; right: 15px; }
-      .hanko-wrapper { width: 60px; height: 60px; }
-      .hanko-grey, .hanko-red { width: 30px; }
+      .image-stack { display: none !important; }
+      .overlay-image { display: none !important; }
+
+      .wabun {
+        transform: scale(0.6);
+        transform-origin: bottom right;
+      }
+
+      .text-reveal {
+        line-height: 0.4; /* Phone */
+        font-size: 36px;
+      }
+
+      .word-text {
+        line-height: 0.4; /* Phone */
+        font-size: 36px;
+      }
+
+      html, body {
+        height: 100vh;
+      }
+
+      body {
+        align-items: flex-start !important;
+        justify-content: flex-start !important;
+        padding-top: 50vh;
+      }
+
+      .content-wrapper {
+        padding-left: 24px;
+        padding-right: 12px;
+      }
+
+      .hanko-container {
+        bottom: 1.0em;
+        right: 15px;
+      }
+
+      .hanko-wrapper {
+        width: 60px;
+        height: 60px;
+      }
+
+      .hanko-grey,
+      .hanko-red {
+        width: 30px;
+      }
     }
   </style>
+
   <meta name="description" content="Richard Andersen" />
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Richard Andersen"}}
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "author": {
+      "@type": "Person",
+      "name": "Richard Andersen"
+    }
+  }
   </script>
   <meta name="google" content="notranslate">
 </head>
+
 <body>
   <div class="content-wrapper">
     <div>
       <div class="word-text" id="word-text"><span translate="no">&#9675;</span></div>
-      <div class="text-reveal" id="text-reveal" translate="no">&#9675;</span></div>
+      <div class="text-reveal" id="text-reveal" translate="no">&#9675;</div>
     </div>
     <div class="image-stack">
-      <img src="fade_out.png" alt="Fade Out" class="fade-out-image" id="fade-out-image" />
-      <img src="blank.png" alt="Photo" class="overlay-image" id="overlay-image" />
+      <img src="fade_out.png" alt="Fade Out" class="fade-out-image" 
+          id="fade-out-image" />
+      <img src="blank.png" alt="Photo" class="overlay-image" 
+          id="overlay-image" />
     </div>
   </div>
 
   <div class="hanko-container">
     <div class="hanko-wrapper" id="hanko-wrapper">
-      <img src="hanko_greyscale.png" alt="Hanko Greyscale" class="hanko-grey" id="hanko-grey" />
-      <img src="hanko.png" alt="Hanko Red" class="hanko-red" id="hanko-red" />
+      <img src="hanko_greyscale.png" alt="Hanko Greyscale" 
+          class="hanko-grey" id="hanko-grey" />
+      <img src="hanko.png" alt="Hanko Red" class="hanko-red" 
+          id="hanko-red" />
     </div>
   </div>
 
   <div class="wabun">・－&nbsp;&nbsp;－・・－&nbsp;&nbsp;－・・－・&nbsp;</div>
 
   <script>
-    const wordText = document.getElementById('word-text');
+    const wordText     = document.getElementById('word-text');
     const hankoWrapper = document.getElementById('hanko-wrapper');
-    const hankoGrey = document.getElementById('hanko-grey');
-    const hankoRed = document.getElementById('hanko-red');
-    const FadeOut = document.getElementById('fade-out-image');
-    const overlay = document.getElementById('overlay-image');
-    const english = document.getElementById('text-reveal');
+    const hankoGrey    = document.getElementById('hanko-grey');
+    const hankoRed     = document.getElementById('hanko-red');
+    const FadeOut      = document.getElementById('fade-out-image');
+    const overlay      = document.getElementById('overlay-image');
+    const english      = document.getElementById('text-reveal');
 
-    let fadeTimer, overlayTimer;
-    let tabletHasShownFirst = false, justDragged = false;
-    let photoOverlayActive = false, mouseIsMoving = false;
+    // two separate timers so fade vs overlay never conflict
+    let fadeTimer;
+    let overlayTimer;
+    let tabletHasShownFirst = false;
+    let justDragged         = false;
+    let photoOverlayActive  = false;
+    let mouseIsMoving       = false;
     let mouseStopTimer;
 
     window.addEventListener('pageshow', () => {
-      if (fadeTimer) clearTimeout(fadeTimer);
+      // clear both before resetting
+      if (fadeTimer)    clearTimeout(fadeTimer);
       if (overlayTimer) clearTimeout(overlayTimer);
+
+      // Reset everything:
       wordText.style.opacity = '1';
       FadeOut.classList.remove('visible');
       overlay.classList.remove('visible');
       english.classList.remove('visible');
       hankoWrapper.classList.remove('visible');
-      hankoRed.style.opacity = '0'; hankoGrey.style.opacity = '1';
+
+      hankoRed.style.opacity = '0';
+      hankoGrey.style.opacity = '1';
       hankoRed.style.transform = 'translateX(-50%) scale(1)';
       hankoGrey.style.transform = 'translateX(-50%) scale(1)';
-      tabletHasShownFirst = false; justDragged = false;
+
+      tabletHasShownFirst = false;
+      justDragged         = false;
     });
 
     const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-    const isMobile = window.matchMedia('(max-device-width: 428px) and (pointer: coarse)').matches;
+    const isMobile  = window.matchMedia('(max-device-width: 428px) and (pointer: coarse)').matches;
 
-    if (isDesktop) hankoWrapper.addEventListener('click', showOverlay);
+    if (isDesktop) {
+      hankoWrapper.addEventListener('click', showOverlay);
+    }
 
-    hankoGrey.addEventListener('dragstart', () => { hankoRed.style.opacity = '1'; hankoGrey.style.opacity = '0'; });
-    hankoGrey.addEventListener('dragend', () => { hankoRed.style.opacity = '0'; hankoGrey.style.opacity = '1'; });
+    hankoGrey.addEventListener('dragstart', () => {
+      hankoRed.style.opacity = '1';
+      hankoGrey.style.opacity = '0';
+    });
+    hankoGrey.addEventListener('dragend', () => {
+      hankoRed.style.opacity = '0';
+      hankoGrey.style.opacity = '1';
+    });
     hankoRed.addEventListener('contextmenu', e => {
-      e.preventDefault(); hankoRed.style.opacity = '1'; hankoGrey.style.opacity = '0';
-      setTimeout(() => { hankoRed.style.opacity = '0'; hankoGrey.style.opacity = '1'; }, 100);
+      e.preventDefault();
+      hankoRed.style.opacity = '1';
+      hankoGrey.style.opacity = '0';
+      setTimeout(() => {
+        hankoRed.style.opacity  = '0';
+        hankoGrey.style.opacity = '1';
+      }, 100);
       return false;
     });
 
     function hideFadeOutAndHanko() {
       const isHovering = hankoWrapper.matches(':hover');
       if (!isHovering) {
-        FadeOut.classList.remove('visible'); english.classList.remove('visible'); hankoWrapper.classList.remove('visible');
-        hankoRed.style.opacity = '0'; hankoGrey.style.opacity = '1';
+        FadeOut.classList.remove('visible');
+        english.classList.remove('visible');
+        hankoWrapper.classList.remove('visible');
+        hankoRed.style.opacity  = '0';
+        hankoGrey.style.opacity = '1';
       }
-      if (!photoOverlayActive && !isHovering) wordText.style.opacity = '1';
-      tabletHasShownFirst = false; justDragged = false;
+      if (!photoOverlayActive && !isHovering) {
+        wordText.style.opacity = '1';
+      }
+      tabletHasShownFirst = false;
+      justDragged         = false;
     }
 
     function showFadeOut(duration = 5000) {
       if (tabletHasShownFirst) return;
       tabletHasShownFirst = true;
       setTimeout(() => { wordText.style.opacity = '0'; }, 500);
-      FadeOut.classList.add('visible'); english.classList.add('visible'); hankoWrapper.classList.add('visible');
-      if (!isDesktop) flashHankoTwice(); else if (!hankoWrapper.matches(':hover')) flashHankoTwice();
+
+      FadeOut.classList.add('visible');
+      english.classList.add('visible');
+      hankoWrapper.classList.add('visible');
+
+      if (!isDesktop) flashHankoTwice();
+      else if (!hankoWrapper.matches(':hover')) flashHankoTwice();
+
+      // clear old fade then start new
       if (fadeTimer) clearTimeout(fadeTimer);
       fadeTimer = setTimeout(hideFadeOutAndHanko, duration);
     }
 
     function showOverlay() {
       photoOverlayActive = true;
-      FadeOut.classList.remove('visible'); english.classList.remove('visible'); hankoWrapper.classList.remove('visible');
-      hankoRed.style.opacity = '0'; hankoGrey.style.opacity = '1';
+      FadeOut.classList.remove('visible');
+      english.classList.remove('visible');
+      hankoWrapper.classList.remove('visible');
+      hankoRed.style.opacity  = '0';
+      hankoGrey.style.opacity = '1';
+
       overlay.classList.add('visible');
-      if (fadeTimer) clearTimeout(fadeTimer); if (overlayTimer) clearTimeout(overlayTimer);
-      overlayTimer = setTimeout(() => { overlay.classList.remove('visible'); photoOverlayActive = false; tabletHasShownFirst = false; wordText.style.opacity = '1'; }, 5000);
+
+      // clear any pending fade or overlay timers
+      if (fadeTimer)    clearTimeout(fadeTimer);
+      if (overlayTimer) clearTimeout(overlayTimer);
+
+      overlayTimer = setTimeout(() => {
+        overlay.classList.remove('visible');
+        photoOverlayActive    = false;
+        tabletHasShownFirst   = false;
+        wordText.style.opacity = '1';
+      }, 5000);
     }
 
     function handleTabletTap() {
-      if (justDragged) { justDragged = false; }
-      else if (!tabletHasShownFirst) { showFadeOut(5000); }
-      // removed second-tap showOverlay
+      if (justDragged) justDragged = false;
+      else if (!tabletHasShownFirst) showFadeOut(5000);
+      else showOverlay();
     }
 
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
       if (isMobile) {
         document.body.addEventListener('touchstart', () => {
           setTimeout(() => { wordText.style.opacity = '0'; }, 500);
-          english.classList.add('visible'); hankoWrapper.classList.add('visible'); flashHankoTwice();
-          setTimeout(() => { english.classList.remove('visible'); hankoWrapper.classList.remove('visible'); wordText.style.opacity = '1'; hankoRed.style.opacity = '0'; hankoGrey.style.opacity = '1'; }, 5000);
+          english.classList.add('visible');
+          hankoWrapper.classList.add('visible');
+          flashHankoTwice();
+          setTimeout(() => {
+            english.classList.remove('visible');
+            hankoWrapper.classList.remove('visible');
+            wordText.style.opacity = '1';
+            hankoRed.style.opacity  = '0';
+            hankoGrey.style.opacity = '1';
+          }, 5000);
         });
       } else {
-        document.body.addEventListener('touchmove', e => { if (!tabletHasShownFirst) { showFadeOut(5000); justDragged = true; } });
+        document.body.addEventListener('touchmove', e => {
+          if (!tabletHasShownFirst) { showFadeOut(5000); justDragged = true; }
+        });
         document.body.addEventListener('pointerup', handleTabletTap);
       }
     }
 
+    // Keep desktop mousemove and hover logic for showFadeOut (5s)
     if (isDesktop) {
       document.body.addEventListener('mousemove', () => {
-        if (!mouseIsMoving) { mouseIsMoving = true; showFadeOut(999999); }
+        if (!mouseIsMoving) {
+          mouseIsMoving = true;
+          showFadeOut(999999);
+        }
         clearTimeout(mouseStopTimer);
-        mouseStopTimer = setTimeout(() => { mouseIsMoving = false; hideFadeOutAndHanko(); }, 2000);
+        mouseStopTimer = setTimeout(() => {
+          mouseIsMoving = false;
+          hideFadeOutAndHanko();
+        }, 2000);
       });
     }
 
@@ -229,26 +505,36 @@
       if (isDesktop) {
         clearTimeout(fadeTimer);
         setTimeout(() => { wordText.style.opacity = '0'; }, 500);
-        FadeOut.classList.add('visible'); english.classList.add('visible'); hankoWrapper.classList.add('visible');
-        hankoRed.style.opacity = '1'; hankoGrey.style.opacity = '0';
-        hankoRed.style.transform = 'translateX(-50%) scale(1.2)'; hankoGrey.style.transform = 'translateX(-50%) scale(1.2)';
+        FadeOut.classList.add('visible');
+        english.classList.add('visible');
+        hankoWrapper.classList.add('visible');
+        hankoRed.style.opacity  = '1';
+        hankoGrey.style.opacity = '0';
+        hankoRed.style.transform = 'translateX(-50%) scale(1.2)';
+        hankoGrey.style.transform= 'translateX(-50%) scale(1.2)';
       }
     });
 
     hankoWrapper.addEventListener('mouseleave', () => {
       if (isDesktop) {
-        hankoRed.style.opacity = '0'; hankoGrey.style.opacity = '1';
-        hankoRed.style.transform = 'translateX(-50%) scale(1)'; hankoGrey.style.transform = 'translateX(-50%) scale(1)';
+        hankoRed.style.opacity  = '0';
+        hankoGrey.style.opacity = '1';
+        hankoRed.style.transform = 'translateX(-50%) scale(1)';
+        hankoGrey.style.transform= 'translateX(-50%) scale(1)';
       }
     });
 
     function flashHankoTwice() {
-      hankoRed.style.opacity = '1'; hankoGrey.style.opacity = '0'; hankoRed.style.transform = 'translateX(-50%) scale(1)'; hankoGrey.style.transform = 'translateX(-50%) scale(1)';
-      setTimeout(() => { hankoRed.style.opacity = '0'; hankoGrey.style.opacity = '1'; }, 500);
-      setTimeout(() => { hankoRed.style.opacity = '1'; hankoGrey.style.opacity = '0'; }, 1000);
-      setTimeout(() => { hankoRed.style.opacity = '0'; hankoGrey.style.opacity = '1'; }, 1500);
+      hankoRed.style.opacity  = '1';
+      hankoGrey.style.opacity = '0';
+      hankoRed.style.transform = 'translateX(-50%) scale(1)';
+      hankoGrey.style.transform= 'translateX(-50%) scale(1)';
+      setTimeout(() => { hankoRed.style.opacity  = '0'; hankoGrey.style.opacity = '1'; },  500);
+      setTimeout(() => { hankoRed.style.opacity  = '1'; hankoGrey.style.opacity = '0'; }, 1000);
+      setTimeout(() => { hankoRed.style.opacity  = '0'; hankoGrey.style.opacity = '1'; }, 1500);
     }
   </script>
-  <script data-goatcounter="https://richardandersen.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <script data-goatcounter="https://richardandersen.goatcounter.com/count" 
+    async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
