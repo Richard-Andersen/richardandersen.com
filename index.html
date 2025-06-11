@@ -239,15 +239,13 @@
       .hanko-container {
         right: 5px;
       }
-
       .hanko-wrapper {
-        width: 130px;
-        height: 130px;
+        width: 134px;
+        height: 134px;
       }
-
       .hanko-grey,
       .hanko-red {
-        width: 65px;
+        width: 67px;
       }
     }
 
@@ -255,9 +253,9 @@
       .image-stack { display: none !important; }
       .overlay-image { display: none !important; }
 
-        .wabun {
-            transform: scale(0.6);
-            transform-origin: bottom right;
+      .wabun {
+        transform: scale(0.6);
+        transform-origin: bottom right;
       }
 
       .text-reveal { 
@@ -315,234 +313,3 @@
   </script>
   <meta name="google" content="notranslate">
 </head>
-
-<body>
-  <div class="content-wrapper">
-    <div>
-      <div class="word-text" id="word-text"><span translate="no">&#9675;</span></div>
-      <div class="text-reveal" id="text-reveal" translate="no">&#9675;</div>
-    </div>
-    <div class="image-stack">
-      <img src="fade_out.png" alt="Fade Out" class="fade-out-image" 
-          id="fade-out-image" />
-      <img src="blank.png" alt="Blank" class="overlay-image" 
-          id="overlay-image" />
-    </div>
-  </div>
-
-  <div class="hanko-container">
-    <div class="hanko-wrapper" id="hanko-wrapper">
-      <img src="hanko_greyscale.png" alt="Hanko Greyscale" 
-          class="hanko-grey" id="hanko-grey" />
-      <img src="hanko.png" alt="Hanko Red" class="hanko-red" 
-          id="hanko-red" />
-    </div>
-  </div>
-
-  <div class="wabun">・－&nbsp;&nbsp;－・・－&nbsp;&nbsp;－・・－・&nbsp;</div>
-
-  <script>
-    const wordText     = document.getElementById('word-text');
-    const hankoWrapper = document.getElementById('hanko-wrapper');
-    const hankoGrey    = document.getElementById('hanko-grey');
-    const hankoRed     = document.getElementById('hanko-red');
-    const FadeOut      = document.getElementById('fade-out-image');
-    const overlay      = document.getElementById('overlay-image');
-    const english      = document.getElementById('text-reveal');
-
-    // two separate timers so fade vs overlay never conflict
-    let fadeTimer;
-    let overlayTimer;
-    let tabletHasShownFirst = false;
-    let justDragged         = false;
-    let photoOverlayActive  = false;
-    let mouseIsMoving       = false;
-    let mouseStopTimer;
-
-    window.addEventListener('pageshow', () => {
-      // clear both before resetting
-      if (fadeTimer)    clearTimeout(fadeTimer);
-      if (overlayTimer) clearTimeout(overlayTimer);
-
-      // Reset everything:
-      wordText.style.opacity = '1';
-      FadeOut.classList.remove('visible');
-      overlay.classList.remove('visible');
-      english.classList.remove('visible');
-      hankoWrapper.classList.remove('visible');
-
-      hankoRed.style.opacity = '0';
-      hankoGrey.style.opacity = '1';
-      hankoRed.style.transform = 'translateX(-50%) scale(1)';
-      hankoGrey.style.transform = 'translateX(-50%) scale(1)';
-
-      tabletHasShownFirst = false;
-      justDragged         = false;
-    });
-
-    const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-    const isMobile  = window.matchMedia('(max-device-width: 428px) and (pointer: coarse)').matches;
-
-    if (isDesktop) {
-      hankoWrapper.addEventListener('click', showOverlay);
-    }
-
-    hankoGrey.addEventListener('dragstart', () => {
-      hankoRed.style.opacity = '1';
-      hankoGrey.style.opacity = '0';
-    });
-    hankoGrey.addEventListener('dragend', () => {
-      hankoRed.style.opacity = '0';
-      hankoGrey.style.opacity = '1';
-    });
-    hankoRed.addEventListener('contextmenu', e => {
-      e.preventDefault();
-      hankoRed.style.opacity = '1';
-      hankoGrey.style.opacity = '0';
-      setTimeout(() => {
-        hankoRed.style.opacity  = '0';
-        hankoGrey.style.opacity = '1';
-      }, 100);
-      return false;
-    });
-
-    function hideFadeOutAndHanko() {
-      const isHovering = hankoWrapper.matches(':hover');
-      if (!isHovering) {
-        FadeOut.classList.remove('visible');
-        english.classList.remove('visible');
-        hankoWrapper.classList.remove('visible');
-        hankoRed.style.opacity  = '0';
-        hankoGrey.style.opacity = '1';
-      }
-      if (!photoOverlayActive && !isHovering) {
-        wordText.style.opacity = '1';
-      }
-      tabletHasShownFirst = false;
-      justDragged         = false;
-    }
-
-    function showFadeOut(duration = 5000) {
-      if (tabletHasShownFirst) return;
-      tabletHasShownFirst = true;
-      setTimeout(() => { wordText.style.opacity = '0'; }, 500);
-
-      FadeOut.classList.add('visible');
-      english.classList.add('visible');
-      hankoWrapper.classList.add('visible');
-
-      if (!isDesktop) flashHankoTwice();
-      else if (!hankoWrapper.matches(':hover')) flashHankoTwice();
-
-      // clear old fade then start new
-      if (fadeTimer) clearTimeout(fadeTimer);
-      fadeTimer = setTimeout(hideFadeOutAndHanko, duration);
-    }
-
-    function showOverlay() {
-      photoOverlayActive = true;
-      FadeOut.classList.remove('visible');
-      english.classList.remove('visible');
-      hankoWrapper.classList.remove('visible');
-      hankoRed.style.opacity  = '0';
-      hankoGrey.style.opacity = '1';
-
-      overlay.classList.add('visible');
-
-      // clear any pending fade or overlay timers
-      if (fadeTimer)    clearTimeout(fadeTimer);
-      if (overlayTimer) clearTimeout(overlayTimer);
-
-      overlayTimer = setTimeout(() => {
-        overlay.classList.remove('visible');
-        photoOverlayActive    = false;
-        tabletHasShownFirst   = false;
-        wordText.style.opacity = '1';
-      }, 5000);
-    }
-
-    function handleTabletTap() {
-      if (justDragged) justDragged = false;
-      else if (!tabletHasShownFirst) showFadeOut(5000);
-      else showOverlay();
-    }
-
-    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-      if (isMobile) {
-        document.body.addEventListener('touchstart', () => {
-          setTimeout(() => { wordText.style.opacity = '0'; }, 500);
-          english.classList.add('visible');
-          hankoWrapper.classList.add('visible');
-          flashHankoTwice();
-          setTimeout(() => {
-            english.classList.remove('visible');
-            hankoWrapper.classList.remove('visible');
-            wordText.style.opacity = '1';
-            hankoRed.style.opacity  = '0';
-            hankoGrey.style.opacity = '1';
-          }, 5000);
-        });
-      } else {
-        document.body.addEventListener('touchmove', e => {
-          if (!tabletHasShownFirst) { showFadeOut(5000); justDragged = true; }
-        });
-        document.body.addEventListener('pointerup', handleTabletTap);
-      }
-    }
-
-    // Keep desktop mousemove and hover logic for showFadeOut (5s)
-    if (isDesktop) {
-      document.body.addEventListener('mousemove', () => {
-        if (!mouseIsMoving) {
-          mouseIsMoving = true;
-          showFadeOut(999999);
-        }
-        clearTimeout(mouseStopTimer);
-        mouseStopTimer = setTimeout(() => {
-          mouseIsMoving = false;
-          hideFadeOutAndHanko();
-        }, 2000);
-      });
-    }
-
-    hankoWrapper.addEventListener('mouseenter', () => {
-      if (isDesktop) {
-        clearTimeout(fadeTimer);
-        setTimeout(() => { wordText.style.opacity = '0'; }, 500);
-        FadeOut.classList.add('visible');
-        english.classList.add('visible');
-        hankoWrapper.classList.add('visible');
-        hankoRed.style.opacity  = '1';
-        hankoGrey.style.opacity = '0';
-        hankoRed.style.transform = 'translateX(-50%) scale(1.2)';
-        hankoGrey.style.transform= 'translateX(-50%) scale(1.2)';
-      }
-    });
-
-    hankoWrapper.addEventListener('mouseleave', () => {
-      if (isDesktop) {
-        hankoRed.style.opacity  = '0';
-        hankoGrey.style.opacity = '1';
-        hankoRed.style.transform = 'translateX(-50%) scale(1)';
-        hankoGrey.style.transform= 'translateX(-50%) scale(1)';
-      }
-    });
-
-    /*
-    function flashHankoOnce() { … }
-    */
-
-    function flashHankoTwice() {
-      hankoRed.style.opacity  = '1';
-      hankoGrey.style.opacity = '0';
-      hankoRed.style.transform = 'translateX(-50%) scale(1)';
-      hankoGrey.style.transform= 'translateX(-50%) scale(1)';
-      setTimeout(() => { hankoRed.style.opacity  = '0'; hankoGrey.style.opacity = '1'; },  500);
-      setTimeout(() => { hankoRed.style.opacity  = '1'; hankoGrey.style.opacity = '0'; }, 1000);
-      setTimeout(() => { hankoRed.style.opacity  = '0'; hankoGrey.style.opacity = '1'; }, 1500);
-    }
-  </script>
-  <script data-goatcounter="https://richardandersen.goatcounter.com/count" 
-    async src="//gc.zgo.at/count.js"></script>
-</body>
-</html>
