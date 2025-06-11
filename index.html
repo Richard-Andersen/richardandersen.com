@@ -149,7 +149,7 @@
       opacity: 1;
     }
 
-    .overlay-photo {
+    .overlay-image {
       position: absolute;
       top: 0;
       left: 0;
@@ -160,7 +160,7 @@
       border-radius: 50px;
     }
 
-    .overlay-photo.visible {
+    .overlay-image.visible {
       opacity: 1;
     }
 
@@ -233,7 +233,7 @@
     @media screen and (min-device-width: 768px) /* touch-only iPad override */
         and (max-device-width: 1024px) 
         and (pointer: coarse) {
-      .overlay-photo {
+      .overlay-image {
         border-radius: 50px !important;
       }
       .hanko-container {
@@ -243,7 +243,7 @@
 
     @media screen and (max-device-width: 428px) and (pointer: coarse) {
       .image-stack { display: none !important; }
-      .overlay-photo { display: none !important; }
+      .overlay-image { display: none !important; }
 
         .wabun {
             transform: scale(0.6);
@@ -315,8 +315,8 @@
     <div class="image-stack">
       <img src="fade_out.png" alt="Fade Out" class="fade-out-image" 
           id="fade-out-image" />
-      <img src="blank.png" alt="Photo" class="overlay-photo" 
-          id="overlay-photo" />
+      <img src="blank.png" alt="Blank" class="overlay-image" 
+          id="overlay-image" />
     </div>
   </div>
 
@@ -337,7 +337,7 @@
     const hankoGrey    = document.getElementById('hanko-grey');
     const hankoRed     = document.getElementById('hanko-red');
     const FadeOut      = document.getElementById('fade-out-image');
-    const overlay      = document.getElementById('overlay-photo');
+    const overlay      = document.getElementById('overlay-image');
     const english      = document.getElementById('text-reveal');
 
     // two separate timers so fade vs overlay never conflict
