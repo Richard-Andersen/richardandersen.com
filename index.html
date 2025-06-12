@@ -108,7 +108,7 @@
       white-space: pre-wrap;
       letter-spacing: 0.02em;
       font-feature-settings: "liga" on, "calt" on;
-      line-height: 0.6; /* Desktop */
+      line-height: 0.6; /* desktop browser */
       transition: opacity 5s ease; /* first one fades out, second one fades in -- initially .06s */
       margin-left: 0px;
     }
@@ -117,7 +117,7 @@
       font-size: 60px;
       color: #665;
       white-space: pre-wrap;
-      line-height: 0.6; /* Desktop */
+      line-height: 0.6; /* desktop browser */
       opacity: 0;
       transition: opacity 5s ease;
       margin-top: 16px;
@@ -167,7 +167,7 @@
     .hanko-container {
       position: fixed;
       bottom: 2.5em;
-      right: 14px; /* hanko on desktop */
+      right: 14px; /* hanko on desktop browser */
       font-size: 12px;
       font-family: sans-serif;
       text-align: center;
@@ -365,7 +365,7 @@
       if (fadeTimer)    clearTimeout(fadeTimer);
       if (overlayTimer) clearTimeout(overlayTimer);
 
-      // Reset everything:
+      // reset everything
       wordText.style.opacity = '1';
       FadeOut.classList.remove('visible');
       overlay.classList.remove('visible');
@@ -493,7 +493,7 @@
       }
     }
 
-    // Keep desktop mousemove and hover logic for showFadeOut (5s)
+    // keep desktop mousemove and hover logic for showFadeOut e.g. 5s
     if (isDesktop) {
       document.body.addEventListener('mousemove', () => {
         if (!mouseIsMoving) {
@@ -506,7 +506,7 @@
           mouseIsMoving = false;
           hideFadeOutAndHanko();
         // }, 2000);
-        }, 3000); // ← give it a full 0.5s delay + 5s fade + 0.5s pause
+        }, 3000); // ← e.g. give it a full 0.5s delay + 5s fade + 0.5s pause or whatever
       });
     }
 
