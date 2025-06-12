@@ -498,13 +498,15 @@
       document.body.addEventListener('mousemove', () => {
         if (!mouseIsMoving) {
           mouseIsMoving = true;
-          showFadeOut(999999);
+          // showFadeOut(999999);
+          showFadeOut(6000);
         }
         clearTimeout(mouseStopTimer);
         mouseStopTimer = setTimeout(() => {
           mouseIsMoving = false;
           hideFadeOutAndHanko();
-        }, 2000);
+        // }, 2000);
+        }, 4000); // ← give it a full 0.5s delay + 5s fade + 0.5s pause
       });
     }
 
