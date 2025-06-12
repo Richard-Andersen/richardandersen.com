@@ -432,8 +432,8 @@
       english.classList.add('visible');
       hankoWrapper.classList.add('visible');
 
-      if (!isDesktop) flashHankoTwice();
-      else if (!hankoWrapper.matches(':hover')) flashHankoTwice();
+      if (!isDesktop) setTimeout(flashHankoTwice, 1000);
+      else if (!hankoWrapper.matches(':hover')) setTimeout(flashHankoTwice, 1000);
 
       // clear old fade then start new
       if (fadeTimer) clearTimeout(fadeTimer);
