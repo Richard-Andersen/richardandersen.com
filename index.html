@@ -181,7 +181,7 @@
       height: 124px;
       margin-top: 8px;
       opacity: 0;
-      transition: opacity 1.5s ease; /* hanko fade-in time */
+      transition: opacity 3s ease; /* hanko fade-in time */
     }
 
     .hanko-wrapper.visible {
@@ -474,7 +474,7 @@
           setTimeout(() => { wordText.style.opacity = '0'; }, 500);
           english.classList.add('visible');
           hankoWrapper.classList.add('visible');
-          flashHankoTwice();
+          setTimeout(flashHankoTwice, 1000);
           setTimeout(() => {
             english.classList.remove('visible');
             hankoWrapper.classList.remove('visible');
