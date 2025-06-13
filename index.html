@@ -111,6 +111,8 @@
       line-height: 0.6; /* Desktop */
       transition: opacity 5s ease; /* first one fades out, second one fades in -- initially .06s */
       margin-left: 0px;
+      opacity: 0; /* start transparent */
+      transition: opacity 7s ease; /* smooth fade-in */
     }
 
     .text-reveal {
@@ -366,7 +368,10 @@
       if (overlayTimer) clearTimeout(overlayTimer);
 
       // Reset everything:
-      wordText.style.opacity = '1';
+      // wordText.style.opacity = '1';
+      setTimeout(() => {
+        wordText.style.opacity = '1';
+      }, 300); // wait 0.3s, then fade in
       FadeOut.classList.remove('visible');
       overlay.classList.remove('visible');
       english.classList.remove('visible');
@@ -461,6 +466,7 @@
         photoOverlayActive    = false;
         tabletHasShownFirst   = false;
         wordText.style.opacity = '1';
+        location.reload(); // ← this is the reload trigger
       }, 5000);
     }
 
@@ -557,5 +563,30 @@
 </script>
   <script data-goatcounter="https://richardandersen.goatcounter.com/count" 
     async src="//gc.zgo.at/count.js"></script>
+
+<script>
+  window.addEventListener('load', () => {
+    const notice = document.createElement('div');
+    notice.textContent = '🔁 Reloaded';
+    notice.style.position = 'fixed';
+    notice.style.top = '20px';
+    notice.style.left = '50%';
+    notice.style.transform = 'translateX(-50%)';
+    notice.style.padding = '10px 20px';
+    notice.style.backgroundColor = 'black';
+    notice.style.color = 'white';
+    notice.style.fontSize = '16px';
+    notice.style.fontFamily = 'sans-serif';
+    notice.style.borderRadius = '6px';
+    notice.style.zIndex = '9999';
+    notice.style.boxShadow = '0 2px 8px rgba(0,0,0,0.3)';
+    document.body.appendChild(notice);
+
+    setTimeout(() => {
+      notice.remove();
+    }, 4000); // message stays visible for 4 seconds
+  });
+</script>
+
 </body>
 </html>
