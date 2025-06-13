@@ -7,7 +7,7 @@
     initial-scale=1.0" />
   <meta name="author" 
     content="Richard Andersen" />
-    <title>Richard Andersen</title>
+  <title>Richard Andersen</title>
   <style>
     html, body {
       margin: 0;
@@ -36,6 +36,12 @@
       margin: 0 auto;        /* center the wrapper */
       padding-left: 40px;    /* left gutter */
       padding-right: 40px;   /* right gutter */
+    }
+
+    /* Cursor maintain default state */
+    .word-text,
+    .text-reveal {
+      cursor: default;
     }
 
     /* General Tablet: wider gutters on iPad-sized viewports */
@@ -250,7 +256,6 @@
       }
     }
 
- 
     @media screen and (max-device-width: 428px) 
       and (pointer: coarse) { 
 
@@ -320,10 +325,12 @@
 
 <body>
   <div class="content-wrapper">
-    <div>
-      <div class="word-text" id="word-text"><span translate="no">&#9675;</span></div>
-      <div class="text-reveal" id="text-reveal" translate="no">&#9675;</div>
-    </div>
+    <a href="" id="desktop-reload-link" style="text-decoration:none; color:inherit; cursor:pointer;">
+      <div>
+        <div class="word-text" id="word-text"><span translate="no">&#9675;</span></div>
+        <div class="text-reveal" id="text-reveal" translate="no">&#9675;</div>
+      </div>
+    </a>
     <div class="image-stack">
       <img src="fade_out.png" alt="Fade Out" class="fade-out-image" 
           id="fade-out-image" />
@@ -368,7 +375,6 @@
       if (overlayTimer) clearTimeout(overlayTimer);
 
       // Reset everything:
-      // wordText.style.opacity = '1';
       setTimeout(() => {
         wordText.style.opacity = '1';
       }, 300); // wait 0.3s, then fade in
@@ -385,13 +391,27 @@
 
       tabletHasShownFirst = false;
       justDragged         = false;
-
-      mouseIsMoving = false; // Allow immediate mousemove again
-      mouseLocked = false; // Allow immediate mousemove again
+      mouseIsMoving       = false; // Allow immediate mousemove again
+      mouseLocked         = false;
     });
 
     const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     const isMobile  = window.matchMedia('(max-device-width: 428px) and (pointer: coarse)').matches;
+
+    // Desktop‐only: clicking outside hanko still reloads
+    if (isDesktop) {
+      document.addEventListener('click', event => {
+        if (!hankoWrapper.contains(event.target)) {
+          location.reload();
+        }
+      });
+    }
+
+    // Disable the reload‐link on non‐desktop
+    if (!isDesktop) {
+      const link = document.getElementById('desktop-reload-link');
+      if (link) link.removeAttribute('href');
+    }
 
     // --> Hanko click
     // if (isDesktop) {
@@ -442,18 +462,14 @@
       english.classList.add('visible');
       hankoWrapper.classList.add('visible');
 
-      // if (!isDesktop) setTimeout(flashHankoTwice, 1000);
-      // else if (!hankoWrapper.matches(':hover')) setTimeout(flashHankoTwice, 1000);
-      // only flash automatically on mobile; desktop will still flash on hover via CSS
       if (!isDesktop) setTimeout(flashHankoTwice, 1000);
 
-      // clear old fade then start new
       if (fadeTimer) clearTimeout(fadeTimer);
       fadeTimer = setTimeout(hideFadeOutAndHanko, duration);
     }
 
     function showOverlay() {
-      mouseLocked = true; // temporarily disable mousemove
+      mouseLocked = true;
       photoOverlayActive = true;
       FadeOut.classList.remove('visible');
       english.classList.remove('visible');
@@ -463,7 +479,6 @@
 
       overlay.classList.add('visible');
 
-      // clear any pending fade or overlay timers
       if (fadeTimer)    clearTimeout(fadeTimer);
       if (overlayTimer) clearTimeout(overlayTimer);
 
@@ -472,7 +487,7 @@
         photoOverlayActive    = false;
         tabletHasShownFirst   = false;
         wordText.style.opacity = '1';
-        location.reload(); // ← this is the reload trigger
+        location.reload();
       }, 5000);
     }
 
@@ -505,24 +520,19 @@
       }
     }
 
-    // Keep desktop mousemove and hover logic for showFadeOut (5s)
     if (isDesktop) {
       document.body.addEventListener('mousemove', () => {
-        if (mouseLocked) return; // ignore mouse movement when locked
+        if (mouseLocked) return;
 
         if (!mouseIsMoving) {
           mouseIsMoving = true;
-          // showFadeOut(999999);
           showFadeOut(6000);
         }
         clearTimeout(mouseStopTimer);
         mouseStopTimer = setTimeout(() => {
           mouseIsMoving = false;
           hideFadeOutAndHanko();
-        // }, 2000);
-        }, 1500); // ← give it e.g. a full 0.5s delay + 5s fade + 0.5s pause
-                  // This is the blank.png image fade-out time when hanko and the two circles disappear
-                  //  -- originally 4000
+        }, 1500);
       });
     }
 
@@ -558,19 +568,9 @@
       setTimeout(() => { hankoRed.style.opacity  = '1'; hankoGrey.style.opacity = '0'; }, 1000);
       setTimeout(() => { hankoRed.style.opacity  = '0'; hankoGrey.style.opacity = '1'; }, 1500);
     }
+  </script>
 
-    // Desktop-only: reload if clicked anywhere except the hanko
-    if (isDesktop) {
-      document.addEventListener('click', (event) => {
-        const clickedInsideHanko = hankoWrapper.contains(event.target);
-        if (!clickedInsideHanko) {
-          location.reload();
-        }
-      });
-    }
-</script>
   <script data-goatcounter="https://richardandersen.goatcounter.com/count" 
     async src="//gc.zgo.at/count.js"></script>
-
 </body>
 </html>
