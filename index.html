@@ -372,6 +372,7 @@
       setTimeout(() => {
         wordText.style.opacity = '1';
       }, 300); // wait 0.3s, then fade in
+
       FadeOut.classList.remove('visible');
       overlay.classList.remove('visible');
       english.classList.remove('visible');
@@ -384,6 +385,9 @@
 
       tabletHasShownFirst = false;
       justDragged         = false;
+
+      mouseIsMoving = false; // Allow immediate mousemove again
+      mouseLocked = false; // Allow immediate mousemove again
     });
 
     const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -566,28 +570,6 @@
 </script>
   <script data-goatcounter="https://richardandersen.goatcounter.com/count" 
     async src="//gc.zgo.at/count.js"></script>
-
-<script>
-  window.addEventListener('load', () => {
-    const msg = document.createElement('div');
-    msg.textContent = 'リロード';
-    msg.style.position = 'fixed';
-    msg.style.top = '50%';
-    msg.style.left = '50%';
-    msg.style.transform = 'translate(-50%, -50%)';
-    msg.style.padding = '4px 10px';
-    msg.style.color = '#999';  // lighter grey if desired
-    msg.style.fontSize = '10px';
-    msg.style.fontFamily = 'Helvetica, "Segoe UI", sans-serif';
-    msg.style.opacity = '0.9';
-    msg.style.zIndex = '9999';
-    document.body.appendChild(msg);
-
-    setTimeout(() => {
-      msg.remove();
-    }, 700); // e.g. 1000 --> visible for 1 second
-  });
-</script>
 
 </body>
 </html>
