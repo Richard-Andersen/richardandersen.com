@@ -109,10 +109,9 @@
       letter-spacing: 0.02em;
       font-feature-settings: "liga" on, "calt" on;
       line-height: 0.6; /* Desktop */
-      transition: opacity 5s ease; /* first one fades out, second one fades in -- initially .06s */
       margin-left: 0px;
       opacity: 0; /* start transparent */
-      transition: opacity 7s ease; /* smooth fade-in */
+      transition: opacity 1s ease; /* O fades to O */
     }
 
     .text-reveal {
@@ -516,7 +515,7 @@
           mouseIsMoving = false;
           hideFadeOutAndHanko();
         // }, 2000);
-        }, 3000); // ← give it e.g. a full 0.5s delay + 5s fade + 0.5s pause
+        }, 1500); // ← give it e.g. a full 0.5s delay + 5s fade + 0.5s pause
                   // This is the blank.png image fade-out time when hanko and the two circles disappear
                   //  -- originally 4000
       });
@@ -586,7 +585,7 @@
 
     setTimeout(() => {
       msg.remove();
-    }, 1000); // visible for 1 second
+    }, 700); // e.g. 1000 --> visible for 1 second
   });
 </script>
 
