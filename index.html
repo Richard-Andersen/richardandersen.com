@@ -26,7 +26,7 @@
       justify-content: center;
     }
 
-    /* Container Wrapper */
+    /* container wrapper */
     .content-wrapper {
       display: flex;
       align-items: center;
@@ -38,13 +38,13 @@
       padding-right: 40px;   /* right gutter */
     }
 
-    /* Cursor maintain default state */
+    /* cursor maintain default state */
     .word-text,
     .text-reveal {
       cursor: default;
     }
 
-    /* General Tablet: wider gutters on iPad-sized viewports */
+    /* general tablet: wider gutters on iPad-sized viewports */
     @media (min-width: 768px) and (max-width: 1366px) {
       body {
         display: flex;
@@ -64,7 +64,7 @@
 
       .word-text {
         font-size: 66px;
-        line-height: 0.6; /* Tablet/iPad */
+        line-height: 0.6; /* tablet/iPad */
       }
 
       .text-reveal {
@@ -73,7 +73,7 @@
       }
     }
 
-    /* Narrow screens: stack word above illustration */
+    /* narrow screens: stack word above illustration */
     @media (max-width: 680px) {
       .content-wrapper {
         flex-direction: column;
@@ -114,7 +114,7 @@
       white-space: pre-wrap;
       letter-spacing: 0.02em;
       font-feature-settings: "liga" on, "calt" on;
-      line-height: 0.6; /* Desktop */
+      line-height: 0.6; /* desktop */
       margin-left: 0px;
       opacity: 0; /* start transparent */
       transition: opacity 1s ease; /* O fades to O */
@@ -124,7 +124,7 @@
       font-size: 60px;
       color: #665;
       white-space: pre-wrap;
-      line-height: 0.6; /* Desktop */
+      line-height: 0.6; /* desktop */
       opacity: 0;
       transition: opacity 5s ease;
       margin-top: 16px;
@@ -374,7 +374,7 @@
       if (fadeTimer)    clearTimeout(fadeTimer);
       if (overlayTimer) clearTimeout(overlayTimer);
 
-      // Reset everything:
+      // reset everything:
       setTimeout(() => {
         wordText.style.opacity = '1';
       }, 300); // wait 0.3s, then fade in
@@ -391,14 +391,14 @@
 
       tabletHasShownFirst = false;
       justDragged         = false;
-      mouseIsMoving       = false; // Allow immediate mousemove again
+      mouseIsMoving       = false; // allow immediate mousemove again
       mouseLocked         = false;
     });
 
     const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     const isMobile  = window.matchMedia('(max-device-width: 428px) and (pointer: coarse)').matches;
 
-    // Desktop‐only: clicking outside hanko still reloads
+    // desktop‐only: clicking outside hanko still reloads
     if (isDesktop) {
       document.addEventListener('click', event => {
         if (!hankoWrapper.contains(event.target)) {
@@ -407,13 +407,13 @@
       });
     }
 
-    // Disable the reload‐link on non‐desktop
+    // disable the reload‐link on non‐desktop
     if (!isDesktop) {
       const link = document.getElementById('desktop-reload-link');
       if (link) link.removeAttribute('href');
     }
 
-    // --> Hanko click
+    // --> hanko click doesn't reload on desktop
     // if (isDesktop) {
     //   hankoWrapper.addEventListener('click', showOverlay);
     // }
