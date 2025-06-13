@@ -544,7 +544,17 @@
       setTimeout(() => { hankoRed.style.opacity  = '1'; hankoGrey.style.opacity = '0'; }, 1000);
       setTimeout(() => { hankoRed.style.opacity  = '0'; hankoGrey.style.opacity = '1'; }, 1500);
     }
-  </script>
+
+    // Desktop-only: reload if clicked anywhere except the hanko
+    if (isDesktop) {
+      document.addEventListener('click', (event) => {
+        const clickedInsideHanko = hankoWrapper.contains(event.target);
+        if (!clickedInsideHanko) {
+          location.reload();
+        }
+      });
+    }
+</script>
   <script data-goatcounter="https://richardandersen.goatcounter.com/count" 
     async src="//gc.zgo.at/count.js"></script>
 </body>
