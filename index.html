@@ -393,9 +393,10 @@
     const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     const isMobile  = window.matchMedia('(max-device-width: 428px) and (pointer: coarse)').matches;
 
-    if (isDesktop) {
-      hankoWrapper.addEventListener('click', showOverlay);
-    }
+    // --> Hanko click
+    // if (isDesktop) {
+    //   hankoWrapper.addEventListener('click', showOverlay);
+    // }
 
     hankoGrey.addEventListener('dragstart', () => {
       hankoRed.style.opacity = '1';
