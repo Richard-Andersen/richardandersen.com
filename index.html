@@ -398,7 +398,7 @@
     const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     const isMobile  = window.matchMedia('(max-device-width: 428px) and (pointer: coarse)').matches;
 
-    // desktop‐only: clicking outside hanko still reloads
+    // desktop‐only: clicking page reloads it
     if (isDesktop) {
       document.addEventListener('click', event => {
         if (!hankoWrapper.contains(event.target)) {
@@ -413,7 +413,7 @@
       if (link) link.removeAttribute('href');
     }
 
-    // --> hanko click doesn't reload on desktop
+    // --> desktop-only: hanko click doesn't reload
     // if (isDesktop) {
     //   hankoWrapper.addEventListener('click', showOverlay);
     // }
