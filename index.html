@@ -59,6 +59,8 @@
         font-size: 1.1em;
         right: 2em;
         bottom: 3em;
+        transform: none !important;
+        transform-origin: unset !important;
       }
 
       .imamo {
@@ -66,6 +68,8 @@
         letter-spacing: 3.5em;
         right: 2em;
         bottom: 3em;
+        transform: none !important;
+        transform-origin: unset !important;
       }
 
       .content-wrapper {
@@ -619,16 +623,15 @@
       setTimeout(() => { hankoRed.style.opacity  = '0'; hankoGrey.style.opacity = '1'; }, 1500);
     }
 
-    // show イマモ immediately, then fade to Wabun after 2s
     window.addEventListener('pageshow', () => {
       const wabun = document.querySelector('.wabun');
       const imamo = document.getElementById('imamo');
 
-      // Make イマモ visible immediately
+      // Show イマモ immediately
       if (imamo) imamo.style.opacity = '1';
       if (wabun) wabun.style.opacity = '0';
 
-      // Then fade from イマモ to Wabun after 2.5s
+      // After 2 seconds, hide イマモ instantly and fade in Wabun
       setTimeout(() => {
         if (imamo) imamo.style.opacity = '0';
         if (wabun) wabun.style.opacity = '0.7';
