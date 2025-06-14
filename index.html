@@ -628,17 +628,21 @@
       const imamo = document.getElementById('imamo');
 
       // Show イマモ immediately
-      if (imamo) imamo.style.opacity = '1';
+      if (imamo) {
+        imamo.style.transition = 'opacity 2s cubic-bezier(0.4, 0.0, 0.2, 1)';
+        imamo.style.opacity = '1';
+      }
       if (wabun) wabun.style.opacity = '0';
 
-      // After 2 seconds, hide イマモ instantly and fade in Wabun
+      // After 2 seconds, fade out イマモ
       setTimeout(() => {
-        if (imamo) {
-          imamo.style.transition = 'none';
-          imamo.style.opacity = '0';
-        }
-        if (wabun) wabun.style.opacity = '0.7';
+        if (imamo) imamo.style.opacity = '0';
       }, 2000);
+
+      // After 4 seconds, fade in Wabun
+      setTimeout(() => {
+        if (wabun) wabun.style.opacity = '0.7';
+      }, 4000);
     });
   </script>
 
