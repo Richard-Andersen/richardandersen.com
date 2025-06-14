@@ -633,7 +633,10 @@
 
       // After 2 seconds, hide イマモ instantly and fade in Wabun
       setTimeout(() => {
-        if (imamo) imamo.style.opacity = '0';
+        if (imamo) {
+          imamo.style.transition = 'none';
+          imamo.style.opacity = '0';
+        }
         if (wabun) wabun.style.opacity = '0.7';
       }, 2000);
     });
