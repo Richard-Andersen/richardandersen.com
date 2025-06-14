@@ -103,6 +103,21 @@
       z-index: 1000;
     }
 
+    .imamo {
+      position: fixed;
+      bottom: calc(0.75em + 5px);
+      right: 1em;
+      font-family: 'Noto Sans JP', 'Meiryo', sans-serif;
+      font-size: 0.6em;
+      color: #444;
+      opacity: 0;
+      pointer-events: none;
+      user-select: none;
+      z-index: 1001;
+      letter-spacing: 3.5em; /* adjust as needed to match Wabun width */
+      transition: opacity 2.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+
     .word-text,
     .text-reveal {
       text-align: left;
@@ -353,6 +368,7 @@
   </div>
 
   <div class="wabun">・－&nbsp;&nbsp;&nbsp;－・・－&nbsp;&nbsp;&nbsp;－・・－・&nbsp;</div>
+  <div class="imamo" id="imamo" translate="no">イマモ</div>
 
   <script>
     const wordText     = document.getElementById('word-text');
@@ -549,15 +565,15 @@
         english.classList.add('visible');
         hankoWrapper.classList.add('visible');
 
-        // Start with greyscale visible
+        // start with greyscale visible
         hankoGrey.style.opacity = '1';
         hankoRed.style.opacity = '0';
 
-        // Scale up immediately
+        // scale up immediately
         hankoGrey.style.transform = 'translateX(-50%) scale(2)';
         hankoRed.style.transform  = 'translateX(-50%) scale(2)';
 
-        // Delay before switching to red
+        // delay before switching to red
         setTimeout(() => {
           hankoGrey.style.opacity = '0';
           hankoRed.style.opacity  = '1';
@@ -583,6 +599,25 @@
       setTimeout(() => { hankoRed.style.opacity  = '1'; hankoGrey.style.opacity = '0'; }, 1000);
       setTimeout(() => { hankoRed.style.opacity  = '0'; hankoGrey.style.opacity = '1'; }, 1500);
     }
+
+    // show イマモ briefly in place of Wabun 
+    window.addEventListener('pageshow', () => {
+      const wabun = document.querySelector('.wabun');
+      const imamo = document.getElementById('imamo');
+
+      setTimeout(() => {
+        if (!wabun || !imamo) return;
+
+        wabun.style.opacity = '0';
+        imamo.style.opacity = '1';
+
+        setTimeout(() => {
+          imamo.style.opacity = '0';
+          wabun.style.opacity = '0.7'; // restore original Wabun opacity
+        }, 3500); // 2.5s fade-in + ~1s fully visible
+
+      }, 3000); // start 3s after page load
+    });
   </script>
 
   <script data-goatcounter="https://richardandersen.goatcounter.com/count" 
