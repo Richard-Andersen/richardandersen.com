@@ -619,23 +619,20 @@
       setTimeout(() => { hankoRed.style.opacity  = '0'; hankoGrey.style.opacity = '1'; }, 1500);
     }
 
-    // show イマモ briefly in place of Wabun 
+    // show イマモ immediately, then fade to Wabun after 2s
     window.addEventListener('pageshow', () => {
       const wabun = document.querySelector('.wabun');
       const imamo = document.getElementById('imamo');
 
+      // Make イマモ visible immediately
+      if (imamo) imamo.style.opacity = '1';
+      if (wabun) wabun.style.opacity = '0';
+
+      // Then fade from イマモ to Wabun after 2.5s
       setTimeout(() => {
-        if (!wabun || !imamo) return;
-
-        wabun.style.opacity = '0';
-        imamo.style.opacity = '1';
-
-        setTimeout(() => {
-          imamo.style.opacity = '0';
-          wabun.style.opacity = '0.7'; // restore original Wabun opacity
-        }, 3500); // 2.5s fade-in + ~1s fully visible
-
-      }, 3000); // start 3s after page load
+        if (imamo) imamo.style.opacity = '0';
+        if (wabun) wabun.style.opacity = '0.7';
+      }, 2000);
     });
   </script>
 
