@@ -15,8 +15,11 @@
     padding: 0;
     height: 100%;
     background-color: white;
-    font-family: 'Noto Serif JP', serif; /* fixes Windows discrepency */
-    /* serif full hierarchy: 'Yu Mincho', 'Hiragino Mincho ProN', 'HG明朝E', 'MS Mincho', 'Georgia', 'Times New Roman', 'Meiryo', serif; */
+    font-family: serif; /* fixes Windows discrepency */
+      /* normally use full serif stack with optional san-serif fallbacks 
+      (to avoid fallback to Arial if no serif is available): 'Yu Mincho', 
+      'Hiragino Mincho ProN', 'HG明朝E', 'MS Mincho', 'Georgia', 
+      'Times New Roman', 'Hiragino Sans', 'Meiryo', serif; */
     box-sizing: border-box;
     }
 
