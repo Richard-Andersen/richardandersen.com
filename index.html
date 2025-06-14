@@ -227,7 +227,7 @@
       }
       .hanko-wrapper:hover .hanko-grey,
       .hanko-wrapper:hover .hanko-red {
-        transform: translateX(-50%) scale(1.2);
+        transform: translateX(-50%) scale(1.2); /* Overridden by JavaScript elsewhere */
       }
     }
 
@@ -544,13 +544,24 @@
       if (isDesktop) {
         clearTimeout(fadeTimer);
         setTimeout(() => { wordText.style.opacity = '0'; }, 500);
+
         FadeOut.classList.add('visible');
         english.classList.add('visible');
         hankoWrapper.classList.add('visible');
-        hankoRed.style.opacity  = '1';
-        hankoGrey.style.opacity = '0';
-        hankoRed.style.transform = 'translateX(-50%) scale(1.2)';
-        hankoGrey.style.transform= 'translateX(-50%) scale(1.2)';
+
+        // Start with greyscale visible
+        hankoGrey.style.opacity = '1';
+        hankoRed.style.opacity = '0';
+
+        // Scale up immediately
+        hankoGrey.style.transform = 'translateX(-50%) scale(2)';
+        hankoRed.style.transform  = 'translateX(-50%) scale(2)';
+
+        // Delay before switching to red
+        setTimeout(() => {
+          hankoGrey.style.opacity = '0';
+          hankoRed.style.opacity  = '1';
+        }, 2000); // 2 second delay
       }
     });
 
