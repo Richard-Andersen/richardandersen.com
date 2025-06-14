@@ -56,20 +56,20 @@
       }
 
       .wabun {
-        font-size: 1.8em;
-        right: 4em;
-        bottom: 6em;
-        transform: none !important;
-        transform-origin: unset !important;
+        font-size: 0.6em;
+        right: 1em;
+        bottom: calc(0.75em + 5px);
+        transform: scale(1);
+        transform-origin: bottom right;
       }
 
       .imamo {
-        font-size: 1.4em !important;
-        letter-spacing: 4em !important;
-        right: 4em !important;
-        bottom: 6em !important;
-        transform: none !important;
-        transform-origin: unset !important;
+        font-size: 0.6em;
+        letter-spacing: 3.5em;
+        right: 1em;
+        bottom: calc(0.75em + 5px);
+        transform: scale(1);
+        transform-origin: bottom right;
       }
 
       .content-wrapper {
@@ -118,6 +118,8 @@
       pointer-events: none;
       user-select: none;
       z-index: 1000;
+      transform: scale(1);
+      transform-origin: bottom right;
     }
 
     .imamo {
@@ -131,8 +133,10 @@
       pointer-events: none;
       user-select: none;
       z-index: 1001;
-      letter-spacing: 3.5em; /* adjust as needed to match Wabun width */
+      letter-spacing: 3.5em;
       transition: opacity 2.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+      transform: scale(1);
+      transform-origin: bottom right;
     }
 
     .word-text,
