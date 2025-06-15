@@ -235,8 +235,7 @@
     .hanko-container {
       position: fixed;
       bottom: 2.5em;
-      right: clamp(40px, calc((100vw - 1200px) / 2 + 40px), 320px);
-      left: auto;
+      right: 22px; /* hanko on desktop distince from R */
       font-size: 12px;
       font-family: sans-serif;
       text-align: center;
@@ -306,8 +305,7 @@
         border-radius: 50px !important;
       }
       .hanko-container {
-        right: clamp(70px, calc((100vw - 980px) / 2 + 70px), 160px);
-        left: auto;
+        right: 25px; /* iPad - distance from R */
       }
       .hanko-wrapper {
         width: 132px;
@@ -366,8 +364,7 @@
 
       .hanko-container {
         bottom: 1.0em;
-        right: 24px; /* match .content-wrapper padding-left */
-        left: auto;
+        right: 15px;
       }
 
       .hanko-wrapper {
@@ -433,8 +430,6 @@
     const FadeOut      = document.getElementById('fade-out-image');
     const overlay      = document.getElementById('overlay-image');
     const english      = document.getElementById('text-reveal');
-    const wabun  = document.querySelector('.wabun');
-    const imamo  = document.getElementById('imamo');
 
     // two separate timers so fade vs overlay never conflict
     let fadeTimer;
@@ -470,45 +465,10 @@
       justDragged         = false;
       mouseIsMoving       = false; // allow immediate mousemove again
       mouseLocked         = false;
-
-      // Show イマモ immediately, fade sequence
-      if (imamo) {
-        imamo.style.transition = 'opacity 2s cubic-bezier(0.4, 0.0, 0.2, 1)';
-        imamo.style.opacity = '1';
-      }
-      if (wabun) wabun.style.opacity = '0';
-
-      // After 2 seconds, fade out イマモ
-      setTimeout(() => {
-        if (imamo) imamo.style.opacity = '0';
-      }, 2000);
-
-      // After 4 seconds, fade in Wabun
-      setTimeout(() => {
-        if (wabun) wabun.style.opacity = '0.7';
-      }, 4000);
     });
 
     const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-
-    if (isDesktop) {
-      hankoWrapper.addEventListener('click', () => {
-        if (parseFloat(getComputedStyle(imamo).opacity) > 0.5) return;
-
-        wabun.style.opacity = '0';
-        imamo.style.opacity = '1';
-
-        setTimeout(() => {
-          imamo.style.opacity = '0';
-        }, 2000);
-
-        setTimeout(() => {
-          wabun.style.opacity = '0.7';
-        }, 4000);
-      });
-    }
-
-    const isMobile = window.matchMedia('(max-device-width: 428px) and (pointer: coarse)').matches;
+    const isMobile  = window.matchMedia('(max-device-width: 428px) and (pointer: coarse)').matches;
 
     // desktop‐only: clicking page reloads it
     if (isDesktop) {
@@ -574,7 +534,7 @@ function showFadeOut(duration = 3000) {
       english.classList.add('visible');
       hankoWrapper.classList.add('visible');
 
-      // new timing: variable greyscale, 7s red, then hide (non-desktop)
+      // New timing: variable greyscale, 7s red, then hide (non-desktop)
       if (fadeTimer) clearTimeout(fadeTimer);
       fadeTimer = setTimeout(() => {
         // switch to red after greyscale
@@ -617,11 +577,36 @@ function showFadeOut(duration = 3000) {
       else showOverlay();
     }
 
-    if (isMobile) {
-      document.body.addEventListener('touchstart', e => {
-        if (!tabletHasShownFirst) showFadeOut(3000);
-        else showOverlay();
-      });
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+      if (isMobile) {
+        document.body.addEventListener('touchstart', () => {
+          setTimeout(() => { wordText.style.opacity = '0'; }, 500);
+          english.classList.add('visible');
+          hankoWrapper.classList.add('visible');
+          // 3 seconds greyscale, then 7 seconds red, then hide
+          // Start with greyscale visible
+          hankoRed.style.opacity = '0';
+          hankoGrey.style.opacity = '1';
+          setTimeout(() => {
+            // Switch to red after 3s
+            hankoRed.style.opacity = '1';
+            hankoGrey.style.opacity = '0';
+            // After 7s red, hide
+            setTimeout(() => {
+              english.classList.remove('visible');
+              hankoWrapper.classList.remove('visible');
+              wordText.style.opacity = '1';
+              hankoRed.style.opacity  = '0';
+              hankoGrey.style.opacity = '1';
+            }, 7000);
+          }, 3000);
+        });
+      } else {
+        document.body.addEventListener('touchmove', e => {
+          if (!tabletHasShownFirst) { showFadeOut(3000); justDragged = true; }
+        });
+        document.body.addEventListener('pointerup', handleTabletTap);
+      }
     }
 
     if (isDesktop) {
@@ -684,6 +669,27 @@ function showFadeOut(duration = 3000) {
     //   setTimeout(() => { hankoRed.style.opacity  = '0'; hankoGrey.style.opacity = '1'; }, 1500);
     // }
 
+    window.addEventListener('pageshow', () => {
+      const wabun = document.querySelector('.wabun');
+      const imamo = document.getElementById('imamo');
+
+      // Show イマモ immediately
+      if (imamo) {
+        imamo.style.transition = 'opacity 2s cubic-bezier(0.4, 0.0, 0.2, 1)';
+        imamo.style.opacity = '1';
+      }
+      if (wabun) wabun.style.opacity = '0';
+
+      // After 2 seconds, fade out イマモ
+      setTimeout(() => {
+        if (imamo) imamo.style.opacity = '0';
+      }, 2000);
+
+      // After 4 seconds, fade in Wabun
+      setTimeout(() => {
+        if (wabun) wabun.style.opacity = '0.7';
+      }, 4000);
+    });
   </script>
 
   <script data-goatcounter="https://richardandersen.goatcounter.com/count" 
