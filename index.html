@@ -510,7 +510,7 @@
       justDragged         = false;
     }
 
-    function showFadeOut(duration = 5000) {
+function showFadeOut(duration = 3000) {
       if (tabletHasShownFirst) return;
       tabletHasShownFirst = true;
       setTimeout(() => { wordText.style.opacity = '0'; }, 500);
@@ -558,7 +558,7 @@
 
     function handleTabletTap() {
       if (justDragged) justDragged = false;
-      else if (!tabletHasShownFirst) showFadeOut(5000);
+    else if (!tabletHasShownFirst) showFadeOut(3000);
       else showOverlay();
     }
 
