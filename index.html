@@ -519,10 +519,24 @@
       english.classList.add('visible');
       hankoWrapper.classList.add('visible');
 
-    if (!isDesktop) setTimeout(flashHankoTwice, 1000);
+      if (!isDesktop) setTimeout(flashHankoTwice, 1000);
 
       if (fadeTimer) clearTimeout(fadeTimer);
-      fadeTimer = setTimeout(hideFadeOutAndHanko, duration);
+      fadeTimer = setTimeout(() => {
+        // switch to red for 6 seconds
+        hankoRed.style.opacity = '1';
+        hankoGrey.style.opacity = '0';
+
+        // stay red 6s, then switch to grey 2s, then fade
+        setTimeout(() => {
+          hankoRed.style.opacity = '0';
+          hankoGrey.style.opacity = '1';
+
+          setTimeout(() => {
+            hideFadeOutAndHanko();
+          }, 2000); // 2s grey hold
+        }, 6000); // 6s red hold
+      }, duration);
     }
 
     function showOverlay() {
