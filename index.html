@@ -568,12 +568,12 @@
           setTimeout(() => { wordText.style.opacity = '0'; }, 500);
           english.classList.add('visible');
           hankoWrapper.classList.add('visible');
-          // 5 seconds greyscale, then 7 seconds red, then hide
+          // 3 seconds greyscale, then 7 seconds red, then hide
           // Start with greyscale visible
           hankoRed.style.opacity = '0';
           hankoGrey.style.opacity = '1';
           setTimeout(() => {
-            // Switch to red after 5s
+            // Switch to red after 3s
             hankoRed.style.opacity = '1';
             hankoGrey.style.opacity = '0';
             // After 7s red, hide
@@ -584,7 +584,7 @@
               hankoRed.style.opacity  = '0';
               hankoGrey.style.opacity = '1';
             }, 7000);
-          }, 5000);
+          }, 3000);
         });
       } else {
         document.body.addEventListener('touchmove', e => {
