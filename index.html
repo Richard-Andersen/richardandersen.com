@@ -519,24 +519,18 @@
       english.classList.add('visible');
       hankoWrapper.classList.add('visible');
 
-      if (!isDesktop) setTimeout(flashHankoTwice, 1000);
-
+      // New timing: 5s greyscale, 7s red, then hide (non-desktop)
       if (fadeTimer) clearTimeout(fadeTimer);
       fadeTimer = setTimeout(() => {
-        // switch to red for 6 seconds
+        // switch to red after 5s greyscale
         hankoRed.style.opacity = '1';
         hankoGrey.style.opacity = '0';
 
-        // stay red 6s, then switch to grey 2s, then fade
+        // stay red 7s then fade out
         setTimeout(() => {
-          hankoRed.style.opacity = '0';
-          hankoGrey.style.opacity = '1';
-
-          setTimeout(() => {
-            hideFadeOutAndHanko();
-          }, 2000); // 2s grey hold
-        }, 6000); // 6s red hold
-      }, duration);
+          hideFadeOutAndHanko();
+        }, 7000);
+      }, 5000); // 5s greyscale hold
     }
 
     function showOverlay() {
@@ -574,13 +568,22 @@
           setTimeout(() => { wordText.style.opacity = '0'; }, 500);
           english.classList.add('visible');
           hankoWrapper.classList.add('visible');
-          setTimeout(flashHankoTwice, 1000);
+          // 5 seconds greyscale, then 7 seconds red, then hide
+          // Start with greyscale visible
+          hankoRed.style.opacity = '0';
+          hankoGrey.style.opacity = '1';
           setTimeout(() => {
-            english.classList.remove('visible');
-            hankoWrapper.classList.remove('visible');
-            wordText.style.opacity = '1';
-            hankoRed.style.opacity  = '0';
-            hankoGrey.style.opacity = '1';
+            // Switch to red after 5s
+            hankoRed.style.opacity = '1';
+            hankoGrey.style.opacity = '0';
+            // After 7s red, hide
+            setTimeout(() => {
+              english.classList.remove('visible');
+              hankoWrapper.classList.remove('visible');
+              wordText.style.opacity = '1';
+              hankoRed.style.opacity  = '0';
+              hankoGrey.style.opacity = '1';
+            }, 7000);
           }, 5000);
         });
       } else {
@@ -641,15 +644,15 @@
       }
     });
 
-    function flashHankoTwice() {
-      hankoRed.style.opacity  = '1';
-      hankoGrey.style.opacity = '0';
-      hankoRed.style.transform = 'translateX(-50%) scale(1)';
-      hankoGrey.style.transform= 'translateX(-50%) scale(1)';
-      setTimeout(() => { hankoRed.style.opacity  = '0'; hankoGrey.style.opacity = '1'; },  500);
-      setTimeout(() => { hankoRed.style.opacity  = '1'; hankoGrey.style.opacity = '0'; }, 1000);
-      setTimeout(() => { hankoRed.style.opacity  = '0'; hankoGrey.style.opacity = '1'; }, 1500);
-    }
+    // function flashHankoTwice() {
+    //   hankoRed.style.opacity  = '1';
+    //   hankoGrey.style.opacity = '0';
+    //   hankoRed.style.transform = 'translateX(-50%) scale(1)';
+    //   hankoGrey.style.transform= 'translateX(-50%) scale(1)';
+    //   setTimeout(() => { hankoRed.style.opacity  = '0'; hankoGrey.style.opacity = '1'; },  500);
+    //   setTimeout(() => { hankoRed.style.opacity  = '1'; hankoGrey.style.opacity = '0'; }, 1000);
+    //   setTimeout(() => { hankoRed.style.opacity  = '0'; hankoGrey.style.opacity = '1'; }, 1500);
+    // }
 
     window.addEventListener('pageshow', () => {
       const wabun = document.querySelector('.wabun');
