@@ -560,31 +560,28 @@
           setTimeout(() => { wordText.style.opacity = '0'; }, 500);
           english.classList.add('visible');
           hankoWrapper.classList.add('visible');
-          setTimeout(flashHankoTwice, 1000);
-          // Sequence: red after 5s, revert after 7s, fade out after 2s more
+
+          hankoGrey.style.opacity = '1';
+          hankoRed.style.opacity  = '0';
+
+          // After 5 seconds, show red hanko
           setTimeout(() => {
-            hankoRed.style.opacity = '1';
             hankoGrey.style.opacity = '0';
-          }, 5000); // after 5 seconds, show red hanko
+            hankoRed.style.opacity  = '1';
+          }, 5000);
 
+          // After 12 seconds (5s grey + 7s red), show grey again
           setTimeout(() => {
-            hankoRed.style.opacity = '0';
+            hankoRed.style.opacity  = '0';
             hankoGrey.style.opacity = '1';
-          }, 12000); // after 7 more seconds, revert to greyscale
+          }, 12000);
 
+          // After 14 seconds (5s + 7s + 2s), fade everything out
           setTimeout(() => {
             english.classList.remove('visible');
             hankoWrapper.classList.remove('visible');
             wordText.style.opacity = '1';
-          }, 14000); // after 2 more seconds, fade out everything
-          // original block replaced by above sequence:
-          // setTimeout(() => {
-          //   english.classList.remove('visible');
-          //   hankoWrapper.classList.remove('visible');
-          //   wordText.style.opacity = '1';
-          //   hankoRed.style.opacity  = '0';
-          //   hankoGrey.style.opacity = '1';
-          // }, 5000);
+          }, 14000);
         });
       } else {
         document.body.addEventListener('touchmove', e => {
