@@ -534,7 +534,7 @@ function showFadeOut(duration = 3000) {
       english.classList.add('visible');
       hankoWrapper.classList.add('visible');
 
-      // New timing: variable greyscale, 7s red, then hide (non-desktop)
+      // New timing: variable greyscale, 5s red, then hide (non-desktop)
       if (fadeTimer) clearTimeout(fadeTimer);
       fadeTimer = setTimeout(() => {
         // switch to red after greyscale
@@ -544,7 +544,7 @@ function showFadeOut(duration = 3000) {
         // stay red 7s then fade out
         setTimeout(() => {
           hideFadeOutAndHanko();
-        }, 7000);
+        }, 5000);
       }, duration); // variable greyscale hold
     }
 
@@ -598,7 +598,7 @@ function showFadeOut(duration = 3000) {
               wordText.style.opacity = '1';
               hankoRed.style.opacity  = '0';
               hankoGrey.style.opacity = '1';
-            }, 7000);
+            }, 5000);
           }, 3000);
         });
       } else {
@@ -658,6 +658,27 @@ function showFadeOut(duration = 3000) {
         hankoGrey.style.transform= 'translateX(-50%) scale(1)';
       }
     });
+
+    if (isDesktop) {
+      hankoWrapper.addEventListener('click', () => {
+        const imamo = document.getElementById('imamo');
+        const wabun = document.querySelector('.wabun');
+
+        if (!imamo || !wabun) return;
+        if (window.getComputedStyle(imamo).opacity !== '0') return; // already visible
+
+        // Step 1: Hide wabun, show imamo
+        wabun.style.opacity = '0';
+        imamo.style.transition = 'opacity 2 ease-in-out';
+        imamo.style.opacity = '1';
+
+        // Step 2: Hide imamo after 1.2s
+        setTimeout(() => {
+          imamo.style.opacity = '0';
+          wabun.style.opacity = '0.7';
+        }, 2000);
+      });
+    }
 
     // function flashHankoTwice() {
     //   hankoRed.style.opacity  = '1';
