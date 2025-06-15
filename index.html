@@ -492,6 +492,8 @@
     }
 
     const isMobile = window.matchMedia('(max-device-width: 428px) and (pointer: coarse)').matches;
+    const isiPad = navigator.userAgent.includes('iPad') ||
+                   (navigator.userAgent.includes('Macintosh') && 'ontouchend' in document);
 
     // desktop‐only: clicking page reloads it
     if (isDesktop) {
@@ -600,7 +602,7 @@ function showFadeOut(duration = 3000) {
       else showOverlay();
     }
 
-    if (isMobile) {
+    if (isMobile || isiPad) {
       hankoWrapper.addEventListener('touchstart', (e) => {
         e.stopPropagation();
         if (parseFloat(getComputedStyle(imamo).opacity) > 0.5) return;
