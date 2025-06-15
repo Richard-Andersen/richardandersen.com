@@ -604,7 +604,7 @@ function showFadeOut(duration = 3000) {
       if (isMobile) {
         // special iPad/iPhone: tapping on the hanko triggers wabun/imamo animation
         hankoWrapper.addEventListener('touchstart', (e) => {
-          e.stopPropagation(); // prevent it from bubbling to the document
+          e.stopPropagation();
           if (parseFloat(getComputedStyle(wabun).opacity) > 0.5) return;
 
           wabun.style.opacity = '0';
@@ -618,29 +618,6 @@ function showFadeOut(duration = 3000) {
             wabun.style.opacity = '0.7';
           }, 4000);
         });
-
-        // ---------- additional touchstart listener for broader touch support -----------
-        if ('ontouchstart' in window 
-              || navigator.maxTouchPoints > 0 
-              || window.matchMedia('(pointer: coarse)').matches) {
-
-          hankoWrapper.addEventListener('touchstart', (e) => {
-            e.stopPropagation();
-            if (parseFloat(getComputedStyle(wabun).opacity) > 0.5) return;
-
-            wabun.style.opacity = '0';
-            imamo.style.opacity = '1';
-
-            setTimeout(() => {
-              imamo.style.opacity = '0';
-            }, 2000);
-
-            setTimeout(() => {
-              wabun.style.opacity = '0.7';
-            }, 4000);
-          });
-        }
-        // -------------------------------------------------------------------------------
 
         document.body.addEventListener('touchstart', () => {
           setTimeout(() => { wordText.style.opacity = '0'; }, 500);
