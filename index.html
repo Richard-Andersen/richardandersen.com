@@ -235,7 +235,7 @@
     .hanko-container {
       position: fixed;
       bottom: 2.5em;
-      right: calc((100vw - 1200px) / 2 + 40px);
+      right: clamp(40px, calc((100vw - 1200px) / 2 + 40px), 320px);
       left: auto;
       font-size: 12px;
       font-family: sans-serif;
@@ -306,7 +306,7 @@
         border-radius: 50px !important;
       }
       .hanko-container {
-        right: calc((100vw - 980px) / 2 + 70px);
+        right: clamp(70px, calc((100vw - 980px) / 2 + 70px), 160px);
         left: auto;
       }
       .hanko-wrapper {
@@ -366,7 +366,7 @@
 
       .hanko-container {
         bottom: 1.0em;
-        right: 24px;
+        right: 24px; /* match .content-wrapper padding-left */
         left: auto;
       }
 
