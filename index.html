@@ -589,19 +589,24 @@ function showFadeOut(duration = 3000) {
 
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
       if (isMobile) {
+        // special iPad/iPhone: tapping on the hanko reloads the page
+        hankoWrapper.addEventListener('touchstart', (e) => {
+          e.stopPropagation(); // prevent it from bubbling to the document
+          location.reload();
+        });
         document.body.addEventListener('touchstart', () => {
           setTimeout(() => { wordText.style.opacity = '0'; }, 500);
           english.classList.add('visible');
           hankoWrapper.classList.add('visible');
           // 3 seconds greyscale, then 7 seconds red, then hide
-          // Start with greyscale visible
+          // start with greyscale visible
           hankoRed.style.opacity = '0';
           hankoGrey.style.opacity = '1';
           setTimeout(() => {
-            // Switch to red after 3s
+            // switch to red after 3s
             hankoRed.style.opacity = '1';
             hankoGrey.style.opacity = '0';
-            // After 7s red, hide
+            // after 7s red, hide
             setTimeout(() => {
               english.classList.remove('visible');
               hankoWrapper.classList.remove('visible');
