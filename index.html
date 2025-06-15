@@ -519,10 +519,10 @@ function showFadeOut(duration = 3000) {
       english.classList.add('visible');
       hankoWrapper.classList.add('visible');
 
-      // New timing: 5s greyscale, 7s red, then hide (non-desktop)
+      // New timing: variable greyscale, 7s red, then hide (non-desktop)
       if (fadeTimer) clearTimeout(fadeTimer);
       fadeTimer = setTimeout(() => {
-        // switch to red after 5s greyscale
+        // switch to red after greyscale
         hankoRed.style.opacity = '1';
         hankoGrey.style.opacity = '0';
 
@@ -530,7 +530,7 @@ function showFadeOut(duration = 3000) {
         setTimeout(() => {
           hideFadeOutAndHanko();
         }, 7000);
-      }, 5000); // 5s greyscale hold
+      }, duration); // variable greyscale hold
     }
 
     function showOverlay() {
