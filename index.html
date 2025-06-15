@@ -433,6 +433,8 @@
     const FadeOut      = document.getElementById('fade-out-image');
     const overlay      = document.getElementById('overlay-image');
     const english      = document.getElementById('text-reveal');
+    const wabun  = document.querySelector('.wabun');
+    const imamo  = document.getElementById('imamo');
 
     // two separate timers so fade vs overlay never conflict
     let fadeTimer;
@@ -474,7 +476,18 @@
 
     if (isDesktop) {
       hankoWrapper.addEventListener('click', () => {
-        location.reload(); // reloads the page when the hanko is clicked
+        if (parseFloat(getComputedStyle(wabun).opacity) > 0.5) return;
+
+        wabun.style.opacity = '0';
+        imamo.style.opacity = '1';
+
+        setTimeout(() => {
+          imamo.style.opacity = '0';
+        }, 2000);
+
+        setTimeout(() => {
+          wabun.style.opacity = '0.7';
+        }, 4000);
       });
     }
 
@@ -589,10 +602,21 @@ function showFadeOut(duration = 3000) {
 
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
       if (isMobile) {
-        // special iPad/iPhone: tapping on the hanko reloads the page
+        // special iPad/iPhone: tapping on the hanko triggers wabun/imamo animation
         hankoWrapper.addEventListener('touchstart', (e) => {
           e.stopPropagation(); // prevent it from bubbling to the document
-          location.reload();
+          if (parseFloat(getComputedStyle(wabun).opacity) > 0.5) return;
+
+          wabun.style.opacity = '0';
+          imamo.style.opacity = '1';
+
+          setTimeout(() => {
+            imamo.style.opacity = '0';
+          }, 2000);
+
+          setTimeout(() => {
+            wabun.style.opacity = '0.7';
+          }, 4000);
         });
         document.body.addEventListener('touchstart', () => {
           setTimeout(() => { wordText.style.opacity = '0'; }, 500);
