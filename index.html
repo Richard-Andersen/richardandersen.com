@@ -566,9 +566,13 @@ function showFadeOut(duration = 3000) {
         hankoRed.style.opacity = '1';
         hankoGrey.style.opacity = '0';
 
-        // stay red 5s then fade out
+        // stay red 5s then forcibly hide all after
         setTimeout(() => {
-          hideFadeOutAndHanko();
+          hankoRed.style.opacity = '0';
+          hankoGrey.style.opacity = '1';
+          FadeOut.classList.remove('visible');
+          english.classList.remove('visible');
+          hankoWrapper.classList.remove('visible');
         }, 5000);
       }, duration); // variable greyscale hold
     }
