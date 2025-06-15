@@ -602,10 +602,9 @@ function showFadeOut(duration = 3000) {
 
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
       if (isMobile) {
-        // special iPad/iPhone: tapping on the hanko triggers wabun/imamo animation
         hankoWrapper.addEventListener('touchstart', (e) => {
           e.stopPropagation();
-          if (parseFloat(getComputedStyle(wabun).opacity) > 0.5) return;
+          if (parseFloat(getComputedStyle(imamo).opacity) > 0.5) return;
 
           wabun.style.opacity = '0';
           imamo.style.opacity = '1';
