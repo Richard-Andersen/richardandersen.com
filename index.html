@@ -564,14 +564,10 @@ function showFadeOut(duration = 3000) {
         hankoRed.style.opacity = '1';
         hankoGrey.style.opacity = '0';
 
-        // stay red 5s then forcibly hide all after
+        // stay red 7s then fade out
         setTimeout(() => {
-          hankoRed.style.opacity = '0';
-          hankoGrey.style.opacity = '1';
-          FadeOut.classList.remove('visible');
-          english.classList.remove('visible');
-          hankoWrapper.classList.remove('visible');
-        }, 5000);
+          hideFadeOutAndHanko();
+        }, 7000);
       }, duration); // variable greyscale hold
     }
 
@@ -598,7 +594,35 @@ function showFadeOut(duration = 3000) {
       }, 5000);
     }
 
+    function handleTabletTap() {
+      if (justDragged) justDragged = false;
+      else if (!tabletHasShownFirst) showFadeOut(3000);
+      else showOverlay();
+    }
 
+    if (isMobile) {
+      hankoWrapper.addEventListener('touchstart', (e) => {
+        e.stopPropagation();
+        if (parseFloat(getComputedStyle(imamo).opacity) > 0.5) return;
+
+        wabun.style.opacity = '0';
+        imamo.style.opacity = '1';
+
+        setTimeout(() => {
+          imamo.style.opacity = '0';
+        }, 2000);
+
+        setTimeout(() => {
+          wabun.style.opacity = '0.7';
+        }, 4000);
+      });
+
+      // Restore fade behavior on swipe and tap elsewhere
+      document.body.addEventListener('touchmove', e => {
+        if (!tabletHasShownFirst) { showFadeOut(3000); justDragged = true; }
+      });
+      document.body.addEventListener('pointerup', handleTabletTap);
+    }
 
     if (isDesktop) {
       document.body.addEventListener('mousemove', () => {
