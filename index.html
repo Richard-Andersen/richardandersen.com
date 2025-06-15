@@ -220,7 +220,7 @@
     .hanko-container {
       position: fixed;
       bottom: 2.5em;
-      right: 21px; /* hanko on desktop distince from R - was 14 */
+      right: 29px; /* hanko on desktop distince from R - was 14 */
       font-size: 12px;
       font-family: sans-serif;
       text-align: center;
@@ -627,11 +627,11 @@ function showFadeOut(duration = 3000) {
         hankoGrey.style.transform = 'translateX(-50%) scale(2)';
         hankoRed.style.transform  = 'translateX(-50%) scale(2)';
 
-        // delay before switching to red
+        // the 1-second delay before switching to red
         setTimeout(() => {
           hankoGrey.style.opacity = '0';
           hankoRed.style.opacity  = '1';
-        }, 2000); // 2 second delay
+        }, 1000); // 1 second delay
       }
     });
 
