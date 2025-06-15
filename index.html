@@ -235,7 +235,8 @@
     .hanko-container {
       position: fixed;
       bottom: 2.5em;
-      right: 22px; /* hanko on desktop distince from R */
+      right: calc((100vw - 1200px) / 2 + 40px);
+      left: auto;
       font-size: 12px;
       font-family: sans-serif;
       text-align: center;
@@ -305,7 +306,8 @@
         border-radius: 50px !important;
       }
       .hanko-container {
-        right: 25px; /* iPad - distance from R */
+        right: calc((100vw - 980px) / 2 + 70px);
+        left: auto;
       }
       .hanko-wrapper {
         width: 132px;
@@ -364,7 +366,8 @@
 
       .hanko-container {
         bottom: 1.0em;
-        right: 15px;
+        right: 24px;
+        left: auto;
       }
 
       .hanko-wrapper {
