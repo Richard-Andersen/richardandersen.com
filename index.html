@@ -616,7 +616,8 @@ function showFadeOut(duration = 3000) {
           wabun.style.opacity = '0.7';
         }, 4000);
       });
-    } else {
+
+      // Restore fade behavior on swipe and tap elsewhere
       document.body.addEventListener('touchmove', e => {
         if (!tabletHasShownFirst) { showFadeOut(3000); justDragged = true; }
       });
