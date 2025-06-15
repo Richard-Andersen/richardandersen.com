@@ -588,7 +588,7 @@ function showFadeOut(duration = 3000) {
         });
       } else {
         document.body.addEventListener('touchmove', e => {
-          if (!tabletHasShownFirst) { showFadeOut(5000); justDragged = true; }
+          if (!tabletHasShownFirst) { showFadeOut(3000); justDragged = true; }
         });
         document.body.addEventListener('pointerup', handleTabletTap);
       }
