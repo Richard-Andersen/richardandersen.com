@@ -575,6 +575,36 @@
         });
         document.body.addEventListener('pointerup', handleTabletTap);
       }
+
+      // --- iPhone/iPad: animate hanko on tap (non-desktop) ---
+      hankoWrapper.addEventListener('touchstart', () => {
+        if (!isDesktop) {
+          // Step 1: Immediately switch to greyscale and scale up over 3s
+          hankoRed.style.opacity = '0';
+          hankoGrey.style.opacity = '1';
+          hankoGrey.style.transition = 'transform 3s ease';
+          hankoGrey.style.transform = 'translateX(-50%) scale(2)';
+          hankoRed.style.transform  = 'translateX(-50%) scale(2)';
+
+          // Step 2: After 2s, crossfade to red over 1s
+          setTimeout(() => {
+            hankoGrey.style.transition = 'opacity 1s ease';
+            hankoGrey.style.opacity = '0';
+            hankoRed.style.opacity = '1';
+          }, 2000);
+
+          // Step 3: Stay red for 3s
+          setTimeout(() => {
+            // Step 4: Fade back to grey and shrink down over 3s
+            hankoRed.style.opacity = '0';
+            hankoGrey.style.opacity = '1';
+            hankoGrey.style.transition = 'transform 3s ease';
+            hankoGrey.style.transform = 'translateX(-50%) scale(1)';
+            hankoRed.style.transform  = 'translateX(-50%) scale(1)';
+          }, 6000);
+        }
+      });
+      // --- end iPhone/iPad hanko tap animation ---
     }
 
     if (isDesktop) {
