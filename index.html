@@ -270,7 +270,7 @@
       }
       .hanko-wrapper:hover .hanko-grey,
       .hanko-wrapper:hover .hanko-red {
-        transform: translateX(-50%) scale(1.2); /* Overridden by JavaScript elsewhere */
+        transform: translateX(-50%) scale(1.2); /* overridden by JavaScript elsewhere */
       }
     }
 
@@ -519,7 +519,7 @@
       english.classList.add('visible');
       hankoWrapper.classList.add('visible');
 
-    //  if (!isDesktop) setTimeout(flashHankoTwice, 1000);
+    if (!isDesktop) setTimeout(flashHankoTwice, 1000);
 
       if (fadeTimer) clearTimeout(fadeTimer);
       fadeTimer = setTimeout(hideFadeOutAndHanko, duration);
@@ -627,7 +627,6 @@
       }
     });
 
-    /*    */
     function flashHankoTwice() {
       hankoRed.style.opacity  = '1';
       hankoGrey.style.opacity = '0';
@@ -637,7 +636,6 @@
       setTimeout(() => { hankoRed.style.opacity  = '1'; hankoGrey.style.opacity = '0'; }, 1000);
       setTimeout(() => { hankoRed.style.opacity  = '0'; hankoGrey.style.opacity = '1'; }, 1500);
     }
-
 
     window.addEventListener('pageshow', () => {
       const wabun = document.querySelector('.wabun');
