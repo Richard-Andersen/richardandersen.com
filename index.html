@@ -519,7 +519,7 @@
       english.classList.add('visible');
       hankoWrapper.classList.add('visible');
 
-      // if (!isDesktop) setTimeout(flashHankoTwice, 1000);
+    //  if (!isDesktop) setTimeout(flashHankoTwice, 1000);
 
       if (fadeTimer) clearTimeout(fadeTimer);
       fadeTimer = setTimeout(hideFadeOutAndHanko, duration);
@@ -560,28 +560,14 @@
           setTimeout(() => { wordText.style.opacity = '0'; }, 500);
           english.classList.add('visible');
           hankoWrapper.classList.add('visible');
-
-          hankoGrey.style.opacity = '1';
-          hankoRed.style.opacity  = '0';
-
-          // After 5 seconds, show red hanko
-          setTimeout(() => {
-            hankoGrey.style.opacity = '0';
-            hankoRed.style.opacity  = '1';
-          }, 5000);
-
-          // After 12 seconds (5s grey + 7s red), show grey again
-          setTimeout(() => {
-            hankoRed.style.opacity  = '0';
-            hankoGrey.style.opacity = '1';
-          }, 12000);
-
-          // After 14 seconds (5s + 7s + 2s), fade everything out
+          setTimeout(flashHankoTwice, 1000);
           setTimeout(() => {
             english.classList.remove('visible');
             hankoWrapper.classList.remove('visible');
             wordText.style.opacity = '1';
-          }, 14000);
+            hankoRed.style.opacity  = '0';
+            hankoGrey.style.opacity = '1';
+          }, 5000);
         });
       } else {
         document.body.addEventListener('touchmove', e => {
@@ -641,7 +627,7 @@
       }
     });
 
-    /*
+    /*    */
     function flashHankoTwice() {
       hankoRed.style.opacity  = '1';
       hankoGrey.style.opacity = '0';
@@ -651,7 +637,7 @@
       setTimeout(() => { hankoRed.style.opacity  = '1'; hankoGrey.style.opacity = '0'; }, 1000);
       setTimeout(() => { hankoRed.style.opacity  = '0'; hankoGrey.style.opacity = '1'; }, 1500);
     }
-    */
+
 
     window.addEventListener('pageshow', () => {
       const wabun = document.querySelector('.wabun');
