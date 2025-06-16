@@ -333,7 +333,7 @@
       }
     }
 
-    @media screen and (min-device-width: 768px) 
+    @media screen and (min-device-width: 768px)  /* iPad media query */
       and (max-device-width: 1024px) 
       and (pointer: coarse) {
       .overlay-image {
@@ -349,6 +349,10 @@
       .hanko-grey,
       .hanko-red {
         width: 68px;
+      }
+      /* nudge the first circle (the .word-text) up by 1px */
+      .word-text {
+        transform: translateY(-1px) !important;
       }
     }
 
