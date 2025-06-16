@@ -534,23 +534,26 @@ function showFadeOut(duration = 3000) {
       english.classList.add('visible');
       hankoWrapper.classList.add('visible');
 
-      // Wabun → Katakana → pause → Wabun fade sequence on mobile/tablet
-      const wabunEl = document.querySelector('.wabun');
-      const imamoEl = document.getElementById('imamo');
-      if (wabunEl && imamoEl) {
-        setTimeout(() => {
-          // Show katakana
-          wabunEl.style.opacity = '0';
-          imamoEl.style.opacity = '1';
+      // Only run Wabun → Katakana → pause → Wabun fade sequence on mobile/tablet
+      if (!isDesktop) {
+        // Wabun → Katakana → pause → Wabun fade sequence on mobile/tablet
+        const wabunEl = document.querySelector('.wabun');
+        const imamoEl = document.getElementById('imamo');
+        if (wabunEl && imamoEl) {
           setTimeout(() => {
-            // Fade out katakana
-            imamoEl.style.opacity = '0';
-            // Blank pause for 0.5s, then fade in wabun
+            // Show katakana
+            wabunEl.style.opacity = '0';
+            imamoEl.style.opacity = '1';
             setTimeout(() => {
-              wabunEl.style.opacity = '0.7';
-            }, 500);
-          }, 1000); // Katakana visible for 1 second
-        }, 1000); // Wait 1 second after hanko appears
+              // Fade out katakana
+              imamoEl.style.opacity = '0';
+              // Blank pause for 0.5s, then fade in wabun
+              setTimeout(() => {
+                wabunEl.style.opacity = '0.7';
+              }, 500);
+            }, 1000); // Katakana visible for 1 second
+          }, 1000); // Wait 1 second after hanko appears
+        }
       }
 
       // New timing: variable greyscale, 5s red, then hide (non-desktop)
