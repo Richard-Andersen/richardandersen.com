@@ -727,27 +727,29 @@ function showFadeOut(duration = 3000) {
     //   setTimeout(() => { hankoRed.style.opacity  = '0'; hankoGrey.style.opacity = '1'; }, 1500);
     // }
 
-    window.addEventListener('pageshow', () => {
-      const wabun = document.querySelector('.wabun');
-      const imamo = document.getElementById('imamo');
+if (isDesktop) {
+  window.addEventListener('pageshow', () => {
+    const wabun = document.querySelector('.wabun');
+    const imamo = document.getElementById('imamo');
 
-      // Show イマモ immediately
-      if (imamo) {
-        imamo.style.transition = 'opacity 2s cubic-bezier(0.4, 0.0, 0.2, 1)';
-        imamo.style.opacity = '1';
-      }
-      if (wabun) wabun.style.opacity = '0';
+    // Show イマモ immediately
+    if (imamo) {
+      imamo.style.transition = 'opacity 2s cubic-bezier(0.4, 0.0, 0.2, 1)';
+      imamo.style.opacity = '1';
+    }
+    if (wabun) wabun.style.opacity = '0';
 
-      // After 2 seconds, fade out イマモ
-      setTimeout(() => {
-        if (imamo) imamo.style.opacity = '0';
-      }, 2000);
+    // After 2 seconds, fade out イマモ
+    setTimeout(() => {
+      if (imamo) imamo.style.opacity = '0';
+    }, 2000);
 
-      // After 4 seconds, fade in Wabun
-      setTimeout(() => {
-        if (wabun) wabun.style.opacity = '0.7';
-      }, 4000);
-    });
+    // After 4 seconds, fade in Wabun
+    setTimeout(() => {
+      if (wabun) wabun.style.opacity = '0.7';
+    }, 4000);
+  });
+}
   </script>
 
   <script data-goatcounter="https://richardandersen.goatcounter.com/count" 
