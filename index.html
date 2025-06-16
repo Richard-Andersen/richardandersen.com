@@ -720,11 +720,16 @@ function showFadeOut(duration = 3000) {
         imamo.style.transition = 'opacity 2s ease-in-out';
         imamo.style.opacity = '1';
 
-        // Step 2: Hide imamo after 1.2s
+        // Step 2: Fade out Katakana then fade in Wabun sequentially
         setTimeout(() => {
+          // Start fading out Katakana
           imamo.style.opacity = '0';
-          wabun.style.opacity = '0.7';
-        }, 2000);
+          // After its 2s fade-out completes, fade in Wabun
+          setTimeout(() => {
+            wabun.style.transition = 'opacity 2s ease-in-out';
+            wabun.style.opacity = '0.7';
+          }, 2000); // wait for Katakana fade-out
+        }, 2000); // wait for Katakana fade-in to finish
       });
     }
 
