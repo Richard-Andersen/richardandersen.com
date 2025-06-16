@@ -287,10 +287,29 @@
       .hanko-wrapper:hover .hanko-red {
         transform: translateX(-50%) scale(1.2); /* overridden by JavaScript elsewhere */
       }
-      /* desktop-only adjustment: bring Wabun and Katakana closer to right margin (~0.5in) */
       .wabun,
       .imamo {
         right: 0.5in;
+      }
+      /* Baseline-align Wabun and Katakana on desktop */
+      .marker {
+        position: fixed;
+        bottom: calc(0.75em + 5px);
+        right: 1.2in;
+        z-index: 1000;
+        white-space: nowrap;
+      }
+      .marker .wabun,
+      .marker .imamo {
+        position: absolute !important;
+        top: 0;
+        left: 0;
+        right: auto !important;
+        bottom: auto !important;
+        margin: 0;
+        padding: 0;
+        transform: translateX(-5px) !important;
+        display: block !important;
       }
     }
 
@@ -423,9 +442,11 @@
           id="hanko-red" />
     </div>
   </div>
-
-  <div class="wabun">・－&nbsp;&nbsp;&nbsp;－・・－&nbsp;&nbsp;&nbsp;－・・－・&nbsp;</div>
-  <div class="imamo" id="imamo" translate="no">イマモ</div>
+  
+  <div class="marker">
+    <div class="wabun">・－  －・・－  －・・－・ </div>
+    <div class="imamo" id="imamo" translate="no">イマモ</div>
+  </div>
 
   <script>
     const wordText     = document.getElementById('word-text');
