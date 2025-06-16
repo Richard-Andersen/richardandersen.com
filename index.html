@@ -131,7 +131,7 @@
     .wabun {
       position: fixed;
       bottom: calc(0.75em + 5px);
-      right: 1em;
+      right: clamp(40px, calc((100vw - 1200px) / 2 + 40px), 320px);
       font-family: monospace;
       font-size: 0.6em;
       color: #444;
@@ -147,7 +147,7 @@
     .imamo {
       position: fixed;
       bottom: calc(0.75em + 5px);
-      right: 1em;
+      right: clamp(40px, calc((100vw - 1200px) / 2 + 40px), 320px);
       font-family: 'Noto Sans JP', 'Meiryo', sans-serif;
       font-size: 0.6em;
       color: #444;
@@ -286,6 +286,11 @@
       .hanko-wrapper:hover .hanko-grey,
       .hanko-wrapper:hover .hanko-red {
         transform: translateX(-50%) scale(1.2); /* overridden by JavaScript elsewhere */
+      }
+      /* desktop-only adjustment: bring Wabun and Katakana closer to right margin (~0.5in) */
+      .wabun,
+      .imamo {
+        right: 0.5in;
       }
     }
 
