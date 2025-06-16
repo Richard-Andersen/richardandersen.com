@@ -653,6 +653,31 @@ function showFadeOut(duration = 3000) {
       });
     }
 
+    // mobile/tablet hanko tap/pull flash (including debouncer)
+    if (!isDesktop) {
+      let mobileHankoActive = false;
+      const startMobileHanko = () => {
+        if (mobileHankoActive) return;
+        mobileHankoActive = true;
+        // Show greyscale hanko
+        hankoRed.style.opacity = '0';
+        hankoGrey.style.opacity = '1';
+        hankoWrapper.classList.add('visible');
+        // After 3s, switch to red
+        setTimeout(() => {
+          hankoGrey.style.opacity = '0';
+          hankoRed.style.opacity = '1';
+          // After 5s red, hide and reset
+          setTimeout(() => {
+            hankoWrapper.classList.remove('visible');
+            mobileHankoActive = false;
+          }, 5000);
+        }, 3000);
+      };
+      document.body.addEventListener('touchstart', startMobileHanko);
+      document.body.addEventListener('touchmove', startMobileHanko);
+    }
+
     if (isDesktop) {
       document.body.addEventListener('mousemove', () => {
         if (mouseLocked) return;
