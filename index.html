@@ -534,16 +534,21 @@ function showFadeOut(duration = 3000) {
       english.classList.add('visible');
       hankoWrapper.classList.add('visible');
 
-      // Wabun → Katakana → Wabun fade sequence on mobile/tablet
+      // Wabun → Katakana → pause → Wabun fade sequence on mobile/tablet
       const wabunEl = document.querySelector('.wabun');
       const imamoEl = document.getElementById('imamo');
       if (wabunEl && imamoEl) {
         setTimeout(() => {
+          // Show katakana
           wabunEl.style.opacity = '0';
           imamoEl.style.opacity = '1';
           setTimeout(() => {
-            wabunEl.style.opacity = '0.7';
+            // Fade out katakana
             imamoEl.style.opacity = '0';
+            // Blank pause for 0.5s, then fade in wabun
+            setTimeout(() => {
+              wabunEl.style.opacity = '0.7';
+            }, 500);
           }, 1000); // Katakana visible for 1 second
         }, 1000); // Wait 1 second after hanko appears
       }
@@ -597,18 +602,23 @@ function showFadeOut(duration = 3000) {
           setTimeout(() => { wordText.style.opacity = '0'; }, 500);
           english.classList.add('visible');
           hankoWrapper.classList.add('visible');
-          // wabun → katakana → wabun fade sequence on mobile/tablet
+          // wabun → katakana → pause → wabun fade sequence on mobile/tablet
           const wabunEl = document.querySelector('.wabun');
           const imamoEl = document.getElementById('imamo');
           if (wabunEl && imamoEl) {
             setTimeout(() => {
+              // show katakana
               wabunEl.style.opacity = '0';
               imamoEl.style.opacity = '1';
               setTimeout(() => {
-                wabunEl.style.opacity = '0.7';
+                // fade out katakana
                 imamoEl.style.opacity = '0';
+                // blank pause for 0.5s, then fade in wabun
+                setTimeout(() => {
+                  wabunEl.style.opacity = '0.7';
+                }, 500);
               }, 1000); // katakana visible for 1 second
-            }, 1000); // Wait 1 second after hanko appears
+            }, 1000); // wait 1 second after hanko appears
           }
           // 3 seconds greyscale, then 7 seconds red, then hide
           // start with greyscale visible
