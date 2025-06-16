@@ -713,8 +713,11 @@ function showFadeOut(duration = 3000) {
         if (window.getComputedStyle(imamo).opacity !== '0') return; // already visible
 
         // Step 1: Hide wabun, show imamo
+        // Immediately hide Wabun on click
+        wabun.style.transition = 'none';
         wabun.style.opacity = '0';
-        imamo.style.transition = 'opacity 2 ease-in-out';
+        // Fade in Katakana over 2 seconds
+        imamo.style.transition = 'opacity 2s ease-in-out';
         imamo.style.opacity = '1';
 
         // Step 2: Hide imamo after 1.2s
