@@ -575,9 +575,9 @@ function showFadeOut(duration = 3000) {
       english.classList.add('visible');
       hankoWrapper.classList.add('visible');
 
-      // only run wabun → katakana → pause → wabun fade sequence on mobile/tablet
+      // only run wabun > katakana > pause > wabun fade sequence on mobile/tablet
       if (!isDesktop) {
-        // wabun → katakana → pause → wabun fade sequence on mobile/tablet
+        // wabun > katakana > pause > wabun fade sequence on mobile/tablet
         const wabunEl = document.querySelector('.wabun');
         const imamoEl = document.getElementById('imamo');
         if (wabunEl && imamoEl) {
@@ -640,7 +640,7 @@ function showFadeOut(duration = 3000) {
       else showOverlay();
     }
 
-    // mobile/tablet one-shot katakana (2s) → blank (1s) → wabun
+    // mobile/tablet one-shot katakana (2s) > blank (1s) > wabun
     if (!isDesktop) {
       window.addEventListener('pageshow', () => {
         const wabun = document.querySelector('.wabun');
