@@ -291,7 +291,7 @@
       .imamo {
         right: 0.5in;
       }
-      /* Baseline-align Wabun and Katakana on desktop */
+      /* baseline-align wabun and katakana on desktop */
       .marker {
         position: fixed;
         bottom: calc(0.75em + 5px);
@@ -566,29 +566,29 @@ function showFadeOut(duration = 3000) {
       english.classList.add('visible');
       hankoWrapper.classList.add('visible');
 
-      // Only run Wabun → Katakana → pause → Wabun fade sequence on mobile/tablet
+      // only run wabun → katakana → pause → wabun fade sequence on mobile/tablet
       if (!isDesktop) {
-        // Wabun → Katakana → pause → Wabun fade sequence on mobile/tablet
+        // wabun → katakana → pause → wabun fade sequence on mobile/tablet
         const wabunEl = document.querySelector('.wabun');
         const imamoEl = document.getElementById('imamo');
         if (wabunEl && imamoEl) {
           setTimeout(() => {
-            // Show katakana
+            // show katakana
             wabunEl.style.opacity = '0';
             imamoEl.style.opacity = '1';
             setTimeout(() => {
-              // Fade out katakana
+              // fade out katakana
               imamoEl.style.opacity = '0';
-              // Blank pause for 0.5s, then fade in wabun
+              // blank pause for 0.5s, then fade in wabun
               setTimeout(() => {
                 wabunEl.style.opacity = '0.7';
               }, 500);
-            }, 1000); // Katakana visible for 1 second
-          }, 1000); // Wait 1 second after hanko appears
+            }, 1000); // katakana visible for 1 second
+          }, 1000); // wait 1 second after hanko appears
         }
       }
 
-      // New timing: variable greyscale, 5s red, then hide (non-desktop)
+      // new timing: variable greyscale, 5s red, then hide (non-desktop)
       if (fadeTimer) clearTimeout(fadeTimer);
       fadeTimer = setTimeout(() => {
         // switch to red after greyscale
@@ -645,7 +645,7 @@ function showFadeOut(duration = 3000) {
           // after 2s visible, fade out over 0.5s
           setTimeout(() => {
             imamo.style.opacity = '0';
-            // after fade-out + blank 1s (0.5s + 1s = 1500ms), fade in Wabun
+            // after fade-out + blank 1s (0.5s + 1s = 1500ms), fade in wabun
             setTimeout(() => {
               wabun.style.transition = 'opacity 0.5s ease-in-out';
               wabun.style.opacity = '0.7';
@@ -661,15 +661,15 @@ function showFadeOut(duration = 3000) {
       const startMobileHanko = () => {
         if (mobileHankoActive) return;
         mobileHankoActive = true;
-        // Show greyscale hanko
+        // show greyscale hanko
         hankoRed.style.opacity = '0';
         hankoGrey.style.opacity = '1';
         hankoWrapper.classList.add('visible');
-        // After 3s, switch to red
+        // after 3s, switch to red
         setTimeout(() => {
           hankoGrey.style.opacity = '0';
           hankoRed.style.opacity = '1';
-          // After 5s red, hide and reset
+          // after 5s red, hide and reset
           setTimeout(() => {
             hankoWrapper.classList.remove('visible');
             mobileHankoActive = false;
@@ -738,24 +738,24 @@ function showFadeOut(duration = 3000) {
         if (!imamo || !wabun) return;
         if (window.getComputedStyle(imamo).opacity !== '0') return; // already visible
 
-        // Step 1: Hide wabun, show imamo
-        // Immediately hide Wabun on click
+        // step 1: hide wabun, show imamo
+        // immediately hide wabun on click
         wabun.style.transition = 'none';
         wabun.style.opacity = '0';
         // Fade in Katakana over 2 seconds
         imamo.style.transition = 'opacity 2s ease-in-out';
         imamo.style.opacity = '1';
 
-        // Step 2: Fade out Katakana then fade in Wabun sequentially
+        // step 2: fade out katakana then fade in wabun sequentially
         setTimeout(() => {
-          // Start fading out Katakana
+          // start fading out katakana
           imamo.style.opacity = '0';
-          // After its 2s fade-out completes, fade in Wabun
+          // after its 2s fade-out completes, fade in wabun
           setTimeout(() => {
             wabun.style.transition = 'opacity 2s ease-in-out';
             wabun.style.opacity = '0.7';
-          }, 2000); // wait for Katakana fade-out
-        }, 2000); // wait for Katakana fade-in to finish
+          }, 2000); // wait for katakana fade-out
+        }, 2000); // wait for katakana fade-in to finish
       });
     }
 
@@ -774,19 +774,19 @@ if (isDesktop) {
     const wabun = document.querySelector('.wabun');
     const imamo = document.getElementById('imamo');
 
-    // Show イマモ immediately
+    // show イマモ immediately
     if (imamo) {
       imamo.style.transition = 'opacity 2s cubic-bezier(0.4, 0.0, 0.2, 1)';
       imamo.style.opacity = '1';
     }
     if (wabun) wabun.style.opacity = '0';
 
-    // After 2 seconds, fade out イマモ
+    // after 2 seconds, fade out イマモ
     setTimeout(() => {
       if (imamo) imamo.style.opacity = '0';
     }, 2000);
 
-    // After 4 seconds, fade in Wabun
+    // after 4 seconds, fade in wabun
     setTimeout(() => {
       if (wabun) wabun.style.opacity = '0.7';
     }, 4000);
