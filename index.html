@@ -637,13 +637,15 @@ function showFadeOut(duration = 3000) {
         const wabun = document.querySelector('.wabun');
         const imamo = document.getElementById('imamo');
         if (imamo && wabun) {
+          // hide wabun initially
+          wabun.style.opacity = '0';
           // show katakana (fade-in 0.5s)
           imamo.style.transition = 'opacity 0.5s ease-in-out';
           imamo.style.opacity = '1';
           // after 2s visible, fade out over 0.5s
           setTimeout(() => {
             imamo.style.opacity = '0';
-            // After fade-out + blank 1s (0.5s + 1s = 1500ms), fade in wabun
+            // after fade-out + blank 1s (0.5s + 1s = 1500ms), fade in Wabun
             setTimeout(() => {
               wabun.style.transition = 'opacity 0.5s ease-in-out';
               wabun.style.opacity = '0.7';
