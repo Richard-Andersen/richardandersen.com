@@ -178,7 +178,7 @@
       line-height: 0.6; /* desktop */
       margin-left: 0px;
       opacity: 0; /* start transparent */
-      transition: opacity 1s ease; /* O fades to O */
+      transition: opacity 1s ease; /* circle fades to circle */
     }
 
     .text-reveal {
@@ -678,6 +678,26 @@ function showFadeOut(duration = 3000) {
       };
       document.body.addEventListener('touchstart', startMobileHanko);
       document.body.addEventListener('touchmove', startMobileHanko);
+    }
+
+    // mobile/tablet two circles cycle on tap/pull (debounce, same timing as hanko)
+    if (!isDesktop) {
+      let mobileOActive = false;
+      const startMobileOCycle = () => {
+        if (mobileOActive) return;
+        mobileOActive = true;
+        // Hide first circle and show second circle
+        wordText.style.opacity = '0';
+        english.classList.add('visible');
+        // After 3s + 5s = 8s, revert to first circle
+        setTimeout(() => {
+          english.classList.remove('visible');
+          wordText.style.opacity = '1';
+          mobileOActive = false;
+        }, 8000);
+      };
+      document.body.addEventListener('touchstart', startMobileOCycle);
+      document.body.addEventListener('touchmove', startMobileOCycle);
     }
 
     if (isDesktop) {
