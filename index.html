@@ -534,6 +534,20 @@ function showFadeOut(duration = 3000) {
       english.classList.add('visible');
       hankoWrapper.classList.add('visible');
 
+      // Wabun → Katakana → Wabun fade sequence on mobile/tablet
+      const wabunEl = document.querySelector('.wabun');
+      const imamoEl = document.getElementById('imamo');
+      if (wabunEl && imamoEl) {
+        setTimeout(() => {
+          wabunEl.style.opacity = '0';
+          imamoEl.style.opacity = '1';
+          setTimeout(() => {
+            wabunEl.style.opacity = '0.7';
+            imamoEl.style.opacity = '0';
+          }, 1000); // Katakana visible for 1 second
+        }, 1000); // Wait 1 second after hanko appears
+      }
+
       // New timing: variable greyscale, 5s red, then hide (non-desktop)
       if (fadeTimer) clearTimeout(fadeTimer);
       fadeTimer = setTimeout(() => {
@@ -583,15 +597,28 @@ function showFadeOut(duration = 3000) {
           setTimeout(() => { wordText.style.opacity = '0'; }, 500);
           english.classList.add('visible');
           hankoWrapper.classList.add('visible');
+          // wabun → katakana → wabun fade sequence on mobile/tablet
+          const wabunEl = document.querySelector('.wabun');
+          const imamoEl = document.getElementById('imamo');
+          if (wabunEl && imamoEl) {
+            setTimeout(() => {
+              wabunEl.style.opacity = '0';
+              imamoEl.style.opacity = '1';
+              setTimeout(() => {
+                wabunEl.style.opacity = '0.7';
+                imamoEl.style.opacity = '0';
+              }, 1000); // katakana visible for 1 second
+            }, 1000); // Wait 1 second after hanko appears
+          }
           // 3 seconds greyscale, then 7 seconds red, then hide
-          // Start with greyscale visible
+          // start with greyscale visible
           hankoRed.style.opacity = '0';
           hankoGrey.style.opacity = '1';
           setTimeout(() => {
-            // Switch to red after 3s
+            // switch to red after 3s
             hankoRed.style.opacity = '1';
             hankoGrey.style.opacity = '0';
-            // After 7s red, hide
+            // after 7s red, hide
             setTimeout(() => {
               english.classList.remove('visible');
               hankoWrapper.classList.remove('visible');
