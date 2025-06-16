@@ -344,19 +344,25 @@
     @media screen and (max-device-width: 428px) 
       and (pointer: coarse) { 
 
+      /* pin wabun and katakana close to bottom-right on phone */
+      .wabun,
+      .imamo {
+        position: fixed;
+        bottom: 0.5em !important;
+        right: 0.5em !important;
+        transition: opacity 0.5s ease-in-out !important;
+      }
+
       .image-stack { display: none !important; }
       .overlay-image { display: none !important; }
 
       .wabun {
         transform: scale(0.55);
-        bottom: 0.5em;
         transform-origin: bottom right;
       }
 
       .imamo {
         transform: scale(0.55);
-        bottom: 0.5em;
-        right: 0.5em;
         transform-origin: bottom right;
         letter-spacing: 4em;
       }
@@ -625,54 +631,26 @@ function showFadeOut(duration = 3000) {
       else showOverlay();
     }
 
-    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-      if (isMobile) {
-        document.body.addEventListener('touchstart', () => {
-          setTimeout(() => { wordText.style.opacity = '0'; }, 500);
-          english.classList.add('visible');
-          hankoWrapper.classList.add('visible');
-          // wabun → katakana → pause → wabun fade sequence on mobile/tablet
-          const wabunEl = document.querySelector('.wabun');
-          const imamoEl = document.getElementById('imamo');
-          if (wabunEl && imamoEl) {
-            setTimeout(() => {
-              // show katakana
-              wabunEl.style.opacity = '0';
-              imamoEl.style.opacity = '1';
-              setTimeout(() => {
-                // fade out katakana
-                imamoEl.style.opacity = '0';
-                // blank pause for 0.5s, then fade in wabun
-                setTimeout(() => {
-                  wabunEl.style.opacity = '0.7';
-                }, 500);
-              }, 1000); // katakana visible for 1 second
-            }, 1000); // wait 1 second after hanko appears
-          }
-          // 3 seconds greyscale, then 7 seconds red, then hide
-          // start with greyscale visible
-          hankoRed.style.opacity = '0';
-          hankoGrey.style.opacity = '1';
+    // mobile/tablet one-shot katakana → blank → wabun on load
+    if (!isDesktop) {
+      window.addEventListener('pageshow', () => {
+        const wabun = document.querySelector('.wabun');
+        const imamo = document.getElementById('imamo');
+        if (imamo && wabun) {
+          // Fade in Katakana over 0.5s
+          imamo.style.transition = 'opacity 0.5s ease-in-out';
+          imamo.style.opacity = '1';
+          // After 1.5s, fade out over 0.5s
           setTimeout(() => {
-            // switch to red after 3s
-            hankoRed.style.opacity = '1';
-            hankoGrey.style.opacity = '0';
-            // after 7s red, hide
+            imamo.style.opacity = '0';
+            // After another 1s blank, fade in Wabun over 0.5s
             setTimeout(() => {
-              english.classList.remove('visible');
-              hankoWrapper.classList.remove('visible');
-              wordText.style.opacity = '1';
-              hankoRed.style.opacity  = '0';
-              hankoGrey.style.opacity = '1';
-            }, 5000);
-          }, 3000);
-        });
-      } else {
-        document.body.addEventListener('touchmove', e => {
-          if (!tabletHasShownFirst) { showFadeOut(3000); justDragged = true; }
-        });
-        document.body.addEventListener('pointerup', handleTabletTap);
-      }
+              wabun.style.transition = 'opacity 0.5s ease-in-out';
+              wabun.style.opacity = '0.7';
+            }, 1000);
+          }, 1500);
+        }
+      });
     }
 
     if (isDesktop) {
