@@ -396,13 +396,22 @@
       }
     }
 
-    /* iPhone + small tablets: enlarge wabun slightly */
+    /* iPhone + small tablets: enlarge wabun and force right alignment */
     @media only screen and (max-width: 600px) {
       .wabun {
-        font-size: 1.2em;            /* ~20% larger */
-        transform: none;             /* cancel phone block's scale(0.7) */
+        position: fixed;               /* ensure independent of parent flow */
+        bottom: 0.5em !important;      /* keep near bottom edge */
+        right: 0.5em !important;       /* pin to right edge */
+        left: auto !important;         /* prevent accidental left pinning */
+        text-align: right;             /* right-align its inline content */
+        font-size: 1.2em;              /* ~20% larger */
+        transform: none;               /* cancel phone block's scale(0.7) */
         transform-origin: bottom right;
+        max-width: calc(100vw - 1em);  /* safety against overflow */
+        white-space: normal;           /* allow wrapping if needed */
+        overflow-wrap: anywhere;       /* extra safety */
       }
+      .marker { right: auto; left: auto; } /* neutralize marker positioning on small screens */
     }
 
   </style>
