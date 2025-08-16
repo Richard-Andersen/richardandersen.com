@@ -396,6 +396,15 @@
       }
     }
 
+    /* iPhone + small tablets: enlarge wabun slightly */
+    @media only screen and (max-width: 600px) {
+      .wabun {
+        font-size: 1.2em;            /* ~20% larger */
+        transform: none;             /* cancel phone block's scale(0.7) */
+        transform-origin: bottom right;
+      }
+    }
+
   </style>
 
   <meta name="description" content="Richard Andersen" />
