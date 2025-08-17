@@ -348,7 +348,8 @@
         bottom: 0.5em !important;
         /* right: 0.5em !important; -- moved below for specificity */
         transition: opacity 0.5s ease-in-out !important;
-        font-size: 1.8em !important;
+        font-size: 0.6em !important;
+        text-align: right !important;
         transform: none !important;
         transform-origin: bottom right;
         right: 0.5em !important;
@@ -401,7 +402,8 @@
     /* Landscape phones: apply the same enlargement */
     @media (max-height: 430px) and (orientation: landscape) {
       .wabun {
-        font-size: 1.8em !important;
+        font-size: 0.6em !important;
+        text-align: right !important;
         transform: none !important;
         right: 0.5em !important;
         bottom: 0.5em !important;
@@ -416,7 +418,7 @@
         right: 0.5em !important;       /* pin to right edge */
         left: auto !important;         /* prevent accidental left pinning */
         text-align: right;             /* right-align its inline content */
-        font-size: 1.8em;              /* ~50% larger than previous */
+        font-size: 0.6em;              /* ~50% larger than previous */
         transform: none;               /* cancel phone block's scale(0.7) */
         transform-origin: bottom right;
         max-width: calc(100vw - 1em);  /* safety against overflow */
