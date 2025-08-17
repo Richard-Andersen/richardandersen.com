@@ -346,10 +346,12 @@
       .wabun {
         position: fixed;
         bottom: 0.5em !important;
-        right: 0.5em !important;
+        /* right: 0.5em !important; -- moved below for specificity */
         transition: opacity 0.5s ease-in-out !important;
-        transform: scale(0.7);
+        font-size: 1.8em !important;
+        transform: none !important;
         transform-origin: bottom right;
+        right: 0.5em !important;
       }
 
       .image-stack { display: none !important; }
@@ -393,6 +395,16 @@
       .hanko-grey,
       .hanko-red {
         width: 35px;
+      }
+    }
+
+    /* Landscape phones: apply the same enlargement */
+    @media (max-height: 430px) and (orientation: landscape) {
+      .wabun {
+        font-size: 1.8em !important;
+        transform: none !important;
+        right: 0.5em !important;
+        bottom: 0.5em !important;
       }
     }
 
